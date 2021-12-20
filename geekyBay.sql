@@ -143,17 +143,17 @@ insert  into `orders`(`productID`,`orderDate`,`status`,`userID`) values
 DROP TABLE IF EXISTS `products`;
 
 CREATE TABLE `products` (
-  `productID` varchar(15) NOT NULL auto_increment,
+  `productID` INT NOT NULL auto_increment,
   `productName` varchar(70) NOT NULL,
-#   `productLine` varchar(50) NOT NULL,
-  `sellerID` varchar(50) NOT NULL,
+-- #   `productLine` varchar(50) NOT NULL,
+  `sellerID` INT NOT NULL,
   `productDescription` text NOT NULL,
   `price` decimal(10,2) NOT NULL,
   PRIMARY KEY (`productID`),
   KEY `products` (`sellerID`),
   CONSTRAINT `products_ibfk_1` FOREIGN KEY (`sellerID`) REFERENCES `users` (`userID`)
-#   KEY `productLine` (`productLine`),
-#   CONSTRAINT `products_ibfk_1` FOREIGN KEY (`productLine`) REFERENCES `productlines` (`productLine`)
+-- #   KEY `productLine` (`productLine`),
+-- #   CONSTRAINT `products_ibfk_1` FOREIGN KEY (`productLine`) REFERENCES `productlines` (`productLine`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 /*Data for the table `products` */
