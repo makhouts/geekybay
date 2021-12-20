@@ -1,8 +1,12 @@
-import express from 'express'
-import userRouter from './routes/userRouter.js'
+if (process.env.NODE_ENV !== "production") {
+  const dotenv = await import("dotenv");
+  dotenv.config();
+}
+import express from "express";
+import userRouter from "./routes/userRouter.js";
 
 const app = express();
 
-app.use('/users', userRouter)
+app.use("/users", userRouter);
 
-app.listen(3000)
+app.listen(process.env.SERVER_PORT);
