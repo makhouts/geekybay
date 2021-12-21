@@ -1,6 +1,6 @@
 .boxContainer {
   width: 280px;
-  min-height: 450px;
+  min-height: 500px;
   margin: 5% auto;
   display: flex;
   flex-direction: column;
@@ -39,7 +39,7 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  margin-top: 0;
+  margin-top: 20%;
 }
 
 .headText {
@@ -47,7 +47,7 @@
   font-weight: bold;
   line-height: 1.5;
   color: white;
-  margin: 0;
+  text-align: center;
   z-index: 10;
 }
 
@@ -68,7 +68,7 @@
   border: 1px solid lightgray;
 }
 
-label {
+.label {
   flex: 1;
   display: flex;
   margin-top: 5px;
@@ -89,6 +89,7 @@ label {
   border: none;
   padding: 5px;
   border-radius: 5px;
+  cursor: pointer;
 }
 
 .linkContainer {
@@ -108,4 +109,8 @@ label {
   display: flex;
   margin-right: 5px;
   cursor: pointer;
+}
+
+.link:hover {
+  color: red;
 }

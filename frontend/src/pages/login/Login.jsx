@@ -12,7 +12,7 @@ export const Login = () => {
       </div>
       <div className={classes.form}>
         <div className={classes.formGroup}>
-          <label>User Name</label>
+          <label className={classes.label}>User Name</label>
           <input
             className={classes.formInput}
             type="email"
@@ -20,7 +20,7 @@ export const Login = () => {
           />
         </div>
         <div className={classes.formGroup}>
-          <label>Password</label>
+          <label className={classes.label}>Password</label>
           <input
             className={classes.formInput}
             type="password"
