@@ -61,7 +61,7 @@ router.put("/:id", (req, res) => {
     pool.getConnection((err, connection) => {
         const data = req.body;
         if (err) throw err;
-        //params is a query parameter in the url
+        //params is a request parameter in the url
         connection.query("UPDATE orders SET ? WHERE orderID=?", [data, req.params.id], (err, rows) => {
             connection.release();
             if (!err) {
@@ -75,12 +75,13 @@ router.put("/:id", (req, res) => {
     });
 });
 
-//delete order
-router.delete("/:id", (req, res) => {
+//cancel order:
+router.put("/cancel/:id", (req, res) => {
     pool.getConnection((err, connection) => {
+        const orderStatus = "canceled";
         if (err) throw err;
-        //params is a query parameter in the url
-        connection.query("DELETE orders WHERE orderID=?", [req.params.id], (err, rows) => {
+        //params is a request parameter in the url
+        connection.query("UPDATE orders SET status=? WHERE orderID=?", [orderStatus, req.params.id], (err, rows) => {
             connection.release();
             if (!err) {
                 //the request has succeeded and a new resource has been created as a result.
