@@ -23,6 +23,7 @@ router.get('/', (req,res) => {
     });
 });
 
+
 //Get order by id
 router.get("/:id", (req, res) => {
     pool.getConnection((err, connection) => {
@@ -33,6 +34,36 @@ router.get("/:id", (req, res) => {
                 res.status(200).send(rows);
             } else {
                 res.status(400).send('Bad request')
+            }
+        });
+    });
+});
+
+//Get orders by sellerId
+router.get("/seller/:id", (req, res) => {
+    pool.getConnection((err, connection) => {
+        if (err) throw err;
+        connection.query("SELECT * FROM orders WHERE sellerID = ?", [req.params.id], (err, rows) => {
+            connection.release();
+            if (!err) {
+                res.status(200).send(rows);
+            } else {
+                res.status(400).send('Bad request for orders by seller ID.')
+            }
+        });
+    });
+});
+
+//Get orders by sellerId
+router.get("/buyer/:id", (req, res) => {
+    pool.getConnection((err, connection) => {
+        if (err) throw err;
+        connection.query("SELECT * FROM orders WHERE buyerID = ?", [req.params.id], (err, rows) => {
+            connection.release();
+            if (!err) {
+                res.status(200).send(rows);
+            } else {
+                res.status(400).send('Bad request for orders by buyer ID.')
             }
         });
     });
