@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Navigation } from "./components/navigation/Navigation";
-import { AccountBox } from "./pages/login/AccountBox";
+import { Login } from "./pages/login/Login";
 import "./App.css";
 
 function App() {
@@ -9,7 +9,7 @@ function App() {
   return (
     <div className="App">
       <Navigation />
-      <AccountBox />
+      <Login />
       <p>test</p>
     </div>
   );
