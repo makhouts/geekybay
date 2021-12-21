@@ -1,15 +1,18 @@
-# readme-template
-personal projects template. 
-
-# Title: Project Title 
+# Title: GeekyBay
 
 Inspiration link: [link here](https://)
 
-- Repository: 
-- Type of Challenge: 
-- Duration:  
-- Deployment strategy : 
-- Team: 
+- Repository: geekybay
+- Type of Challenge: Team
+- Duration:  3 weeks
+- Deployment strategy : Heroku
+- Team: 5 members:
+
+[Naama](https://)
+[Xiaoqi](https://)
+[link here](https://)
+[link here](https://)
+[link here](https://)
 
 ## Description of project/challenge
 
@@ -18,6 +21,7 @@ I came accros article seemed interesting.
 I challenged myself to.  
 
 ## Dependencies/ requirements/ disclaimers considering my own setup. For running the code on your machine:  
+
 
 ## Personal Learning objectives  
 - 
@@ -30,36 +34,29 @@ Own strategy starting the project on how to tackle it and possible pre-emptive w
 
 simple logging of steps and tracking progress to show work.  
 
-#### Day 1: Xday XX/XX/XX  
+#### Day 1: Monday 20/12/21 
 
 9:00 - 9:30 : read and initial commit of readme & basic introductory reading of project plan and new concepts  
+
+#### Day 2: Monday 21/12/21 
+
+9:00 - 9:30 : read and initial commit of readme & basic introductory reading of project plan and new concepts  
+
+Review meeting 20/12/21:
+Xiaoqi: Learning React
+Min Jie/Reinout/Naama: Database & Routing
+Sofiane: working on main React.js ready to go. 
+
+Standup meeting 21/12/21:
+Overview Readme, 
+Overview Database preparation & how to add database to API & query,
+Xiaoqi will work on homepage/login, ask tom about security of login requirements
+Sofiane working on nav bar. 
+
+
+
 
 ### $newly learned project concepts
 
 Explanation in my own words of these concepts.  
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
