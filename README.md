@@ -10,7 +10,7 @@ Inspiration link: [link here](https://)
 
  - [Naama](https://)
  - [Xiaoqi](https://)
- - [Min Jie](https://)
+ - [Min Jie](https://github.com/minjie0501)
  - [Sofiane](https://)
  - [Reinout](https://github.com/ReinoutDeBleser)
 
