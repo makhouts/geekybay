@@ -14,23 +14,21 @@ import './App.css';
 
 function App() {
   const [products, setProducts] = useState([]);
-  // const location = useLocation();
+  const location = useLocation();
 
 
 
   return (
     <div className="App">
-      <Router>
+      <Navigation />
       <AnimatePresence exitBeforeEnter>
-        <Navigation />
-          <Routes>
+          <Routes location={location} key={location.pathname}>
             <Route path='products' element={<Products />} />
             <Route path='contact' element={<Contact />} />
             <Route path='login' element={<Login />} />
             <Route path='/' element={<Home />} />
           </Routes>
       </AnimatePresence>
-      </Router>
     </div>
   );
 }
