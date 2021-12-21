@@ -21,6 +21,10 @@ router.get("/", (req, res) => {
   });
 });
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 //Get user by id
 router.get("/:id", (req, res) => {
   pool.getConnection((err, connection) => {
