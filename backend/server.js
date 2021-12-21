@@ -2,6 +2,7 @@ if (process.env.NODE_ENV !== "production") {
   const dotenv = await import("dotenv");
   dotenv.config();
 }
+
 import express from "express";
 import userRouter from "./routes/userRouter.js";
 import productRouter from './routes/productRouter.js';
