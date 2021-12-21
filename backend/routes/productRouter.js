@@ -8,6 +8,7 @@ const router = express.Router();
 
 router.get("/", (req, res) => {
     pool.getConnection((err, connection) => {
+        //check here for searches also, ~ if isset req.query.search
         if (err) throw err;
         connection.query("SELECT * from products", (err, rows) => {
             connection.release();
@@ -36,15 +37,15 @@ router.get("/:sellerID", (req, res) => {
 });
 
 //Get product by name
-router.get("/product/:productName", (req, res) => {
+router.get("/product/:productId", (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) throw err;
-        connection.query("SELECT * FROM products WHERE productName = ?", [req.params.productName], (err, rows) => {
+        connection.query("SELECT * FROM products WHERE productID = ?", [req.params.productId], (err, rows) => {
             connection.release();
             if (!err) {
                 res.status(200).send(rows);
             } else {
-                res.status(400).send('Bad get product by productname request')
+                res.status(400).send('Bad get product by productId request')
             }
         });
     });
@@ -105,13 +106,12 @@ router.put("/:id", (req, res) => {
 //potentially not allowed to delete if bidding not finished.
 //Delete product
 router.delete("/:id", (req, res) => {
-    const data = req.body
     pool.getConnection((err, connection) => {
         if (err) throw err;
-        connection.query('DELETE FROM products WHERE productID=?', [data , req.params.id] , (err, rows) => {
+        connection.query('DELETE FROM products WHERE productID=?', req.params.id, (err, rows) => {
             connection.release();
             if (!err) {
-                res.status(201).send(rows);
+                res.status(200).send(rows);
             } else {
                 res.status(400).send('Bad product delete request')
             }
