@@ -1,12 +1,15 @@
 import React from 'react';
-import 'login.css';
+import { motion } from 'framer-motion';
+import { PageTransition } from '../../helpers/animations';
 
 export const Login = () => {
     return (
-        <div>
-            {/* Login form
+      <PageTransition>
+        <div className="container">
+          {/* Login form
             Register form on click 'not registred' */}
-            <p>TEST</p>
+          <p>TEST</p>
         </div>
-    )
+      </PageTransition>
+    );
 }

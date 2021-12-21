@@ -1,7 +1,7 @@
 import React from 'react';
 import classes from './navigation.module.css';
 import { motion } from 'framer-motion';
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 
 export const Navigation = () => {
@@ -20,7 +20,7 @@ export const Navigation = () => {
                 transition: { duration: 0.2 },
               }}
             >
-            <Link to=''>Home</Link>
+              <NavLink to="">Home</NavLink>
             </motion.li>
             <motion.li
               whileHover={{
@@ -28,7 +28,7 @@ export const Navigation = () => {
                 transition: { duration: 0.2 },
               }}
             >
-            <Link to='products'>Products</Link>
+              <NavLink to="products">Products</NavLink>
             </motion.li>
             <motion.li
               whileHover={{
@@ -36,7 +36,7 @@ export const Navigation = () => {
                 transition: { duration: 0.2 },
               }}
             >
-            <Link to="contact">Contact</Link>
+              <NavLink to="contact">Contact</NavLink>
             </motion.li>
             <motion.li
               whileHover={{
@@ -44,7 +44,7 @@ export const Navigation = () => {
                 transition: { duration: 0.2 },
               }}
             >
-            <Link to='login'>Login</Link>
+              <NavLink to="login">Login</NavLink>
             </motion.li>
           </ul>
         </div>
