@@ -14,9 +14,16 @@ export const Products = () => {
         </div>
         <div className={classes.infoContainer}>
           <h1 className={classes.title}>product name</h1>
-          <p className={classes.description}>bdbdbdbdbdb</p>
-          <span className={classes.price}>$200</span>
-          <span className={classes.quantity}>2000</span>
+          <p className={classes.description}>bdbdbdbdbdbddsadgawrgv</p>
+          <div className={classes.pContainer}>
+            <span className={classes.price}>Price: </span>
+            <span className={classes.quantity}>Quantity:</span>
+          </div>
+          <div className={classes.buyContainer}>
+            <span className={classes.buyAmount}>1</span>
+
+            <button className={classes.btn}>Buy</button>
+          </div>
         </div>
       </div>
     </div>
