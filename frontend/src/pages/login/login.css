@@ -14,10 +14,9 @@
 }
 .TopContainer {
   width: 100%;
-  height: 250px;
+  height: 350px;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
   padding: 0 1.8em;
   padding-bottom: 5em;
 }
@@ -30,6 +29,24 @@
   flex-direction: column;
   border-radius: 50%;
   transform: rotate(70deg);
+  top: -290px;
+  left: -70px;
   background: #118df0;
   background: linear-gradient(58deg, #118df0 20%, #118df0 100%);
+}
+
+.HeaderContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-top: 0;
+}
+
+.HeadText {
+  font-size: 30px;
+  font-weight: bold;
+  line-height: 1.5;
+  color: white;
+  margin: 0;
+  z-index: 10;
 }
