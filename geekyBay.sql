@@ -92,21 +92,23 @@ CREATE TABLE `orders` (
   `productID` int(11) NOT NULL,
   `orderDate` date NOT NULL,
   `status` varchar(15) NOT NULL,
-  `userID` int(11) NOT NULL,
+  `sellerID` int(11) NOT NULL,
+  `buyerID` int(11) NOT NULL,
   PRIMARY KEY (`orderID`),
-  KEY `users` (`userID`), KEY `products` (`productID`),
-  CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`userID`),
-  CONSTRAINT `orders_ibfk_2` FOREIGN KEY (`productID`) REFERENCES `products` (`productID`)
+  KEY `sellers` (`sellerID`), KEY `buyers` (`buyerID`), KEY `products` (`productID`),
+  CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`sellerID`) REFERENCES `users` (`userID`),
+  CONSTRAINT `orders_ibfk_2` FOREIGN KEY (`buyerID`) REFERENCES `users` (`userID`),
+  CONSTRAINT `orders_ibfk_3` FOREIGN KEY (`productID`) REFERENCES `products` (`productID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 /*Data for the table `orders` */
 
-insert  into `orders`(`productID`,`orderDate`,`status`,`userID`) values
+insert  into `orders`(`productID`,`orderDate`,`status`,`sellerID`, `buyerID`) values
 
-('1', '11/11/11', 'ordered', '1'),
-('2', '21/12/21', 'paid', '2'),
-('3', '31/03/13', 'shipped', '3'),
-('4', '14/04/14', 'lost', '4')
+('1', '11/11/11', 'ordered', '1', '2'),
+('2', '21/12/21', 'paid', '2', '3'),
+('3', '31/03/13', 'shipped', '3', '4'),
+('4', '14/04/14', 'lost', '4', '5')
 ;
 /*Table structure for table `productlines` */
 #
