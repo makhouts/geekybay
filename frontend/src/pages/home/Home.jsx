@@ -2,8 +2,8 @@ import React from 'react'
 
 export const Home = () => {
     return (
-        <div>
-            
+        <div className='navigation'>
+            home
         </div>
     )
 };

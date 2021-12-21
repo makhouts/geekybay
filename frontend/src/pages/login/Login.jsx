@@ -6,6 +6,7 @@ export const Login = () => {
         <div>
             {/* Login form
             Register form on click 'not registred' */}
+            <p>TEST</p>
         </div>
     )
 }
