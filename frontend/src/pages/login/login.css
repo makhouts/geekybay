@@ -12,3 +12,24 @@
   position: relative;
   overflow: hidden;
 }
+.TopContainer {
+  width: 100%;
+  height: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0 1.8em;
+  padding-bottom: 5em;
+}
+
+.BackDrop {
+  width: 160%;
+  height: 550px;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  border-radius: 50%;
+  transform: rotate(70deg);
+  background: #118df0;
+  background: linear-gradient(58deg, #118df0 20%, #118df0 100%);
+}
