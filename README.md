@@ -2,17 +2,17 @@
 
 Inspiration link: [link here](https://)
 
-- Repository: geekybay
-- Type of Challenge: Team
-- Duration:  3 weeks
-- Deployment strategy : Heroku
+- Repository: `geekybay`
+- Type of Challenge: `Team`
+- Duration:  `3 weeks`
+- Deployment strategy : `Heroku`
 - Team: 5 members:
 
-[Naama](https://)
-[Xiaoqi](https://)
-[link here](https://)
-[link here](https://)
-[link here](https://)
+ - [Naama](https://)
+ - [Xiaoqi](https://)
+ - [Min Jie](https://)
+ - [Sofiane](https://)
+ - [Reinout](https://github.com/ReinoutDeBleser)
 
 ## Description of project/challenge
 
