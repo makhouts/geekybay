@@ -1,6 +1,7 @@
-import React, {useState} from 'react';
-import { Navigation } from './components/navigation/Navigation';
-import './App.css';
+import React, { useState } from "react";
+import { Navigation } from "./components/navigation/Navigation";
+import { AccountBox } from "./pages/login/AccountBox";
+import "./App.css";
 
 function App() {
   const [products, setProducts] = useState([]);
@@ -8,6 +9,7 @@ function App() {
   return (
     <div className="App">
       <Navigation />
+      <AccountBox />
       <p>test</p>
     </div>
   );
