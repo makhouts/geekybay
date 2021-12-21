@@ -41,19 +41,56 @@ router.get("/:id", (req, res) => {
 //add new order
 router.post("/", (req, res) => {
     pool.getConnection((err, connection) => {
-        const params = req.body;
+        const data = req.body;
         if (err) throw err;
-        connection.query("INSERT INTO orders SET ?", params, (err, rows) => {
+        connection.query("INSERT INTO orders SET ?", data, (err, rows) => {
             connection.release();
             if (!err) {
-                res.status(200).send(rows);
+                //the request has succeeded and a new resource has been created as a result.
+                res.status(201).send(rows);
             } else {
+                //?
                 res.status(400).send('Bad request')
             }
         });
     });
 });
 
+//update order
+router.put("/:id", (req, res) => {
+    pool.getConnection((err, connection) => {
+        const data = req.body;
+        if (err) throw err;
+        //params is a query parameter in the url
+        connection.query("UPDATE orders SET ? WHERE orderID=?", [data, req.params.id], (err, rows) => {
+            connection.release();
+            if (!err) {
+                //the request has succeeded and a new resource has been created as a result.
+                res.status(201).send(rows);
+            } else {
+                //?
+                res.status(400).send('Bad request')
+            }
+        });
+    });
+});
 
+//delete order
+router.delete("/:id", (req, res) => {
+    pool.getConnection((err, connection) => {
+        if (err) throw err;
+        //params is a query parameter in the url
+        connection.query("DELETE orders WHERE orderID=?", [req.params.id], (err, rows) => {
+            connection.release();
+            if (!err) {
+                //the request has succeeded and a new resource has been created as a result.
+                res.status(201).send(rows);
+            } else {
+                //?
+                res.status(400).send('Bad request')
+            }
+        });
+    });
+});
 
 export default router
