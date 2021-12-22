@@ -1,0 +1,34 @@
+.navigation {
+    display: flex;
+    justify-content: space-between;
+    padding: 40px;
+    background-color: var(--darkBlue);
+    color: white;
+    font-family: var(--font3);
+    font-weight: 600;
+}
+
+.logo {
+    flex: 3;
+}
+
+.navLinksContainer {
+    flex: 1;
+}
+
+.navLinks {
+    display: flex;
+    list-style-type: none;
+    justify-content: space-evenly;
+}
+
+.navLinks a {
+    color: white;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.navLinks a:hover {
+    color: var(--blue);
+    transition: 0.3s;
+}
