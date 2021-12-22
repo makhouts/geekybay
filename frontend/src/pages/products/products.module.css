@@ -1,0 +1,59 @@
+.container {
+  display: flex;
+  width: 100%;
+}
+
+.imageContainer {
+  flex: 1;
+  padding: 0px 5px;
+}
+
+.img {
+  width: 100%;
+  height: 100vh;
+}
+
+.infoContainer {
+  flex: 1;
+  padding: 50px 50px;
+}
+
+.description {
+  margin-top: 10px;
+  height: 50%;
+  padding: 10px;
+}
+
+.pContainer {
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+  padding: 10px;
+}
+
+.title {
+  font-weight: 300;
+}
+
+.description {
+}
+
+.price {
+}
+
+.quantity {
+}
+
+.buyContainer {
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+  padding: 10px;
+}
+
+.buyAmount {
+}
