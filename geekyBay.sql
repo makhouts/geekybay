@@ -91,7 +91,7 @@ CREATE TABLE `orders` (
   `orderID` int(11) NOT NULL auto_increment,
   `productID` int(11) NOT NULL,
   `orderDate` date NOT NULL,
-  `status` varchar(15) NOT NULL,
+  `orderStatus` varchar(15) NOT NULL,
   `sellerID` int(11) NOT NULL,
   `buyerID` int(11) NOT NULL,
   PRIMARY KEY (`orderID`),
@@ -103,7 +103,7 @@ CREATE TABLE `orders` (
 
 /*Data for the table `orders` */
 
-insert  into `orders`(`productID`,`orderDate`,`status`,`sellerID`, `buyerID`) values
+insert  into `orders`(`productID`,`orderDate`,`orderStatus`,`sellerID`, `buyerID`) values
 
 ('1', '11/11/11', 'ordered', '1', '2'),
 ('2', '21/12/21', 'paid', '2', '3'),
