@@ -1,23 +1,54 @@
 import React from 'react';
-import './navigation.css';
+import classes from './navigation.module.css';
+import { motion } from 'framer-motion';
+import { Link, NavLink } from "react-router-dom";
+
 
 export const Navigation = () => {
-    return (
-        <div className='container'>
-            <nav className='navigation'>
-                <div className="logo">
-                    {/* logo */}
-                    <p>GeekyBay</p>        
-                </div>
-                <div className='nav-links-container'>
-                    <ul className='nav-links'>
-                        <li>link 1</li>
-                        <li>link 2</li>
-                        <li>link 3</li>
-                        <li>link 4</li>
-                    </ul>
-                </div>
-            </nav>
+  return (
+    <div className={classes.container}>
+      <nav className={classes.navigation}>
+        <div className={classes.logo}>
+          {/* logo */}
+          <p>GeekyBay</p>
         </div>
-    )
-}
+        <div className={classes.navLinksContainer}>
+          <ul className={classes.navLinks}>
+            <motion.li
+              whileHover={{
+                scale: 1.2,
+                transition: { duration: 0.2 },
+              }}
+            >
+              <NavLink to="">Home</NavLink>
+            </motion.li>
+            <motion.li
+              whileHover={{
+                scale: 1.2,
+                transition: { duration: 0.2 },
+              }}
+            >
+              <NavLink to="products">Products</NavLink>
+            </motion.li>
+            <motion.li
+              whileHover={{
+                scale: 1.2,
+                transition: { duration: 0.2 },
+              }}
+            >
+              <NavLink to="contact">Contact</NavLink>
+            </motion.li>
+            <motion.li
+              whileHover={{
+                scale: 1.2,
+                transition: { duration: 0.2 },
+              }}
+            >
+              <NavLink to="login">Login</NavLink>
+            </motion.li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+  );
+};
