@@ -18,9 +18,7 @@ export const Products = () => {
             <span className={classes.quantity}>Quantity:</span>
           </div>
           <div className={classes.buyContainer}>
-            <button className={classes.addBtn}>+</button>
             <span className={classes.buyAmount}>1</span>
-            <button className={classes.remove}>-</button>
             <SencondaryButton>Buy Now</SencondaryButton>
           </div>
         </div>

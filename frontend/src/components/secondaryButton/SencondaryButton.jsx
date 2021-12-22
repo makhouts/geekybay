@@ -1,9 +1,10 @@
 import React from "react";
+import "./secondaryButton.module.css";
 
 export const SencondaryButton = (props) => {
   return (
     <div>
-      <Button>{props.children}</Button>
+      <button>{props.children}</button>
     </div>
   );
 };

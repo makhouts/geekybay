@@ -83,16 +83,6 @@
   padding-left: 5px;
 }
 
-.btn {
-  width: 30%;
-  background-color: #118df0;
-  color: white;
-  border: none;
-  padding: 5px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
 .linkContainer {
   width: 100%;
   display: flex;

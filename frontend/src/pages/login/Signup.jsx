@@ -1,6 +1,6 @@
 import React from "react";
 import classes from "./login.module.css";
-
+import { SencondaryButton } from "../../components/secondaryButton/SencondaryButton";
 export const Signup = () => {
   return (
     <div className="container">
@@ -38,9 +38,9 @@ export const Signup = () => {
           </div>
         </div>
         <div className={classes.buttonContainer}>
-          <button class={classes.btn} type="submit">
+          <SencondaryButton class={classes.btn} type="submit">
             SignUp
-          </button>
+          </SencondaryButton>
         </div>
         <div className={classes.linkContainer}>
           <p class={classes.linkText}>Already have an account?</p>
