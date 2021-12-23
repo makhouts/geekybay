@@ -42,19 +42,6 @@ simple logging of steps and tracking progress to show work.
 
 9:00 - 9:30 : read and initial commit of readme & basic introductory reading of project plan and new concepts  
 
-Review meeting 20/12/21:
-Xiaoqi: Learning React
-Min Jie/Reinout/Naama: Database & Routing
-Sofiane: working on main React.js ready to go. 
-
-Standup meeting 21/12/21:
-Overview Readme, 
-Overview Database preparation & how to add database to API & query,
-Xiaoqi will work on homepage/login, ask tom about security of login requirements
-Sofiane working on nav bar. 
-
-
-
 
 ### $newly learned project concepts
 
