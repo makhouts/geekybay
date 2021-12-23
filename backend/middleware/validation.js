@@ -19,12 +19,6 @@ export const orderValidation = {
             .required(),
     })
 }
-    //"productName": "guitar1",
-    //         "sellerID": 1,
-    //         "productDescription": "stringy1",
-    //         "price": 1000,
-    //         "available": 1
-
 
 export const productValidation = {
     body: Joi.object({
@@ -45,5 +39,27 @@ export const productValidation = {
             .required(),
         visible: Joi.bool()
             .required()
+    })
+}
+
+//regex password?
+export const userValidation = {
+    body: Joi.object({
+        userName: Joi.string()
+            .regex(/[a-zA-Z0-9\s.]{3,300}/)
+            .required(),
+        password: Joi.string()
+            .regex(/[\S]{8,255}/)
+            .required(),
+        userLastName: Joi.string()
+            .regex(/[a-zA-Z\s.]{2,20}/)
+            .required()
+        userFirstName: Joi.string()
+            .regex(/[a-zA-Z\s.]{2,20}/)
+            .required(),
+        emailAddress: Joi.string()
+            .email()
+            .required(),
+        phone: Joi.string()
     })
 }
