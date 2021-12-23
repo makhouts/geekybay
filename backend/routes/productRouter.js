@@ -1,8 +1,15 @@
 import express from "express";
 import pool from "../helper/dbConnection.js";
 import multer from "multer";
-import fs from "fs";
 import path from "path";
+import fs from "fs" ;
+import { v4 as uuidv4 } from 'uuid';
+//needed for images
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const router = express.Router();
 
@@ -22,11 +29,8 @@ router.get("/", (req, res) => {
         });
     });
 });
+//imagegetter refactoring for use in getter by any other means.
 
-router.get("/2.png", (req, res) => {
-    console.log(__dirname);
-    res.sendFile(path.join(__dirname, "/2.png"));
-});
 
 //Get product by sellerid
 router.get("/:sellerID", (req, res) => {
@@ -51,8 +55,24 @@ router.get("/product/:productId", (req, res) => {
             connection.release();
             if (!err) {
                 res.status(200).send(rows);
+                res.sendFile(path.join(__dirname,"../productimages/"+rows[0].productImg));
             } else {
                 res.status(400).send('Bad get product by productId request')
+            }
+        });
+    });
+});
+
+router.get("/product/img/:productId", (req, res) => {
+    pool.getConnection((err, connection) => {
+        if (err) throw err;
+            connection.query("SELECT productImg FROM products WHERE productID = ?", [req.params.productId], (err, productImg) => {
+            connection.release();
+            if (!err) {
+                console.log(productImg);
+                res.sendFile(path.join(__dirname,"../productimages/"+productImg[0].productImg));
+            } else {
+                res.status(400).send('Bad product image request')
             }
         });
     });
@@ -136,23 +156,22 @@ const handleError = (err, res) => {
         .end("Oops! Something went wrong!");
 };
 const upload = multer({
-    dest: "backend/Temp",
+    dest: "./Temp",
     // you might also want to set some limits: https://github.com/expressjs/multer#limits
 } );
+
 router.post(
     "/upload",
-    upload.single("file" /* name attribute of <file> element in your form */),
+    upload.single("productimage" /* name attribute of <file> element in your form */),
     (req, res) => {
         const tempPath = req.file.path;
-        const targetPath = path.join(__dirname, "./uploads/image.png");
-
+        const targetPath = path.join(__dirname, "../productimages/image3.png");
         if (path.extname(req.file.originalname).toLowerCase() === ".png") {
             fs.rename(tempPath, targetPath, err => {
                 if (err) return handleError(err, res);
-
                 res
                     .status(200)
-                    .contentType("text/plain")
+                    .contentType("image/png")
                     .end("File uploaded!");
             });
         } else {
@@ -167,6 +186,8 @@ router.post(
         }
     }
 );
+
+
 
 
 
