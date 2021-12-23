@@ -69,31 +69,16 @@ function App() {
   ]);
   const location = useLocation();
 
-<<<<<<< HEAD
-
-
-
-=======
->>>>>>> main
   return (
     <div className="App">
       <Navigation />
       <AnimatePresence exitBeforeEnter>
-<<<<<<< HEAD
-          <Routes location={location} key={location.pathname}>
-            <Route path='products' element={<Products />} />
-            <Route path='contact' element={<Contact />} />
-            <Route path='login' element={<Login />} />
-            <Route path='/' element={<Home products={products} />} />
-          </Routes>
-=======
         <Routes location={location} key={location.pathname}>
           <Route path="products" element={<Products />} />
           <Route path="contact" element={<Contact />} />
           <Route path="login" element={<Login />} />
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Home products={products} />} />
         </Routes>
->>>>>>> main
       </AnimatePresence>
     </div>
   );
