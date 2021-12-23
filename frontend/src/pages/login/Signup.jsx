@@ -1,11 +1,10 @@
 import React from "react";
-import { Navigation } from "../../components/navigation/Navigation";
 import classes from "./login.module.css";
-
+import { SencondaryButton } from "../../components/secondaryButton/SencondaryButton";
+import { Link } from "react-router-dom";
 export const Signup = () => {
   return (
-    <div>
-      <Navigation />
+    <div className="container">
       <div className={classes.boxContainer}>
         <div className={classes.topContainer}>
           <div className={classes.backDrop}></div>
@@ -40,15 +39,13 @@ export const Signup = () => {
           </div>
         </div>
         <div className={classes.buttonContainer}>
-          <button class={classes.btn} type="submit">
+          <SencondaryButton class={classes.btn} type="submit">
             SignUp
-          </button>
+          </SencondaryButton>
         </div>
         <div className={classes.linkContainer}>
           <p class={classes.linkText}>Already have an account?</p>
-          <a class={classes.link} href="#">
-            Login
-          </a>
+          <Link to="/productDetail">Login</Link>
         </div>
       </div>
     </div>

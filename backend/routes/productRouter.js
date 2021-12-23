@@ -1,9 +1,13 @@
 import express from "express";
 import pool from "../helper/dbConnection.js";
+//validation
+import {validate} from "express-validation";
+import {orderValidation, productValidation} from "../middleware/validation.js";
+//process multiform data
 import multer from "multer";
 import path from "path";
 import fs from "fs" ;
-import { v4 as uuidv4 } from 'uuid';
+// import { v4 as uuidv4 } from 'uuid';
 //needed for images
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
@@ -97,7 +101,8 @@ router.get("/product/img/:productId", (req, res) => {
 
 //Create product
 
-router.post("/", (req, res) => {
+
+router.post("/", validate(productValidation, {}, {}), (req, res) => {
     const upload = multer({ dest: 'uploads/' })
     console.log(req.body);
     pool.getConnection((err, connection) => {
@@ -117,7 +122,7 @@ router.post("/", (req, res) => {
 
 //Update product
 
-router.put("/:id", (req, res) => {
+router.put("/:id", validate(productValidation, {}, {}), (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) throw err;
         const data = req.body
