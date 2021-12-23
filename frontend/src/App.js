@@ -1,17 +1,30 @@
 import React, { useState } from "react";
 import { Navigation } from "./components/navigation/Navigation";
+import { AnimatePresence } from "framer-motion";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+} from "react-router-dom";
+import { Home, Products, Contact, Login } from "./pages/index";
 import "./App.css";
-import { Signup } from "./pages/login/Signup";
-import { Login } from "./pages/login/Login";
-import { Products } from "./pages/products/Products";
 
 function App() {
   const [products, setProducts] = useState([]);
+  const location = useLocation();
 
   return (
     <div className="App">
       <Navigation />
-      <p>test</p>
+      <AnimatePresence exitBeforeEnter>
+        <Routes location={location} key={location.pathname}>
+          <Route path="products" element={<Products />} />
+          <Route path="contact" element={<Contact />} />
+          <Route path="login" element={<Login />} />
+          <Route path="/" element={<Home />} />
+        </Routes>
+      </AnimatePresence>
     </div>
   );
 }

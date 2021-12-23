@@ -1,12 +1,12 @@
 import React from "react";
-import { Navigation } from "../../components/navigation/Navigation";
 import classes from "./login.module.css";
+import { PageTransition } from '../../helpers/animations';
+
 
 export const Login = () => {
   return (
+    <PageTransition>
     <div>
-      <Navigation />
-
       <div className={classes.boxContainer}>
         <div className={classes.topContainer}>
           <div className={classes.backDrop}></div>
@@ -45,5 +45,6 @@ export const Login = () => {
         </div>
       </div>
     </div>
+    </PageTransition>
   );
 };
