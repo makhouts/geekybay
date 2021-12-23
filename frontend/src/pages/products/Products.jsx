@@ -1,13 +1,6 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { PageTransition } from '../../helpers/animations';
+import React from "react";
+import classes from "./products.module.css";
 
 export const Products = () => {
-    return (
-    <PageTransition>
-      <div className='container'>
-        PRODUCTS
-      </div>
-    </PageTransition>
-    );
-}
+  return <div></div>;
+};
