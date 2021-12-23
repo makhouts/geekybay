@@ -1,6 +1,7 @@
 import React from "react";
 import classes from "./login.module.css";
 import { SencondaryButton } from "../../components/secondaryButton/SencondaryButton";
+import { Link } from "react-router-dom";
 export const Signup = () => {
   return (
     <div className="container">
@@ -44,9 +45,7 @@ export const Signup = () => {
         </div>
         <div className={classes.linkContainer}>
           <p class={classes.linkText}>Already have an account?</p>
-          <a class={classes.link} href="#">
-            Login
-          </a>
+          <Link to="/login">Login</Link>
         </div>
       </div>
     </div>
