@@ -53,7 +53,7 @@ export const userValidation = {
             .required(),
         userLastName: Joi.string()
             .regex(/[a-zA-Z\s.]{2,20}/)
-            .required()
+            .required(),
         userFirstName: Joi.string()
             .regex(/[a-zA-Z\s.]{2,20}/)
             .required(),
@@ -61,5 +61,16 @@ export const userValidation = {
             .email()
             .required(),
         phone: Joi.string()
+            //validation phone number?
+            .required(),
+        addressLine1: Joi.string()
+            .regex(/[a-zA-Z0-9\s.-]{3,30}/)
+            .required(),
+        addressLine2: Joi.string()
+            .regex(/[a-zA-Z0-9\s.-]{1,30}/)
+            .required(),
+        city: Joi.string()
+            .regex(/[a-zA-Z]{2,20}/)
+            .required()
     })
 }

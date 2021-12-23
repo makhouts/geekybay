@@ -1,11 +1,12 @@
 import express from "express";
 import pool from "../helper/dbConnection.js";
-import bcrypt from "bcrypt";
+import bcrypt from 'bcrypt'
+import { isAuth } from "../middleware/auth.js";
 
 const router = express.Router();
 
 //Get all users
-router.get("/", (req, res) => {
+router.get("/",isAuth, (req, res) => {
   console.log(req.query)
   pool.getConnection((err, connection) => {
     if (err) throw err;

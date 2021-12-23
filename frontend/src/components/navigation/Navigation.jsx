@@ -2,6 +2,7 @@ import React from 'react';
 import classes from './navigation.module.css';
 import { motion } from 'framer-motion';
 import { Link, NavLink } from "react-router-dom";
+import { SearchBar } from '../searchBar/SearchBar';
 
 
 export const Navigation = () => {
@@ -12,6 +13,7 @@ export const Navigation = () => {
           {/* logo */}
           <p>GeekyBay</p>
         </div>
+        <SearchBar />
         <div className={classes.navLinksContainer}>
           <ul className={classes.navLinks}>
             <motion.li

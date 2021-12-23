@@ -1,0 +1,25 @@
+.searchBar {
+    display: flex;
+    justify-content: center;
+}
+
+.searchBar input {
+    width: 400px;
+    transition: 0.3s;
+    border: 2px solid var(--darkBlue);
+    font-size: 17px;
+    padding: 15px;
+    transition: 0.3s;
+}
+
+.searchBar input:focus {
+    width: 700px;
+    transition: 0.3s;
+}
+
+.searchIcon {
+    align-self: center;
+    font-size: 40px;
+    color: var(--blue);
+    margin-left: 5px;
+}

@@ -1,19 +1,12 @@
 .navigation {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     padding: 40px;
     background-color: var(--darkBlue);
     color: white;
     font-family: var(--font3);
     font-weight: 600;
-}
-
-.logo {
-    flex: 3;
-}
-
-.navLinksContainer {
-    flex: 1;
+    align-items: center;
 }
 
 .navLinks {
@@ -31,4 +24,8 @@
 .navLinks a:hover {
     color: var(--blue);
     transition: 0.3s;
+}
+
+.navLinks li {
+    margin-left: 40px;
 }

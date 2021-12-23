@@ -20,5 +20,10 @@
 .container {
     width: 80%;
     margin: 0 auto;
-    margin-top: 50px;
+    margin-top: 20px;
+}
+
+h1 {
+    color: var(--darkBlue);
+    font-family: var(--font1);
 }
