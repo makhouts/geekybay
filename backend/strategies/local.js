@@ -17,7 +17,6 @@ passport.deserializeUser(async (username, done) => {
       connection.query("SELECT * FROM users WHERE username = ?", [username], (err, user) => {
         connection.release();
         if (!err) {
-          console.log(user);
           user = user[0];
         } else {
           throw new Error("Could not find user");
