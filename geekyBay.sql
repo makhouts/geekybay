@@ -10,7 +10,7 @@ Version 3.0
 + changed DATETIME to DATE for some colunmns
 Version 2.0
 + changed table type from MyISAM to InnoDB
-+ added foreign keys for all tables 
++ added foreign keys for all tables
 *********************************************************************
 */
 
@@ -151,7 +151,8 @@ CREATE TABLE `products` (
   `sellerID` INT NOT NULL,
   `productDescription` text NOT NULL,
   `price` decimal(10,2) NOT NULL,
-  `available` boolean NOT NULL,
+  `inStock`INT NOT NULL,
+  `visible` boolean NOT NULL,
   PRIMARY KEY (`productID`),
   KEY `products` (`sellerID`),
   CONSTRAINT `products_ibfk_1` FOREIGN KEY (`sellerID`) REFERENCES `users` (`userID`)
@@ -161,12 +162,12 @@ CREATE TABLE `products` (
 
 /*Data for the table `products` */
 
-insert  into `products`(`productName`, `sellerID`, `productDescription`, `price`, `available`) values
+insert  into `products`(`productName`, `sellerID`, `productDescription`, `price`,`inStock`,`visible`) values
 
-( 'guitar1', '1', 'stringy1', '1000', true),
-( 'guitar2', '2', 'stringy2', '2000', true),
-( 'guitar3', '3', 'stringy3', '3000', false),
-( 'guitar4', '4', 'stringy3', '4000', false)
+( 'guitar1', '1', 'stringy1', '1000', 5, true),
+( 'guitar2', '2', 'stringy2', '2000', 6, true),
+( 'guitar3', '3', 'stringy3', '3000', 0, false),
+( 'guitar4', '4', 'stringy3', '4000', 10, false)
 ;
 
 

@@ -40,8 +40,10 @@ export const productValidation = {
         price: Joi.number()
             .positive()
             .required(),
-        available: Joi.number()
+        inStock: Joi.number()
             .integer()
+            .required(),
+        visible: Joi.bool()
             .required()
     })
 }

@@ -90,7 +90,7 @@ router.post("/", validate(productValidation, {}, {}), (req, res) => {
 
 //Update product
 
-router.put("/:id", (req, res) => {
+router.put("/:id", validate(productValidation, {}, {}), (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) throw err;
         const data = req.body
