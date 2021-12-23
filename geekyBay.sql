@@ -151,8 +151,10 @@ CREATE TABLE `products` (
   `sellerID` INT NOT NULL,
   `productDescription` text NOT NULL,
   `price` decimal(10,2) NOT NULL,
+<<<<<<< HEAD
   `inStock`INT NOT NULL,
   `visible` boolean NOT NULL,
+  `productImg` varchar(255),
   PRIMARY KEY (`productID`),
   KEY `products` (`sellerID`),
   CONSTRAINT `products_ibfk_1` FOREIGN KEY (`sellerID`) REFERENCES `users` (`userID`)
@@ -162,12 +164,12 @@ CREATE TABLE `products` (
 
 /*Data for the table `products` */
 
-insert  into `products`(`productName`, `sellerID`, `productDescription`, `price`,`inStock`,`visible`) values
+insert  into `products`(`productName`, `sellerID`, `productDescription`, `price`,`inStock`,`visible`, `productImg`) values
 
-( 'guitar1', '1', 'stringy1', '1000', 5, true),
-( 'guitar2', '2', 'stringy2', '2000', 6, true),
-( 'guitar3', '3', 'stringy3', '3000', 0, false),
-( 'guitar4', '4', 'stringy3', '4000', 10, false)
+( 'guitar1', '1', 'stringy1', '1000', 5, true, '1.jpg'),
+( 'guitar2', '2', 'stringy2', '2000', 6, true, '2.jpg'),
+( 'guitar3', '3', 'stringy3', '3000', 0, false, '3.jpg'),
+( 'guitar4', '4', 'stringy3', '4000', 10, false, '4.jpg')
 ;
 
 

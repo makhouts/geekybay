@@ -3,6 +3,17 @@ import pool from "../helper/dbConnection.js";
 //validation
 import {validate} from "express-validation";
 import {orderValidation, productValidation} from "../middleware/validation.js";
+//process multiform data
+import multer from "multer";
+import path from "path";
+import fs from "fs" ;
+import { v4 as uuidv4 } from 'uuid';
+//needed for images
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const router = express.Router();
 
@@ -22,6 +33,8 @@ router.get("/", (req, res) => {
         });
     });
 });
+//imagegetter refactoring for use in getter by any other means.
+
 
 //Get product by sellerid
 router.get("/:sellerID", (req, res) => {
@@ -46,8 +59,24 @@ router.get("/product/:productId", (req, res) => {
             connection.release();
             if (!err) {
                 res.status(200).send(rows);
+                res.sendFile(path.join(__dirname,"../productimages/"+rows[0].productImg));
             } else {
                 res.status(400).send('Bad get product by productId request')
+            }
+        });
+    });
+});
+
+router.get("/product/img/:productId", (req, res) => {
+    pool.getConnection((err, connection) => {
+        if (err) throw err;
+            connection.query("SELECT productImg FROM products WHERE productID = ?", [req.params.productId], (err, productImg) => {
+            connection.release();
+            if (!err) {
+                console.log(productImg);
+                res.sendFile(path.join(__dirname,"../productimages/"+productImg[0].productImg));
+            } else {
+                res.status(400).send('Bad product image request')
             }
         });
     });
@@ -72,7 +101,9 @@ router.get("/product/:productId", (req, res) => {
 
 //Create product
 
+
 router.post("/", validate(productValidation, {}, {}), (req, res) => {
+    const upload = multer({ dest: 'uploads/' })
     console.log(req.body);
     pool.getConnection((err, connection) => {
         if (err) throw err;
@@ -85,6 +116,7 @@ router.post("/", validate(productValidation, {}, {}), (req, res) => {
                 res.status(400).send('Bad product creation request')
             }
         });
+
     });
 });
 
@@ -120,6 +152,47 @@ router.delete("/:id", (req, res) => {
         });
     });
 });
+//Multer test for implementation: using router and post. multipart form data.
+
+const handleError = (err, res) => {
+    res
+        .status(500)
+        .contentType("text/plain")
+        .end("Oops! Something went wrong!");
+};
+const upload = multer({
+    dest: "./Temp",
+    // you might also want to set some limits: https://github.com/expressjs/multer#limits
+} );
+
+router.post(
+    "/upload",
+    upload.single("productimage" /* name attribute of <file> element in your form */),
+    (req, res) => {
+        const tempPath = req.file.path;
+        const targetPath = path.join(__dirname, "../productimages/image3.png");
+        if (path.extname(req.file.originalname).toLowerCase() === ".png") {
+            fs.rename(tempPath, targetPath, err => {
+                if (err) return handleError(err, res);
+                res
+                    .status(200)
+                    .contentType("image/png")
+                    .end("File uploaded!");
+            });
+        } else {
+            fs.unlink(tempPath, err => {
+                if (err) return handleError(err, res);
+
+                res
+                    .status(403)
+                    .contentType("text/plain")
+                    .end("Only .png files are allowed!");
+            });
+        }
+    }
+);
+
+
 
 
 
