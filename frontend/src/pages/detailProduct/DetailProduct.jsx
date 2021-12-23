@@ -16,8 +16,8 @@ export const DetailProduct = () => {
             <h1 className={classes.title}>product name</h1>
             <p className={classes.description}>Insert product details</p>
             <div className={classes.pContainer}>
-              <span className={classes.price}>Price: </span>
-              <span className={classes.quantity}>Quantity:</span>
+              <span className={classes.price}>Price: 1000</span>
+              <span className={classes.quantity}>Quantity: 1000</span>
             </div>
             <div className={classes.buyContainer}>
               <div className={classes.quantityContainer}>
