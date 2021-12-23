@@ -1,0 +1,14 @@
+.carousel {
+    margin: 20px 0px;
+}
+
+.todaysDealRow {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+
+.tDeal img {
+    width: 200px;
+    background-color: rgba(222, 222, 222, 0.205) ;
+}

@@ -13,8 +13,64 @@ import './App.css';
 
 
 function App() {
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState([
+    {
+      productId: 1,
+      productName: 'Iphone 13 Pro',
+      sellerID: 1,
+      productDescription: 'Iphone 13 Pro',
+      image: './assets/iphone.png',
+      price: '€ 1299.00',
+      available: true,
+    },
+    {
+      productId: 1,
+      productName: 'Iphone 13 Pro',
+      sellerID: 1,
+      productDescription: 'Iphone 13 Pro',
+      image: './assets/iphone.png',
+      price: '€ 1299.00',
+      available: true,
+    },
+    {
+      productId: 1,
+      productName: 'Iphone 13 Pro',
+      sellerID: 1,
+      productDescription: 'Iphone 13 Pro',
+      image: './assets/iphone.png',
+      price: '€ 1299.00',
+      available: true,
+    },
+    {
+      productId: 1,
+      productName: 'Iphone 13 Pro',
+      sellerID: 1,
+      productDescription: 'Iphone 13 Pro',
+      image: './assets/iphone.png',
+      price: '€ 1299.00',
+      available: true,
+    },
+    {
+      productId: 1,
+      productName: 'Iphone 13 Pro',
+      sellerID: 1,
+      productDescription: 'Iphone 13 Pro',
+      image: './assets/iphone.png',
+      price: '€ 1299.00',
+      available: true,
+    },
+    {
+      productId: 1,
+      productName: 'Iphone 13 Pro',
+      sellerID: 1,
+      productDescription: 'Iphone 13 Pro',
+      image: './assets/iphone.png',
+      price: '€ 1299.00',
+      available: true,
+    }
+  ]);
   const location = useLocation();
+
 
 
 
@@ -26,7 +82,7 @@ function App() {
             <Route path='products' element={<Products />} />
             <Route path='contact' element={<Contact />} />
             <Route path='login' element={<Login />} />
-            <Route path='/' element={<Home />} />
+            <Route path='/' element={<Home products={products} />} />
           </Routes>
       </AnimatePresence>
     </div>
