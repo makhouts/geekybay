@@ -1,6 +1,8 @@
 import express from "express";
 import pool from "../helper/dbConnection.js";
-
+//validation
+import {validate} from "express-validation";
+import {orderValidation, productValidation} from "../middleware/validation.js";
 
 const router = express.Router();
 
@@ -70,7 +72,7 @@ router.get("/product/:productId", (req, res) => {
 
 //Create product
 
-router.post("/", (req, res) => {
+router.post("/", validate(productValidation, {}, {}), (req, res) => {
     console.log(req.body);
     pool.getConnection((err, connection) => {
         if (err) throw err;

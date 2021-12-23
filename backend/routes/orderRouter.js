@@ -1,35 +1,12 @@
 import express from 'express';
 //import connection pool
 import pool from "../helper/dbConnection.js";
-import {validate, ValidationError, Joi} from "express-validation";
+//validation
+import {validate} from "express-validation";
 import {orderValidation} from "../middleware/validation.js";
 
 const router = express.Router();
 
-// router.use(function(err, req, res, next) {
-//     if (err instanceof ValidationError) {
-//         return res.status(err.statusCode).json(err)
-//     }
-//
-//     return res.status(500).json(err)
-// })
-
-//server-side validation
-// const orderValidation = {
-//     body:Joi.object({
-//         productID: Joi.number()
-//             .required(),
-//         orderDate: Joi.date()
-//             .required(),
-//         orderStatus: Joi.string()
-//             .regex(/[a-zA-Z0-9]{3,30}/)
-//             .required(),
-//         sellerID: Joi.number()
-//             .required(),
-//         buyerID: Joi.number()
-//             .required(),
-//     })
-// }
 
 //Get all orders
 router.get('/', (req,res) => {
@@ -115,7 +92,7 @@ router.post("/", validate(orderValidation, {}, {}) ,(req, res) => {
 });
 
 //update order
-router.put("/:id", (req, res) => {
+router.put("/:id",validate(orderValidation, {}, {}), (req, res) => {
     pool.getConnection((err, connection) => {
         const data = req.body;
         if (err) throw err;
