@@ -10,7 +10,7 @@ Version 3.0
 + changed DATETIME to DATE for some colunmns
 Version 2.0
 + changed table type from MyISAM to InnoDB
-+ added foreign keys for all tables 
++ added foreign keys for all tables
 *********************************************************************
 */
 
@@ -91,7 +91,7 @@ CREATE TABLE `orders` (
   `orderID` int(11) NOT NULL auto_increment,
   `productID` int(11) NOT NULL,
   `orderDate` date NOT NULL,
-  `status` varchar(15) NOT NULL,
+  `orderStatus` varchar(15) NOT NULL,
   `sellerID` int(11) NOT NULL,
   `buyerID` int(11) NOT NULL,
   PRIMARY KEY (`orderID`),
@@ -103,7 +103,7 @@ CREATE TABLE `orders` (
 
 /*Data for the table `orders` */
 
-insert  into `orders`(`productID`,`orderDate`,`status`,`sellerID`, `buyerID`) values
+insert  into `orders`(`productID`,`orderDate`,`orderStatus`,`sellerID`, `buyerID`) values
 
 ('1', '11/11/11', 'ordered', '1', '2'),
 ('2', '21/12/21', 'paid', '2', '3'),
@@ -151,7 +151,9 @@ CREATE TABLE `products` (
   `sellerID` INT NOT NULL,
   `productDescription` text NOT NULL,
   `price` decimal(10,2) NOT NULL,
-  `available` boolean NOT NULL,
+<<<<<<< HEAD
+  `inStock`INT NOT NULL,
+  `visible` boolean NOT NULL,
   `productImg` varchar(255),
   PRIMARY KEY (`productID`),
   KEY `products` (`sellerID`),
@@ -162,12 +164,12 @@ CREATE TABLE `products` (
 
 /*Data for the table `products` */
 
-insert  into `products`(`productName`, `sellerID`, `productDescription`, `price`, `available`, `productImg`) values
+insert  into `products`(`productName`, `sellerID`, `productDescription`, `price`,`inStock`,`visible`, `productImg`) values
 
-( 'guitar1', '1', 'stringy1', '1000', true, '1.jpg'),
-( 'guitar2', '2', 'stringy2', '2000', true, '2.png'),
-( 'guitar3', '3', 'stringy3', '3000', false, '3.jpg'),
-( 'guitar4', '4', 'stringy3', '4000', false, '4.jpg')
+( 'guitar1', '1', 'stringy1', '1000', 5, true, '1.jpg'),
+( 'guitar2', '2', 'stringy2', '2000', 6, true, '2.jpg'),
+( 'guitar3', '3', 'stringy3', '3000', 0, false, '3.jpg'),
+( 'guitar4', '4', 'stringy3', '4000', 10, false, '4.jpg')
 ;
 
 

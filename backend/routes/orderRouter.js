@@ -1,8 +1,12 @@
 import express from 'express';
 //import connection pool
 import pool from "../helper/dbConnection.js";
+//validation
+import {validate} from "express-validation";
+import {orderValidation} from "../middleware/validation.js";
 
 const router = express.Router();
+
 
 //Get all orders
 router.get('/', (req,res) => {
@@ -70,7 +74,7 @@ router.get("/buyer/:id", (req, res) => {
 });
 
 //add new order
-router.post("/", (req, res) => {
+router.post("/", validate(orderValidation, {}, {}) ,(req, res) => {
     pool.getConnection((err, connection) => {
         const data = req.body;
         if (err) throw err;
@@ -88,7 +92,7 @@ router.post("/", (req, res) => {
 });
 
 //update order
-router.put("/:id", (req, res) => {
+router.put("/:id",validate(orderValidation, {}, {}), (req, res) => {
     pool.getConnection((err, connection) => {
         const data = req.body;
         if (err) throw err;
