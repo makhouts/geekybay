@@ -1,17 +1,16 @@
 import React from "react";
+import { Navigation } from "../../components/navigation/Navigation";
 import classes from "./login.module.css";
-import { PageTransition } from '../../helpers/animations';
 
-
-export const Login = () => {
+export const Signup = () => {
   return (
-    <PageTransition>
     <div>
+      <Navigation />
       <div className={classes.boxContainer}>
         <div className={classes.topContainer}>
           <div className={classes.backDrop}></div>
           <div className={classes.headerContainer}>
-            <div className={classes.headText}>Login</div>
+            <div className={classes.headText}>Create Account</div>
           </div>
         </div>
         <div className={classes.form}>
@@ -31,20 +30,27 @@ export const Login = () => {
               placeholder="Password"
             />
           </div>
+          <div className={classes.formGroup}>
+            <label className={classes.label}>Confirm Password</label>
+            <input
+              className={classes.formInput}
+              type="password"
+              placeholder="Confirm Password"
+            />
+          </div>
         </div>
         <div className={classes.buttonContainer}>
           <button class={classes.btn} type="submit">
-            Login
+            SignUp
           </button>
         </div>
         <div className={classes.linkContainer}>
-          <p class={classes.linkText}>Don't have an account?</p>
+          <p class={classes.linkText}>Already have an account?</p>
           <a class={classes.link} href="#">
-            SignUp
+            Login
           </a>
         </div>
       </div>
     </div>
-    </PageTransition>
   );
 };
