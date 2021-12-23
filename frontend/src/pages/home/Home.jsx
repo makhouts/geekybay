@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import classes from './home.module.css';
 import { PageTransition } from '../../helpers/animations';
@@ -34,7 +35,7 @@ export const Home = (props) => {
               </div>
             </Carousel>
           </div>
-          <div className="today-deals">
+          <div className={classes.productsRows}>
             <section>
               <h1>Today's Deals - All with free shipping!</h1>
               <div className={classes.todaysDealRow}>
@@ -42,11 +43,34 @@ export const Home = (props) => {
                     <div className={classes.tDeal}>
                       <img src={require('../../assets/iphone.png')} alt="product-image" />
                       <h4>{product.price}</h4>
-                      <p>old price | Free shipping</p>
                     </div>
                   ))}
               </div>
             </section>
+          </div>
+          <div className={classes.productsRows}>
+            <section>
+              <h1>Bestsellers - Limited stock!</h1>
+              <div className={classes.todaysDealRow}>
+                  {props.products.map(product => (
+                    <div className={classes.tDeal}>
+                      <img src={require('../../assets/iphone.png')} alt="product-image" />
+                      <h4>{product.price}</h4>
+                    </div>
+                  ))}
+              </div>
+            </section>
+          </div>
+          <div>
+              <section className={classes.sellAdBanner}>
+                  <div className={classes.createAccountAd}>
+                      <h1 className={classes.adText}>Sell without any risk.</h1>
+                      <p className={classes.adText}>Sell for free now!</p>
+                      <br />
+                      <Link to='login'><PrimaryButton btnStyle='red'>Sell now</PrimaryButton></Link>
+                  </div>
+                  <div className={classes.sellAd}></div>
+              </section>
           </div>
         </div>
       </PageTransition>
