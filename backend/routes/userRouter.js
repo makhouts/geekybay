@@ -1,7 +1,11 @@
 import express from "express";
 import pool from "../helper/dbConnection.js";
+<<<<<<< HEAD
 import bcrypt from 'bcrypt'
 import { isAuth } from "../middleware/auth.js";
+=======
+import bcrypt from "bcrypt";
+>>>>>>> 57d380ab1f4bb78e3f0775977c475922743f95e5
 
 const router = express.Router();
 

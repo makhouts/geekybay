@@ -1,0 +1,47 @@
+.carousel {
+    margin: 20px 0px;
+}
+
+.todaysDealRow {
+    display: flex;
+    justify-content: space-between  ;
+    flex-wrap: wrap;
+}
+
+.tDeal img {
+    width: 200px;
+    background-color: rgba(222, 222, 222, 0.205) ;
+}
+
+.tDeal {
+    font-family: var(--font2);
+}
+
+.productsRows {
+    margin-top: 70px;
+}
+
+.productsRows h1 {
+    margin: 20px 0px;
+}
+
+.sellAdBanner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--font2);
+}
+
+.sellAd {
+    background-image: url("../../assets/desk.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position-y: -200px;
+    width: 80%;
+    height: 300px;
+    margin: 50px 0;
+}
+
+.adText {
+    color: var(--red);
+}

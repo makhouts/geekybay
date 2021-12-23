@@ -13,6 +13,7 @@ import session from "express-session";
 import pool from "./helper/dbConnection.js";
 import passport from "passport";
 import mySqlSession from "express-mysql-session";
+import multer from 'multer'
 import { local } from "./strategies/local.js";
 const mySQLStore = mySqlSession(session);
 
