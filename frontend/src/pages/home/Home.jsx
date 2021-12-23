@@ -4,7 +4,6 @@ import { motion } from 'framer-motion';
 import classes from './home.module.css';
 import { PageTransition } from '../../helpers/animations';
 import { PrimaryButton } from '../../components/primaryButton/PrimaryButton';
-import { SearchBar } from '../../components/searchBar/SearchBar';
 import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import carousel1 from '../../assets/carousel1.png';
@@ -16,7 +15,6 @@ export const Home = (props) => {
     return (
       <PageTransition>
         <div className="container">
-          <SearchBar />
           <div className={classes.carousel}>
             <Carousel
               autoPlay
