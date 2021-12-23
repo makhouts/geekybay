@@ -2,6 +2,9 @@ import express from "express";
 import pool from "../helper/dbConnection.js";
 import bcrypt from 'bcrypt'
 import { isAuth } from "../middleware/auth.js";
+import {validate} from "express-validation";
+import {orderValidation, userValidation} from "../middleware/validation.js";
+
 
 const router = express.Router();
 
@@ -39,7 +42,7 @@ router.get("/:id", (req, res) => {
 
 
 //Create user
-router.post("/", (req, res) => {
+router.post("/" , validate(userValidation, {}, {}), (req, res) => {
   pool.getConnection(async (err, connection) => {
     if (err) throw err;
     const data = req.body;
