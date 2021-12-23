@@ -12,13 +12,17 @@ export const Products = () => {
         </div>
         <div className={classes.infoContainer}>
           <h1 className={classes.title}>product name</h1>
-          <p className={classes.description}>bdbdbdbdbdbddsadgawrgv</p>
+          <p className={classes.description}>Insert product details</p>
           <div className={classes.pContainer}>
             <span className={classes.price}>Price: </span>
             <span className={classes.quantity}>Quantity:</span>
           </div>
           <div className={classes.buyContainer}>
-            <span className={classes.buyAmount}>1</span>
+            <div className={classes.quantityContainer}>
+              <button className={classes.addBtn}>+</button>
+              <span className={classes.buyAmount}>1</span>
+              <button className={classes.removeBtn}>-</button>
+            </div>
             <SencondaryButton>Buy Now</SencondaryButton>
           </div>
         </div>

@@ -10,12 +10,12 @@
 
 .img {
   width: 100%;
-  height: 100vh;
+  height: 100%;
 }
 
 .infoContainer {
   flex: 1;
-  padding: 50px 50px;
+  padding: 150px 50px;
 }
 
 .description {
@@ -55,5 +55,9 @@
   padding: 10px;
 }
 
-.buyAmount {
+.quantityContainer {
+  width: 30%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
