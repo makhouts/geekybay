@@ -33,7 +33,7 @@ DROP TABLE IF EXISTS `users`;
 
 CREATE TABLE `users` (
   `userID` int(11) NOT NULL auto_increment,
-  `userName` varchar(50),
+  `userName` varchar(50) UNIQUE,
   `password` varchar(255),
   `userLastName` varchar(50) NOT NULL,
   `userFirstName` varchar(50) NOT NULL,
