@@ -46,6 +46,8 @@ app.use(function(err, req, res, next) {
 
   return res.status(500).json(err)
 });
+
+
 app.use(passport.initialize());
 app.use(passport.session()); // 
 
