@@ -23,13 +23,13 @@ export const orderValidation = {
 export const productValidation = {
     body: Joi.object({
         productName: Joi.string()
-            .regex(/[a-zA-Z0-9\s.]{3,300}/)
+            .regex(/[a-zA-Z0-9\s.]{3,30}/)
             .required(),
         sellerID: Joi.number()
             .integer()
             .required(),
         productDescription: Joi.string()
-            .regex(/[a-zA-Z0-9\s.]{3,300}/)
+            .regex(/[a-zA-Z0-9\s.]{3,3000}/)
             .required(),
         price: Joi.number()
             .positive()
@@ -38,39 +38,87 @@ export const productValidation = {
             .integer()
             .required(),
         visible: Joi.bool()
-            .required()
+            .required(),
+        freeShipping: Joi.bool()
+            .required(),
     })
 }
 
-//regex password?
-export const userValidation = {
+export const buyerValidation = {
     body: Joi.object({
-        userName: Joi.string()
-            .regex(/[a-zA-Z0-9\s.]{3,300}/)
-            .required(),
-        password: Joi.string()
-            .regex(/[\S]{8,255}/)
-            .required(),
         userLastName: Joi.string()
-            .regex(/[a-zA-Z\s.]{2,20}/)
+            .regex(/[a-zA-Z\s]{2,20}/)
             .required(),
         userFirstName: Joi.string()
-            .regex(/[a-zA-Z\s.]{2,20}/)
+            .regex(/[a-zA-Z\s]{2,20}/)
             .required(),
         emailAddress: Joi.string()
             .email()
             .required(),
         phone: Joi.string()
-            //validation phone number?
+            .regex(/[\d\s\/\+]{9,15}/)
             .required(),
         addressLine1: Joi.string()
-            .regex(/[a-zA-Z0-9\s.-]{3,30}/)
+            .regex(/[a-zA-Z\d\s-]{2,20}/)
             .required(),
         addressLine2: Joi.string()
-            .regex(/[a-zA-Z0-9\s.-]{1,30}/)
+            .regex(/[a-zA-Z\d\s-]{1,20}/)
+            .required(),
+        postalCode: Joi.string()
+            .regex(/[\d]{4,9}/)
             .required(),
         city: Joi.string()
-            .regex(/[a-zA-Z]{2,20}/)
-            .required()
+            .regex(/[a-zA-Z\s-]{2,20}/)
+            .required(),
+        country: Joi.string()
+            .regex(/[a-zA-Z\s-]{2,20}/)
+            .required(),
+        type: Joi.string()
+            .regex(/buyer/)
+            .required(),
+
+    })
+}
+
+export const sellerValidation = {
+    body: Joi.object({
+        userName: Joi.string()
+            .regex(/[a-zA-Z\d\s-_]{2,20}/)
+            .required(),
+        password: Joi.string()
+            .min(6)
+            .max(64)
+            .required(),
+        userLastName: Joi.string()
+            .regex(/[a-zA-Z\s]{2,20}/)
+            .required(),
+        userFirstName: Joi.string()
+            .regex(/[a-zA-Z\s]{2,20}/)
+            .required(),
+        emailAddress: Joi.string()
+            .email()
+            .required(),
+        phone: Joi.string()
+            .regex(/[\d\s\/\+]{9,15}/)
+            .required(),
+        addressLine1: Joi.string()
+            .regex(/[a-zA-Z\d\s-]{2,20}/)
+            .required(),
+        addressLine2: Joi.string()
+            .regex(/[a-zA-Z\d\s-]{1,20}/)
+            .required(),
+        postalCode: Joi.string()
+            .regex(/[\d]{4,9}/)
+            .required(),
+        city: Joi.string()
+            .regex(/[a-zA-Z\s-]{2,20}/)
+            .required(),
+        country: Joi.string()
+            .regex(/[a-zA-Z\s-]{2,20}/)
+            .required(),
+        type: Joi.string()
+            .regex(/seller/)
+            .required(),
+
     })
 }

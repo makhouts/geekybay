@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Navigation } from "./components/navigation/Navigation";
+import { Footer } from "./components/footer/Footer";
 import { AnimatePresence } from "framer-motion";
 import {
   BrowserRouter as Router,
@@ -14,6 +15,7 @@ import {
   Login,
   Signup,
   DetailProduct,
+  Page404,
 } from "./pages/index";
 import "./App.css";
 
@@ -87,8 +89,10 @@ function App() {
           <Route path="login" element={<Login />} />
           <Route path="signUp" element={<Signup />} />
           <Route path="/" element={<Home products={products} />} />
+          <Route path="*" element={<Page404 />} />
         </Routes>
       </AnimatePresence>
+      <Footer />
     </div>
   );
 }
