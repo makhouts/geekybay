@@ -7,6 +7,7 @@ import express from "express";
 import userRouter from "./routes/userRouter.js";
 import productRouter from "./routes/productRouter.js";
 import orderRouter from "./routes/orderRouter.js";
+
 import {ValidationError} from "express-validation";
 import authRouter from "./routes/authRouter.js";
 import bodyParser from "body-parser";
@@ -17,7 +18,6 @@ import mySqlSession from "express-mysql-session";
 import multer from 'multer'
 import { local } from "./strategies/local.js";
 const mySQLStore = mySqlSession(session);
-
 const store = new mySQLStore({}, pool);
 
 const app = express();
