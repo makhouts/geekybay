@@ -17,6 +17,7 @@ import passport from "passport";
 import mySqlSession from "express-mysql-session";
 import multer from 'multer'
 import { local } from "./strategies/local.js";
+
 const mySQLStore = mySqlSession(session);
 const store = new mySQLStore({}, pool);
 
@@ -59,3 +60,6 @@ app.use("/orders", orderRouter);
 app.use("/auth", authRouter);
 
 app.listen(process.env.SERVER_PORT);
+
+
+

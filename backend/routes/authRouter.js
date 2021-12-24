@@ -5,6 +5,8 @@ import passport from "passport";
 import { isNotAuth } from "../middleware/auth.js";
 import { validate } from "express-validation";
 import { sellerValidation } from "../middleware/validation.js";
+import sendEmail from '../helper/email.js';
+
 
 const router = express.Router();
 
@@ -39,6 +41,7 @@ router.post("/register", isNotAuth, validate(sellerValidation, {}, {}), (req, re
       connection.release();
       if (!err) {
         res.status(200).send(rows);
+        sendEmail().catch(console.error);
       } else {
         res.status(400).send(err)
       }
