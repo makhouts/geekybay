@@ -81,11 +81,11 @@ export const buyerValidation = {
 export const sellerValidation = {
     body: Joi.object({
         userName: Joi.string()
-            // .regex(/[a-zA-Z\d\s-_]{2,20}/)
+            .regex(/[a-zA-Z\d\s-_]{2,20}/)
             .required(),
         password: Joi.string()
-            // .min(6)
-            // .max(64)
+            .min(6)
+            .max(64)
             .required(),
         userLastName: Joi.string()
             .regex(/[a-zA-Z\s]{2,20}/)
