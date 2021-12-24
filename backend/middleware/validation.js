@@ -83,40 +83,38 @@ export const productValidation = {
 //     })
 // }
 
-export const userValidation = {
+export const buyerValidation = {
     body: Joi.object({
-        userName: Joi.string(),
-        //   .regex(/[a-zA-Z0-9\s.]{3,30}/),
-        password: Joi.string(),
-        //    .regex(/[\S]{8,16}/),
         userLastName: Joi.string()
-            //.regex(/[a-zA-Z\s]{2,20}/)
+            .regex(/[a-zA-Z\s]{2,20}/)
             .required(),
         userFirstName: Joi.string()
-            //.regex(/[a-zA-Z\s]{2,20}/)
+            .regex(/[a-zA-Z\s]{2,20}/)
             .required(),
         emailAddress: Joi.string()
-            //.email()
+            .email()
             .required(),
         phone: Joi.string()
-           // .regex(/[\d\s\/\+]{9,15}/)
+            .regex(/[\d\s\/\+]{9,15}/)
             .required(),
         addressLine1: Joi.string()
-         //   .regex(/[a-zA-Z\s]{2,20}/)
+            .regex(/[a-zA-Z\d\s-]{2,20}/)
             .required(),
         addressLine2: Joi.string()
-          //  .regex(/[a-zA-Z\s]{2,20}/)
+            .regex(/[a-zA-Z\d\s-]{1,20}/)
             .required(),
-        postalCode: Joi.number()
-           // .integer()
+        postalCode: Joi.string()
+            .regex(/[\d]{4,9}/)
             .required(),
         city: Joi.string()
-            //.regex(/[a-zA-Z\s]{2,20}/)
+            .regex(/[a-zA-Z\s-]{2,20}/)
             .required(),
         country: Joi.string()
-           // .regex(/[a-zA-Z\s]{2,20}/)
+            .regex(/[a-zA-Z\s-]{2,20}/)
             .required(),
         type: Joi.string()
+            .regex(/buyer/)
+            .required(),
 
     })
 }
