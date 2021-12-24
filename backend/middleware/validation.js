@@ -38,7 +38,9 @@ export const productValidation = {
             .integer()
             .required(),
         visible: Joi.bool()
-            .required()
+            .required(),
+        freeShipping: Joi.bool()
+            .required(),
     })
 }
 
