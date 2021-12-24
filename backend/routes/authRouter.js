@@ -1,8 +1,10 @@
 import express from "express";
 import pool from "../helper/dbConnection.js";
+import { createResetRequest, getUserByUsername, getResetRequest } from "../helper/resetRequests.js";
 import bcrypt from "bcrypt";
 import passport from "passport";
 import { isNotAuth } from "../middleware/auth.js";
+import { v1 as uuidv1 } from "uuid";
 
 const router = express.Router();
 
@@ -38,7 +40,7 @@ router.post("/register", isNotAuth, (req, res) => {
       if (!err) {
         res.status(200).send(rows);
       } else {
-        res.status(400).send(err)
+        res.status(400).send(err);
       }
     });
   });
@@ -49,5 +51,29 @@ router.delete("/logout", (req, res) => {
   req.logOut();
   res.send("ok");
 });
+
+router.post("/forgot", (req, res) => {
+  pool.getConnection(async (err, connection) => {
+    if (err) throw err;
+    connection.query("SELECT * FROM users WHERE userName = ?", [req.body.username], (err, user) => {
+      // NOTE: username or email?
+      connection.release();
+      if (!err) {
+        const thisUser = user[0];
+        if (thisUser) {
+          const id = uuidv1();
+          createResetRequest(id, thisUser.userName, thisUser.emailAddress);
+          // sendResetLink(thisUser.email, id); NOTE: once we have mailing
+          console.log(`http://localhost:3000/reset/${id}`);
+        }
+        res.status(200).json();
+      } else {
+        res.status(400).send(err);
+      }
+    });
+  });
+});
+
+
 
 export default router;
