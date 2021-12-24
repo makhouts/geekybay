@@ -1,0 +1,57 @@
+* {
+  font-family: var(--font3);
+}
+
+.topContainer {
+  width: 700px;
+  text-align: center;
+}
+
+.contactContainer {
+  margin: 20px 0;
+  width: 700px;
+  min-height: 300px;
+  display: flex;
+  gap: 2rem;
+}
+
+.leftContainer {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 5% 0;
+}
+
+.contactTel,
+.contactEmail,
+.contactAdr {
+  background-color: #118df0;
+  display: flex;
+  padding: 25px;
+  gap: 2rem;
+  margin-top: 15px;
+  border-radius: 50px;
+}
+
+.icon {
+  color: #ececda;
+  background-color: #040825;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  padding: 1rem;
+}
+.p {
+  color: #ececda;
+  margin-top: 1rem;
+  font-size: 20px;
+  font-weight: 300;
+}
+
+.rightContainer {
+  background-color: darkcyan;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 5% 0;
+}
