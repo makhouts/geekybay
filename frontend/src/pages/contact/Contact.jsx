@@ -30,7 +30,9 @@ export const Contact = () => {
               <div className={classes.icon}>
                 <MdPlace />
               </div>
-              <div className={classes.p}>Turnhoutsebaan</div>
+              <div className={classes.p}>
+                Koningin Astridplein 27, 2018 Antwerpen
+              </div>
             </div>
           </div>
           <div className={classes.rightContainer}>
@@ -59,11 +61,20 @@ export const Contact = () => {
                   placeholder="Leave your message here."
                 ></textarea>
               </div>
-              <SencondaryButton className={classes.btn} type="submit">
-                Send
-              </SencondaryButton>
             </div>
+            <SencondaryButton className={classes.btn} type="submit">
+              Send Message
+            </SencondaryButton>
           </div>
+        </div>
+        <div className={classes.mapCard}>
+          <h3 className={classes.mapHeading}>Here is me</h3>
+          <p className={classes.mapText}>
+            Koningin Astridplein 27, 2018 Antwerpen
+          </p>
+          <a href="https://www.google.com/maps/place/Antwerpen-Centraal/@51.217244,4.4189571,17z/data=!3m1!4b1!4m5!3m4!1s0x47c3f703e7404c69:0x270b07bbe1f68aa6!8m2!3d51.217244!4d4.4211511">
+            open
+          </a>
         </div>
       </div>
     </PageTransition>
