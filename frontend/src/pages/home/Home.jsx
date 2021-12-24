@@ -37,8 +37,8 @@ export const Home = (props) => {
             <section>
               <h1>Today's Deals - All with free shipping!</h1>
               <div className={classes.todaysDealRow}>
-                  {props.products.map(product => (
-                    <div className={classes.tDeal}>
+                  {props.products.map((product, i) => (
+                    <div key={i} className={classes.tDeal}>
                       <img src={require('../../assets/iphone.png')} alt="product-image" />
                       <h4>{product.price}</h4>
                     </div>
@@ -50,8 +50,8 @@ export const Home = (props) => {
             <section>
               <h1>Bestsellers - Limited stock!</h1>
               <div className={classes.todaysDealRow}>
-                  {props.products.map(product => (
-                    <div className={classes.tDeal}>
+                  {props.products.map((product, i) => (
+                    <div key={i} className={classes.tDeal}>
                       <img src={require('../../assets/iphone.png')} alt="product-image" />
                       <h4>{product.price}</h4>
                     </div>
