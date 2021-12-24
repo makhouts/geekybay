@@ -2,6 +2,7 @@ import React from "react";
 import classes from "./login.module.css";
 import { PageTransition } from "../../helpers/animations";
 import { Link } from "react-router-dom";
+import { SencondaryButton } from "../../components/secondaryButton/SencondaryButton";
 
 export const Login = () => {
   return (
@@ -33,9 +34,9 @@ export const Login = () => {
             </div>
           </div>
           <div className={classes.buttonContainer}>
-            <button class={classes.btn} type="submit">
+            <SencondaryButton class={classes.btn} type="submit">
               Login
-            </button>
+            </SencondaryButton>
           </div>
           <div className={classes.linkContainer}>
             <p class={classes.linkText}>Don't have an account?</p>

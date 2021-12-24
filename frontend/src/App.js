@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Navigation } from "./components/navigation/Navigation";
-import { Footer } from './components/footer/Footer';
+import { Footer } from "./components/footer/Footer";
 import { AnimatePresence } from "framer-motion";
 import {
   BrowserRouter as Router,
