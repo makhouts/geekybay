@@ -3,6 +3,8 @@ import pool from "../helper/dbConnection.js";
 import bcrypt from "bcrypt";
 import passport from "passport";
 import { isNotAuth } from "../middleware/auth.js";
+import { validate } from "express-validation";
+import { sellerValidation } from "../middleware/validation.js";
 
 const router = express.Router();
 
@@ -27,7 +29,7 @@ router.post("/login", isNotAuth, passport.authenticate("local"), (req, res) => {
 });
 
 // Register/create a seller
-router.post("/register", isNotAuth, (req, res) => {
+router.post("/register", isNotAuth, validate(sellerValidation, {}, {}), (req, res) => {
   pool.getConnection(async (err, connection) => {
     if (err) throw err;
     const data = req.body;

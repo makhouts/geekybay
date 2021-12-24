@@ -78,3 +78,45 @@ export const buyerValidation = {
     })
 }
 
+export const sellerValidation = {
+    body: Joi.object({
+        userName: Joi.string()
+            // .regex(/[a-zA-Z\d\s-_]{2,20}/)
+            .required(),
+        password: Joi.string()
+            // .min(6)
+            // .max(64)
+            .required(),
+        userLastName: Joi.string()
+            .regex(/[a-zA-Z\s]{2,20}/)
+            .required(),
+        userFirstName: Joi.string()
+            .regex(/[a-zA-Z\s]{2,20}/)
+            .required(),
+        emailAddress: Joi.string()
+            .email()
+            .required(),
+        phone: Joi.string()
+            .regex(/[\d\s\/\+]{9,15}/)
+            .required(),
+        addressLine1: Joi.string()
+            .regex(/[a-zA-Z\d\s-]{2,20}/)
+            .required(),
+        addressLine2: Joi.string()
+            .regex(/[a-zA-Z\d\s-]{1,20}/)
+            .required(),
+        postalCode: Joi.string()
+            .regex(/[\d]{4,9}/)
+            .required(),
+        city: Joi.string()
+            .regex(/[a-zA-Z\s-]{2,20}/)
+            .required(),
+        country: Joi.string()
+            .regex(/[a-zA-Z\s-]{2,20}/)
+            .required(),
+        type: Joi.string()
+            .regex(/seller/)
+            .required(),
+
+    })
+}
