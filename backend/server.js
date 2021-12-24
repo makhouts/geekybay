@@ -20,7 +20,6 @@ const mySQLStore = mySqlSession(session);
 
 const store = new mySQLStore({}, pool);
 
-
 const app = express();
 
 app.use(
@@ -39,7 +38,6 @@ app.use(
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-
 //validation
 app.use(function(err, req, res, next) {
   if (err instanceof ValidationError) {
@@ -49,9 +47,9 @@ app.use(function(err, req, res, next) {
   return res.status(500).json(err)
 });
 
+
 app.use(passport.initialize());
 app.use(passport.session()); // 
-
 
 //todo: visible to who?
 app.use("/users", userRouter);

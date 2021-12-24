@@ -1,18 +1,16 @@
 import express from "express";
 import pool from "../helper/dbConnection.js";
-import bcrypt from 'bcrypt'
+import bcrypt from "bcrypt";
 import { isAuth } from "../middleware/auth.js";
 
 const router = express.Router();
 
 //Get all users
-router.get("/",isAuth, (req, res) => {
-  console.log(req.query)
+router.get("/", isAuth, (req, res) => {
   pool.getConnection((err, connection) => {
     if (err) throw err;
     connection.query("SELECT * from users", (err, rows) => {
       connection.release();
-
       if (!err) {
         res.status(200).send(rows);
       } else {
@@ -37,15 +35,14 @@ router.get("/:id", (req, res) => {
   });
 });
 
-
-//Create user
+//Create buyer
 router.post("/", (req, res) => {
   pool.getConnection(async (err, connection) => {
     if (err) throw err;
     const data = req.body;
-    data.password = await bcrypt.hash(data.password, 10) 
+    data.type = "buyer";
     connection.query("INSERT INTO users SET ?", data, (err, rows) => {
-      connection.release(); 
+      connection.release();
       if (!err) {
         res.status(200).send(rows);
       } else {
@@ -55,15 +52,15 @@ router.post("/", (req, res) => {
   });
 });
 
-// NOTE: how do we want to update the password
+// NOTE: how do we want to update the password - create separate reset-password route
 //Update user
-router.put("/:id", async(req, res) => {
+router.put("/", isAuth, async (req, res) => {
   const data = req.body;
-  data.password = await bcrypt.hash(data.password, 10)
+  data.password = await bcrypt.hash(data.password, 10); // what if not password?
   pool.getConnection((err, connection) => {
     if (err) throw err;
-    connection.query("UPDATE users SET ? WHERE userID = ?", [data, req.params.id], (err, rows) => {
-      connection.release(); 
+    connection.query("UPDATE users SET ? WHERE userID = ?", [data, req.user.userID], (err, rows) => {
+      connection.release();
       if (!err) {
         res.status(200).send(rows);
       } else {
@@ -74,15 +71,15 @@ router.put("/:id", async(req, res) => {
 });
 
 //Delete user
-router.delete("/:id", (req, res) => {
+router.delete("/", isAuth, (req, res) => {
   pool.getConnection((err, connection) => {
     if (err) throw err;
-    connection.query("DELETE FROM users WHERE userID = ?", [req.params.id], (err, rows) => {
-      connection.release(); 
+    connection.query("DELETE FROM users WHERE userID = ?", [req.user.userID], (err, rows) => {
+      connection.release();
       if (!err) {
         res.status(200).send(rows);
       } else {
-        console.log(err);
+        res.status(400).send(err);
       }
     });
   });
