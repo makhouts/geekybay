@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Navigation } from "./components/navigation/Navigation";
+import { Footer } from './components/footer/Footer';
 import { AnimatePresence } from "framer-motion";
 import {
   BrowserRouter as Router,
@@ -86,9 +87,10 @@ function App() {
           <Route path="contact" element={<Contact />} />
           <Route path="login" element={<Login />} />
           <Route path="signUp" element={<Signup />} />
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Home products={products} />} />
         </Routes>
       </AnimatePresence>
+      <Footer />
     </div>
   );
 }
