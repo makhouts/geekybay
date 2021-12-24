@@ -87,7 +87,7 @@ function App() {
           <Route path="contact" element={<Contact />} />
           <Route path="login" element={<Login />} />
           <Route path="signUp" element={<Signup />} />
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Home products={products} />} />
         </Routes>
       </AnimatePresence>
       <Footer />

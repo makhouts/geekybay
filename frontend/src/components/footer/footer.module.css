@@ -1,7 +1,57 @@
 .footer {
     background-color: var(--darkBlue);
-    position:fixed;
-    left:0;
-    bottom:0;
-    right:0;
+    color: white;
+    font-family: var(--font1);
+    text-align: center;
+    padding: 60px 0px 10px 0px;
+}
+
+.footer h1 {
+    color: white;
+}
+
+.content {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+a {
+    color: white;
+    text-decoration: none;
+    transition: 0.2s;
+    font-weight: bold;
+}
+
+a:hover {
+    color: var(--red);
+    transition: 0.2s;
+}
+
+.facebook {
+    color: var(--blue);
+    font-size: 25px;
+}
+
+.instagram {
+    color: rgb(245, 14, 95);
+    font-size: 25px;
+}
+
+.twitter {
+    color: var(--blue);
+    font-size: 25px;
+}
+
+.rightContent p {
+    font-weight: bold;
+}
+
+.policy {
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid var(--beige);
+    margin: 20px 30px;
+    font-size: 12px;
+    padding-top: 5px;
 }
