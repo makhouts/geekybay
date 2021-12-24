@@ -70,7 +70,6 @@ router.put("/", isAuth, async (req, res) => {
   });
 });
 
-
 //Delete user
 router.delete("/", isAuth, (req, res) => {
   pool.getConnection((err, connection) => {

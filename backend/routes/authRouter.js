@@ -1,6 +1,6 @@
 import express from "express";
 import pool from "../helper/dbConnection.js";
-import { createResetRequest, getUserByUsername, getResetRequest } from "../helper/resetRequests.js";
+import { createResetRequest } from "../helper/resetRequests.js";
 import bcrypt from "bcrypt";
 import passport from "passport";
 import { isNotAuth } from "../middleware/auth.js";
@@ -52,7 +52,7 @@ router.delete("/logout", (req, res) => {
   res.send("ok");
 });
 
-router.post("/forgot", (req, res) => {
+router.post("/forgot", isNotAuth, (req, res) => {
   pool.getConnection(async (err, connection) => {
     if (err) throw err;
     connection.query("SELECT * FROM users WHERE userName = ?", [req.body.username], (err, user) => {
@@ -74,6 +74,34 @@ router.post("/forgot", (req, res) => {
   });
 });
 
-
+// NOTE: nice to have -> expiry date on reset links (add column in db Date.now())
+router.patch("/reset", async (req, res) => {
+  pool.getConnection(async (err, connection) => {
+    if (err) throw err;
+    connection.query("SELECT * FROM requests WHERE requestId = ?", [req.body.id], async (err, request) => {
+      if (!err) {
+        const thisRequest = request[0];
+        if (thisRequest) {
+          if (err) throw err;
+          const hashedPassword = await bcrypt.hash(req.body.password, 10);
+          connection.query("UPDATE users SET password = ? WHERE userName = ?;", [hashedPassword, thisRequest.username], (err, user) => {
+            if (!err) {
+              connection.query("DELETE FROM requests WHERE requestId = ?;", [req.body.id], (err, user) => {
+                connection.release();
+                res.status(204);
+              });
+            } else {
+              throw err;
+            }
+          });
+        } else {
+          res.status(404).json();
+        }
+      } else {
+        console.log(err);
+      }
+    });
+  });
+});
 
 export default router;

@@ -6,7 +6,7 @@ export function createResetRequest(id, username, email) {
     connection.query("INSERT INTO requests (requestId, username, email) VALUES (?, ?, ?)", [id, username, email], (err, rows) => {
       connection.release();
       if (!err) {
-        console.log("we good");
+        // console.log("");
       } else {
         console.log(err);
       }
@@ -14,7 +14,9 @@ export function createResetRequest(id, username, email) {
   });
 }
 
-export function getResetRequest(id) {
+
+// should return promises in order ot use th
+/*export function getResetRequest(id) {
   pool.getConnection(async (err, connection) => {
     if (err) throw err;
     connection.query("SELECT * FROM requests WHERE requestId = ?", [id], (err, request) => {
@@ -26,9 +28,9 @@ export function getResetRequest(id) {
       }
     });
   });
-}
+}*/
 
-export function getUserByUsername(username) {
+/*export function getUserByUsername(username) {
   pool.getConnection(async (err, connection) => {
     if (err) throw err;
     connection.query("SELECT * FROM users WHERE userName = ?", username, (err, user) => {
@@ -41,7 +43,7 @@ export function getUserByUsername(username) {
     });
   });
 }
-
+*/
 
 export function updateUserPassword(password) {
   pool.getConnection(async (err, connection) => {
