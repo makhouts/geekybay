@@ -9,7 +9,7 @@ export const Contact = () => {
     <PageTransition>
       <div className="container">
         <div className={classes.topContainer}>
-          <h2 className={classes.heading}>Contact Us</h2>
+          <div className={classes.heading}>Contact Us</div>
           <p className={classes.subHeading}>Get In Touch</p>
         </div>
         <div className={classes.contactContainer}>
