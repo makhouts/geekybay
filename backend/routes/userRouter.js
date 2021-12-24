@@ -5,11 +5,10 @@ import { isAuth } from "../middleware/auth.js";
 import {validate} from "express-validation";
 import {orderValidation, userValidation} from "../middleware/validation.js";
 
-
 const router = express.Router();
 
-//Get all users
-router.get("/",isAuth, (req, res) => {
+//Get all users / ,isAuth
+router.get("/", (req, res) => {
   console.log(req.query)
   pool.getConnection((err, connection) => {
     if (err) throw err;
@@ -42,7 +41,7 @@ router.get("/:id", (req, res) => {
 
 
 //Create user
-router.post("/" , validate(userValidation, {}, {}), (req, res) => {
+router.post("/", validate(userValidation, {}, {}) , (req, res) => {
   pool.getConnection(async (err, connection) => {
     if (err) throw err;
     const data = req.body;

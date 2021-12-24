@@ -23,13 +23,13 @@ export const orderValidation = {
 export const productValidation = {
     body: Joi.object({
         productName: Joi.string()
-            .regex(/[a-zA-Z0-9\s.]{3,300}/)
+            .regex(/[a-zA-Z0-9\s.]{3,30}/)
             .required(),
         sellerID: Joi.number()
             .integer()
             .required(),
         productDescription: Joi.string()
-            .regex(/[a-zA-Z0-9\s.]{3,300}/)
+            .regex(/[a-zA-Z0-9\s.]{3,3000}/)
             .required(),
         price: Joi.number()
             .positive()
@@ -76,8 +76,8 @@ export const productValidation = {
 //regex password? phone?
 export const userValidation = {
     body: Joi.object({
-        userName: Joi.string()
-            .regex(/[a-zA-Z0-9\s.]{3,30}/),
+        userName: Joi.string(),
+         //   .regex(/[a-zA-Z0-9\s.]{3,30}/),
         password: Joi.string(),
         //    .regex(/[\S]{8,16}/),
         userLastName: Joi.string()
@@ -90,10 +90,13 @@ export const userValidation = {
             .email()
             .required(),
         phone: Joi.string()
+            .regex(/[\d\s\/\+]{9,15}/)
             .required(),
         addressLine1: Joi.string()
+            .regex(/[a-zA-Z\s]{2,20}/)
             .required(),
         addressLine2: Joi.string()
+            .regex(/[a-zA-Z\s]{2,20}/)
             .required(),
         postalCode: Joi.number()
             .integer()
