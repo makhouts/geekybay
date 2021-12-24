@@ -11,7 +11,6 @@ passport.serializeUser((user, done) => {
 passport.deserializeUser(async (username, done) => {
   let user;
   try {
-    // const user = await User.find({username: username})
     pool.getConnection((err, connection) => {
       if (err) throw err;
       connection.query("SELECT * FROM users WHERE username = ?", [username], (err, user) => {
@@ -49,7 +48,6 @@ export const local = passport.use(
               if (await bcrypt.compare(password, user.password)) {
                 return done(null, user);
               } else {
-                console.log("wegood");
                 done(null, false);
               }
             }

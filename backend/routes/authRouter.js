@@ -18,27 +18,34 @@ router.get("/register", (req, res) => {
 });
 
 router.post("/login", isNotAuth, passport.authenticate("local"), (req, res) => {
-  //passport.auth calls the strategy
+  //  passport.auth calls the strategy
   //  If a user is found an validated, a callback is called (`cb(null, user)`) with the user
   //  object.  The user object is then serialized with `passport.serializeUser()` and added to the
   // `req.session.passport` object.
   // NOTE: change cookie age
   res.send("ok");
-  //check if auth already
-  // if yes return false
-  // else compare entered password with db password
-  // if matches return true else false
-  // this should create session as well
 });
 
-router.post("/register", (req, res) => {
-  //check if auth already
-  // if yes return false
-  //save user
+// Register/create a seller
+router.post("/register", isNotAuth, (req, res) => {
+  pool.getConnection(async (err, connection) => {
+    if (err) throw err;
+    const data = req.body;
+    data.password = await bcrypt.hash(data.password, 10);
+    data.type = "seller";
+    connection.query("INSERT INTO users SET ?", data, (err, rows) => {
+      connection.release();
+      if (!err) {
+        res.status(200).send(rows);
+      } else {
+        res.status(400).send(err)
+      }
+    });
+  });
 });
 
 router.delete("/logout", (req, res) => {
-  // req.session.destroy(); // NOTE: i do want to do this i think?  deletes session from db after logout/ without this session gets updated
+  req.session.destroy(); // NOTE: i do want to do this i think?  deletes session from db after logout/ without this session gets updated
   req.logOut();
   res.send("ok");
 });
