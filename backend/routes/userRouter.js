@@ -62,6 +62,8 @@ router.post("/", validate(buyerValidation, {}, {}), (req, res) => {
   });
 });
 
+//todo: add validation once reset-password is separated from this route
+
 // NOTE: how do we want to update the password - create separate reset-password route
 //Update user
 router.put("/", isAuth, async (req, res) => {
