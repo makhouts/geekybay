@@ -7,8 +7,8 @@ import {orderValidation, userValidation} from "../middleware/validation.js";
 
 const router = express.Router();
 
-//Get all users / ,isAuth
-router.get("/", (req, res) => {
+//Get all users
+router.get("/", isAuth, (req, res) => {
   console.log(req.query)
   pool.getConnection((err, connection) => {
     if (err) throw err;
