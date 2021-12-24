@@ -1,11 +1,22 @@
 import nodemailer from "nodemailer";
+
+const messageContent = (mailType) => {
+    const content = {"registration": "Placeholder for registration mail.",
+                     "update": "Placeholder for an update to an existing product/user",
+                     "buyerOrder": "Placeholder for order mail to buyer.",
+                     "sellerOrder": "Placeholder for order mail to seller."};
+    return content[mailType];
+};
+
+
+
 // async..await is not allowed in global scope, must use a wrapper
-
-
-export const sendEmail = async () => {
+export const email = async (emailAddress, mailType) => {
     // Generate test SMTP service account from ethereal.email
     // Only needed if you don't have a real mail account for testing
     let testAccount = await nodemailer.createTestAccount();
+    let message = messageContent(mailType);
+
 
     // create reusable transporter object using the default SMTP transport
     let transporter = nodemailer.createTransport({
@@ -20,11 +31,11 @@ export const sendEmail = async () => {
 
     // send mail with defined transport object
     let info = await transporter.sendMail({
-        from: '"GeekyBay" <geekybay@example.com>', // sender address
-        to: "jack@example.com, jill@example.com", // list of receivers
-        subject: "super crucial notification", // Subject line
-        text: "Not all that important update", // plain text body
-        html: "<b>Same update in HTML format.</b>", // html body
+        from: '"GeekyBay" <geekybay@geekybay.com>', // sender address
+        to: emailAddress, // receiving email parameter from authRouter
+        subject: "Welcome to GeekyBay", // Subject line
+        text: message , // plain text body
+        //html: "<b></b>", // html body
     });
 
     console.log("Message sent: %s", info.messageId);
@@ -34,5 +45,3 @@ export const sendEmail = async () => {
     // Preview URL: https://ethereal.email/message/...
 }
 
-
-export default sendEmail;

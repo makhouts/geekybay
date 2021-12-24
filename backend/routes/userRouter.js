@@ -41,10 +41,6 @@ router.get("/:id", (req, res) => {
 });
 
 
-
-//Create user
-//router.post("/", validate(userValidation, {}, {}) , (req, res) => {
-
 //Create buyer
 router.post("/", validate(buyerValidation, {}, {}), (req, res) => {
   pool.getConnection(async (err, connection) => {

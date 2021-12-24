@@ -5,7 +5,7 @@ import passport from "passport";
 import { isNotAuth } from "../middleware/auth.js";
 import { validate } from "express-validation";
 import { sellerValidation } from "../middleware/validation.js";
-import sendEmail from '../helper/email.js';
+import { email } from '../helper/email.js';
 
 
 const router = express.Router();
@@ -34,14 +34,18 @@ router.post("/login", isNotAuth, passport.authenticate("local"), (req, res) => {
 router.post("/register", isNotAuth, validate(sellerValidation, {}, {}), (req, res) => {
   pool.getConnection(async (err, connection) => {
     if (err) throw err;
+
+    const action = 'registration';
     const data = req.body;
     data.password = await bcrypt.hash(data.password, 10);
     data.type = "seller";
+
     connection.query("INSERT INTO users SET ?", data, (err, rows) => {
       connection.release();
       if (!err) {
         res.status(200).send(rows);
-        sendEmail().catch(console.error);
+        //send email if registration successful
+        email(data.emailAddress, action).catch(console.error);
       } else {
         res.status(400).send(err)
       }

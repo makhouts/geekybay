@@ -4,6 +4,7 @@ import pool from "../helper/dbConnection.js";
 //validation
 import {validate} from "express-validation";
 import {orderValidation} from "../middleware/validation.js";
+import { email } from '../helper/email.js';
 
 const router = express.Router();
 
@@ -76,6 +77,7 @@ router.get("/buyer/:id", (req, res) => {
 //add new order
 router.post("/", validate(orderValidation, {}, {}) ,(req, res) => {
     pool.getConnection((err, connection) => {
+        const action = ['orderSeller', 'orderBuyer'];
         const data = req.body;
         if (err) throw err;
         connection.query("INSERT INTO orders SET ?", data, (err, rows) => {
@@ -83,6 +85,8 @@ router.post("/", validate(orderValidation, {}, {}) ,(req, res) => {
             if (!err) {
                 //the request has succeeded and a new resource has been created as a result.
                 res.status(201).send(rows);
+                //todo: get email for both seller and buyer, send mail to each
+
             } else {
                 //?
                 res.status(400).send('Bad request')
