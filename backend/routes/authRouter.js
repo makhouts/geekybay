@@ -20,12 +20,8 @@ router.get("/register", (req, res) => {
 });
 
 router.post("/login", isNotAuth, passport.authenticate("local"), (req, res) => {
-  //  passport.auth calls the strategy
-  //  If a user is found an validated, a callback is called (`cb(null, user)`) with the user
-  //  object.  The user object is then serialized with `passport.serializeUser()` and added to the
-  // `req.session.passport` object.
   // NOTE: change cookie age
-  res.send("ok");
+  res.status(200).send({message: "Login successful"});
 });
 
 // Register/create a seller
@@ -84,11 +80,15 @@ router.patch("/reset", async (req, res) => {
         if (thisRequest) {
           if (err) throw err;
           const hashedPassword = await bcrypt.hash(req.body.password, 10);
-          connection.query("UPDATE users SET password = ? WHERE userName = ?;", [hashedPassword, thisRequest.username], (err, user) => {
+          connection.query("UPDATE users SET password = ? WHERE userName = ?;", [hashedPassword, thisRequest.username], (err, success) => {
             if (!err) {
               connection.query("DELETE FROM requests WHERE requestId = ?;", [req.body.id], (err, user) => {
                 connection.release();
-                res.status(204);
+                if(!err){
+                  res.status(204).send();
+                }else{
+                  res.status(400).send({message:"error"})
+                }
               });
             } else {
               throw err;

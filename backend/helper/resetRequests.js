@@ -45,16 +45,3 @@ export function createResetRequest(id, username, email) {
 }
 */
 
-export function updateUserPassword(password) {
-  pool.getConnection(async (err, connection) => {
-    if (err) throw err;
-    connection.query("SELECT * FROM users WHERE userName = ?", username, (err, user) => {
-      connection.release();
-      if (!err) {
-        return user;
-      } else {
-        return new Error({ message: "Could not find user" });
-      }
-    });
-  });
-}
