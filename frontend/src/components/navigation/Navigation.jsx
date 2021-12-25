@@ -74,7 +74,7 @@ export const Navigation = (props) => {
         <div className={classes.cart}>
           <BsCart3 className={classes.cartIcon} />
           <label className={classes.cartTotalItems}>{props.cart.length}</label>
-          <div className={classes.cartSummary}>
+          <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 1 }} className={classes.cartSummary}>
             {cartCount === 0 ? <p>No items in cart.</p> : cartSummary}
             <div className={classes.totalCartPrice}>
               <p>Total</p>
@@ -86,7 +86,7 @@ export const Navigation = (props) => {
               </p>
             </div>
             <Link to='checkout'><button disabled={props.cart.length == 0 ? true : false} className={classes.checkoutBtn}>Checkout</button></Link>
-          </div>
+          </motion.div>
         </div>
       </nav>
     </div>
