@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Navigation } from "./components/navigation/Navigation";
-import { Footer } from "./components/footer/Footer";
+import { Footer } from './components/footer/Footer';
 import { AnimatePresence } from "framer-motion";
 import {
   BrowserRouter as Router,
@@ -20,6 +20,19 @@ import {
 import "./App.css";
 
 function App() {
+  const [cart, setCart] = useState([{
+    id: 1,
+    image: '',
+    productName: 'Iphone 13 Pro',
+    price: '1299.99',
+    qty: '2',
+  },{
+    id: 2,
+    image: '',
+    productName: 'Iphone 11 Pro',
+    price: '1299.89',
+    qty: '1',
+  }]);
   const [products, setProducts] = useState([
     {
       productId: 1,
@@ -78,9 +91,14 @@ function App() {
   ]);
   const location = useLocation();
 
+  const deleteItemFromCart = (id) => {
+    const deletedItem = cart.filter(cart => cart.id !== id);
+    setCart(deletedItem);
+  }
+
   return (
     <div className="App">
-      <Navigation />
+      <Navigation cart={cart} deleteItemFromCart={deleteItemFromCart} />
       <AnimatePresence exitBeforeEnter>
         <Routes location={location} key={location.pathname}>
           <Route path="products" element={<Products />} />
