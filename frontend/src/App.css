@@ -17,6 +17,10 @@
     box-sizing: border-box;
 }
 
+body{
+    background-color: #f5f4f2;
+}
+
 .container {
     width: 80%;
     margin: 0 auto;

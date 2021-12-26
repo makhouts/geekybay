@@ -16,6 +16,7 @@ import {
   Signup,
   DetailProduct,
   Page404,
+  Checkout,
 } from "./pages/index";
 import "./App.css";
 
@@ -105,6 +106,7 @@ function App() {
           <Route path="productDetail" element={<DetailProduct />} />
           <Route path="contact" element={<Contact />} />
           <Route path="login" element={<Login />} />
+          <Route path="checkout" element={<Checkout />} />
           <Route path="signUp" element={<Signup />} />
           <Route path="/" element={<Home products={products} />} />
           <Route path="*" element={<Page404 />} />
