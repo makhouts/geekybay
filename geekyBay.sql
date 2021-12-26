@@ -33,7 +33,7 @@ DROP TABLE IF EXISTS `users`;
 
 CREATE TABLE `users` (
   `userID` int(11) NOT NULL auto_increment,
-  `userName` varchar(50),
+  `userName` varchar(50) UNIQUE,
   `password` varchar(255),
   `userLastName` varchar(50) NOT NULL,
   `userFirstName` varchar(50) NOT NULL,
@@ -154,6 +154,7 @@ CREATE TABLE `products` (
   `inStock`INT NOT NULL,
   `visible` boolean NOT NULL,
   `productImg` varchar(255),
+  `freeShipping` BOOL NOT NULL,
   PRIMARY KEY (`productID`),
   KEY `products` (`sellerID`),
   CONSTRAINT `products_ibfk_1` FOREIGN KEY (`sellerID`) REFERENCES `users` (`userID`)
@@ -163,12 +164,12 @@ CREATE TABLE `products` (
 
 /*Data for the table `products` */
 
-insert  into `products`(`productName`, `sellerID`, `productDescription`, `price`,`inStock`,`visible`, `productImg`) values
+insert  into `products`(`productName`, `sellerID`, `productDescription`, `price`,`inStock`,`visible`, `productImg`, `freeShipping`) values
 
-( 'guitar1', '1', 'stringy1', '1000', 5, true, '1.jpg'),
-( 'guitar2', '2', 'stringy2', '2000', 6, true, '2.jpg'),
-( 'guitar3', '3', 'stringy3', '3000', 0, false, '3.jpg'),
-( 'guitar4', '4', 'stringy3', '4000', 10, false, '4.jpg')
+( 'guitar1', '1', 'stringy1', '1000', 5, true, '1.jpg', true),
+( 'guitar2', '2', 'stringy2', '2000', 6, true, '2.jpg', false),
+( 'guitar3', '3', 'stringy3', '3000', 0, false, '3.jpg', true),
+( 'guitar4', '4', 'stringy3', '4000', 10, false, '4.jpg', false)
 ;
 
 
