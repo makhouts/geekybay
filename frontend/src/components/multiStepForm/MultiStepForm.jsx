@@ -9,7 +9,7 @@ import { PrimaryButton } from '../primaryButton/PrimaryButton';
 
 export const MultiStepForm = (props) => {
     const [step, setStep] = useState(0);
-    const loggedIn = false;
+    const loggedIn = true;
 
     const renderItems = () => (
       <div className={classes.cartSummary}>
@@ -46,7 +46,7 @@ export const MultiStepForm = (props) => {
             initial={{ opacity: 0}}
             className={classes.cartSummary}
           >
-            ofkeofk
+            LOGGED IN - PAYMENT...
           </motion.div>
         );
       } else {
