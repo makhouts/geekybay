@@ -1,31 +1,66 @@
 import React, { useState } from 'react';
 import classes from './multiStepForm.module.css';
 import { Link } from 'react-router-dom';
+import { TiDelete } from 'react-icons/ti';
+import { motion } from 'framer-motion';
+import { PrimaryButton } from '../primaryButton/PrimaryButton';
+
+
 
 export const MultiStepForm = (props) => {
     const [step, setStep] = useState(0);
-    const loggedIn = true;
+    const loggedIn = false;
 
     const renderItems = () => (
-        <div className={classes.cartSummary}>
-        
-        { props.cart.length !== 0 ?  
-        props.cart.map((item) => (
-          <div className={classes.item} key={item.id}>
-            <img src={require("../../assets/iphone.png")} alt="product" />
-            <p>{item.productName}</p>
-            <p>{item.qty}</p>
-            <p>{item.price}</p>
-          </div>
-        )) : <h1>No items in cart.</h1>}
+      <div className={classes.cartSummary}>
+        {props.cart.length !== 0 ? (
+          props.cart.map((item) => (
+            <motion.div
+              animate={{ opacity: 1 }}
+              initial={{ opacity: 0 }}
+              className={classes.item}
+              key={item.id}
+            >
+              <img src={require("../../assets/iphone.png")} alt="product" />
+              <p>{item.productName}</p>
+              <p>{item.qty}</p>
+              <p>{item.price}</p>
+              <TiDelete
+                className={classes.deleteIcon}
+                onClick={props.deleteItemFromCart.bind(this, item.id)}
+              />
+            </motion.div>
+          ))
+        ) : (
+          <h1>No items in cart.</h1>
+        )}
       </div>
     );
 
     const renderLogin = () => {
       if (loggedIn) {
         
-        return <div className={classes.cartSummary}>ofkeofk</div>;
-      }
+        return (
+          <motion.div
+            animate={{ opacity: 1}}
+            initial={{ opacity: 0}}
+            className={classes.cartSummary}
+          >
+            ofkeofk
+          </motion.div>
+        );
+      } else {
+          return(
+            <motion.div
+            animate={{ opacity: 1}}
+            initial={{ opacity: 0}}
+            className={classes.cartSummary}
+          >
+            <h4>Please login to complete your purchase.</h4>
+            <PrimaryButton clicked={props.login} >Login</PrimaryButton>
+          </motion.div>
+          )
+        };
     };
 
     const nextRender = () => {
@@ -54,7 +89,7 @@ export const MultiStepForm = (props) => {
               }, 0)}
             </p>
           </div>
-          <div className={classes.totalPrice}> 
+          <div className={classes.totalPrice}>
             <h4>Shipping</h4>
             <p>FREE</p>
           </div>
