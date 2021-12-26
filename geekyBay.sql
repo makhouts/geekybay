@@ -151,7 +151,6 @@ CREATE TABLE `products` (
   `sellerID` INT NOT NULL,
   `productDescription` text NOT NULL,
   `price` decimal(10,2) NOT NULL,
-<<<<<<< HEAD
   `inStock`INT NOT NULL,
   `visible` boolean NOT NULL,
   `productImg` varchar(255),
@@ -171,6 +170,21 @@ insert  into `products`(`productName`, `sellerID`, `productDescription`, `price`
 ( 'guitar3', '3', 'stringy3', '3000', 0, false, '3.jpg'),
 ( 'guitar4', '4', 'stringy3', '4000', 10, false, '4.jpg')
 ;
+
+
+# /*Table structure for table `requests` */
+
+DROP TABLE IF EXISTS `requests`;
+
+CREATE TABLE `requests` (
+  `requestId` char(36) NOT NULL,
+  `username` varchar(70) NOT NULL,
+  `email` varchar(70) NOT NULL,
+  PRIMARY KEY (`requestId`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+/*Data for the table `requests` */
+
 
 
 
