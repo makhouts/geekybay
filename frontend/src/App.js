@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Navigation } from "./components/navigation/Navigation";
-import { Footer } from './components/footer/Footer';
+import { Footer } from "./components/footer/Footer";
 import { AnimatePresence } from "framer-motion";
 import {
   BrowserRouter as Router,
@@ -18,21 +18,25 @@ import {
   Page404,
 } from "./pages/index";
 import "./App.css";
+import { ShippingAddress } from "./pages/userInfo/ShippingAddress";
 
 function App() {
-  const [cart, setCart] = useState([{
-    id: 1,
-    image: '',
-    productName: 'Iphone 13 Pro',
-    price: '1299.99',
-    qty: '2',
-  },{
-    id: 2,
-    image: '',
-    productName: 'Iphone 11 Pro',
-    price: '1299.89',
-    qty: '1',
-  }]);
+  const [cart, setCart] = useState([
+    {
+      id: 1,
+      image: "",
+      productName: "Iphone 13 Pro",
+      price: "1299.99",
+      qty: "2",
+    },
+    {
+      id: 2,
+      image: "",
+      productName: "Iphone 11 Pro",
+      price: "1299.89",
+      qty: "1",
+    },
+  ]);
   const [products, setProducts] = useState([
     {
       productId: 1,
@@ -92,9 +96,9 @@ function App() {
   const location = useLocation();
 
   const deleteItemFromCart = (id) => {
-    const deletedItem = cart.filter(cart => cart.id !== id);
+    const deletedItem = cart.filter((cart) => cart.id !== id);
     setCart(deletedItem);
-  }
+  };
 
   return (
     <div className="App">
@@ -104,6 +108,7 @@ function App() {
           <Route path="products" element={<Products />} />
           <Route path="productDetail" element={<DetailProduct />} />
           <Route path="contact" element={<Contact />} />
+          <Route path="shippingAddress" element={<ShippingAddress />} />
           <Route path="login" element={<Login />} />
           <Route path="signUp" element={<Signup />} />
           <Route path="/" element={<Home products={products} />} />
