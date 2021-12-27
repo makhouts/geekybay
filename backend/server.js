@@ -17,6 +17,7 @@ import passport from "passport";
 import mySqlSession from "express-mysql-session";
 import multer from 'multer'
 import { local } from "./strategies/local.js";
+import cors from 'cors'
 const mySQLStore = mySqlSession(session);
 const store = new mySQLStore({}, pool);
 
@@ -29,11 +30,19 @@ app.use(
     resave: false,
     store: store,
     cookie: {
-      maxAge: 1000 * 60, // 1 minute
-      // secure: true NOTE: when in prod
+      maxAge: 1000 * 60 * 60 * 1, // 1 hour
+      // secure: true TODO: when in prod
     },
   })
 );
+
+//TODO: change this for prod
+const corsOptions = {
+  origin: 'http://localhost:3000',
+  optionsSuccessStatus: 200 // For legacy browser support
+}
+
+app.use(cors(corsOptions));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -59,3 +68,31 @@ app.use("/orders", orderRouter);
 app.use("/auth", authRouter);
 
 app.listen(process.env.SERVER_PORT);
+
+// TODO: Routes protecting and stuff
+// Products
+// if admin then get all products else get all products where visible 1
+// get products by seller ID -> id should come from req.userid + add isauth (except if admin)
+// get product by name -> add 'where visible 1' (except if admin) -> but also what if seller
+// same for the image?
+// add isAuth to post -> params.sellerID = req.user.userID
+// add isauth to update -> add 'and sellerID= req.user.userID' (except admin againnnn)
+// delete same as update
+// Users
+// get all users only for admin?
+// get user by id: to edit user info -> different route to show seller info?
+// user-info for the edit user info page
+// seller info when clicking on the seller of a product
+// create buyer is fine i think
+// update user isAuth except if ADMIN
+// Orders
+// get all -> add isAdmin middleware
+// get order by id -> ??? there isnt really anything sensitive
+// get order by seller id -> isAuth, get id from req.user.userID (except admin -> different route/different request from frontend?)
+// get order by buyer id -> same as seller
+// add new order -> IDK
+// update order -> also not sure
+// cencel order -> same
+
+
+

@@ -8,10 +8,8 @@ import {buyerValidation} from "../middleware/validation.js";
 const router = express.Router();
 
 //Get all users
-router.get("/", isAuth, (req, res) => {
-
-  console.log(req.query)
-
+router.get("/", (req, res) => {
+  console.log(req.user);
   pool.getConnection((err, connection) => {
     if (err) throw err;
     connection.query("SELECT * from users", (err, rows) => {
@@ -26,10 +24,26 @@ router.get("/", isAuth, (req, res) => {
 });
 
 //Get user by id
-router.get("/:id", (req, res) => {
+router.get("/user-info",isAuth, (req, res) => {
   pool.getConnection((err, connection) => {
     if (err) throw err;
-    connection.query("SELECT * FROM users WHERE userid = ?", [req.params.id], (err, rows) => {
+    connection.query("SELECT * FROM users WHERE userid = ?", [req.user.userID], (err, rows) => {
+      connection.release();
+      if (!err) {
+        res.status(200).send(rows);
+      } else {
+        res.status(400).send("Bad request");
+      }
+    });
+  });
+});
+
+//Get seller info by id
+router.get("/seller-info/:id", (req, res) => {
+  pool.getConnection((err, connection) => {
+    if (err) throw err;
+    // NOTE: what do we want to get here
+    connection.query("SELECT username FROM users WHERE userid = ? AND type='seller'", [req.params.id], (err, rows) => {
       connection.release();
       if (!err) {
         res.status(200).send(rows);

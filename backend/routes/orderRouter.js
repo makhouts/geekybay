@@ -58,7 +58,7 @@ router.get("/seller/:id", (req, res) => {
     });
 });
 
-//Get orders by sellerId
+//Get orders by buyerId
 router.get("/buyer/:id", (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) throw err;

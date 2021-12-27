@@ -3,7 +3,7 @@ import pool from "../helper/dbConnection.js";
 import { createResetRequest } from "../helper/resetRequests.js";
 import bcrypt from "bcrypt";
 import passport from "passport";
-import { isNotAuth } from "../middleware/auth.js";
+import { isNotAuth, isAuth } from "../middleware/auth.js";
 import { v1 as uuidv1 } from "uuid";
 import { validate } from "express-validation";
 import { sellerValidation } from "../middleware/validation.js";
@@ -11,18 +11,14 @@ import { sellerValidation } from "../middleware/validation.js";
 const router = express.Router();
 
 router.get("/login", isNotAuth, (req, res) => {
-  //check if auth already
-  // if not return true else false
-  res.status(200).send({ message: "we good" });
+  res.status(200).send({ message: "User is not authenticated." });
 });
 
-router.get("/register", (req, res) => {
-  //check if auth already
-  // if not return true else false //
+router.get("/register",isNotAuth, (req, res) => {
+  res.status(200).send({ message: "User is not authenticated." });
 });
 
 router.post("/login", isNotAuth, passport.authenticate("local"), (req, res) => {
-  // NOTE: change cookie age
   res.status(200).send({message: "Login successful"});
 });
 
@@ -44,10 +40,10 @@ router.post("/register", isNotAuth, validate(sellerValidation, {}, {}), (req, re
   });
 });
 
-router.delete("/logout", (req, res) => {
+router.delete("/logout", isAuth, (req, res) => {
   req.session.destroy(); // NOTE: i do want to do this i think?  deletes session from db after logout/ without this session gets updated
   req.logOut();
-  res.send("ok");
+  res.status(200).send({message: "Successfully logged out"})
 });
 
 router.post("/forgot", isNotAuth, (req, res) => {
