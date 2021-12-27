@@ -69,22 +69,6 @@ app.use("/auth", authRouter);
 
 app.listen(process.env.SERVER_PORT);
 
-// TODO: Routes protecting and stuff
-// Users
-// get all users only for admin?
-// get user by id: to edit user info -> different route to show seller info?
-// user-info for the edit user info page
-// seller info when clicking on the seller of a product
-// create buyer is fine i think
-// update user isAuth except if ADMIN
-// Orders
-// get all -> add isAdmin middleware
-// get order by id -> ??? there isnt really anything sensitive
-// get order by seller id -> isAuth, get id from req.user.userID (except admin -> different route/different request from frontend?)
-// get order by buyer id -> same as seller
-// add new order -> IDK
-// update order -> also not sure
-// cencel order -> same
 
 
 
