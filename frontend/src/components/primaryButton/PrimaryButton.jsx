@@ -9,6 +9,7 @@ export const PrimaryButton = (props) => {
             ? classes.primaryButtonRed
             : classes.primaryButton
         }
+        onClick={props.clicked}
       >
         {props.children}
       </button>

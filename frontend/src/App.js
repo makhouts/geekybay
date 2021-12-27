@@ -16,23 +16,55 @@ import {
   Signup,
   DetailProduct,
   Page404,
+  Checkout,
 } from "./pages/index";
 import "./App.css";
 
 function App() {
-  const [cart, setCart] = useState([{
-    id: 1,
-    image: '',
-    productName: 'Iphone 13 Pro',
-    price: '1299.99',
-    qty: '2',
-  },{
-    id: 2,
-    image: '',
-    productName: 'Iphone 11 Pro',
-    price: '1299.89',
-    qty: '1',
-  }]);
+  const [cart, setCart] = useState([
+    {
+      id: 1,
+      image: "",
+      productName: "Iphone 13 Pro",
+      price: "1299.99",
+      qty: "2",
+    },
+    {
+      id: 2,
+      image: "",
+      productName: "Iphone 11 Pro",
+      price: "1299.89",
+      qty: "1",
+    },
+    {
+      id: 3,
+      image: "",
+      productName: "Iphone 13 Pro",
+      price: "1299.99",
+      qty: "2",
+    },
+    {
+      id: 4,
+      image: "",
+      productName: "Iphone 11 Pro",
+      price: "1299.89",
+      qty: "1",
+    },{
+      id: 5,
+      image: "",
+      productName: "Iphone 13 Pro",
+      price: "1299.99",
+      qty: "2",
+    },
+    {
+      id: 6,
+      image: "",
+      productName: "Iphone 11 Pro",
+      price: "1299.89",
+      qty: "1",
+    },
+  ]);
+  
   const [products, setProducts] = useState([
     {
       productId: 1,
@@ -105,6 +137,7 @@ function App() {
           <Route path="productDetail" element={<DetailProduct />} />
           <Route path="contact" element={<Contact />} />
           <Route path="login" element={<Login />} />
+          <Route path="checkout" element={<Checkout cart={cart} deleteItemFromCart={deleteItemFromCart} />} />
           <Route path="signUp" element={<Signup />} />
           <Route path="/" element={<Home products={products} />} />
           <Route path="*" element={<Page404 />} />

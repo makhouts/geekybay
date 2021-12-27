@@ -4,9 +4,7 @@ import { motion } from 'framer-motion';
 import { Link, NavLink } from "react-router-dom";
 import { SearchBar } from '../searchBar/SearchBar';
 import { BsCart3 } from "react-icons/bs";
-import { Backdrop } from '../backdrop/Backdrop';
 import { TiDeleteOutline } from 'react-icons/ti'
-import { PrimaryButton } from '../primaryButton/PrimaryButton';
 
 
 export const Navigation = (props) => {
@@ -27,12 +25,12 @@ export const Navigation = (props) => {
       />
     </div>
   ));
+
   return (
     <div className={classes.container}>
       <nav className={classes.navigation}>
         <div className={classes.logo}>
-          {/* logo */}
-          <p>GeekyBay</p>
+        <Link to='/'><img src={require('../../assets/logo.png')} alt="" /></Link>
         </div>
         <SearchBar />
         <div className={classes.navLinksContainer}>
@@ -74,7 +72,7 @@ export const Navigation = (props) => {
         <div className={classes.cart}>
           <BsCart3 className={classes.cartIcon} />
           <label className={classes.cartTotalItems}>{props.cart.length}</label>
-          <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 1 }} className={classes.cartSummary}>
+          <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 1 }} className={classes.cartSummary}>
             {cartCount === 0 ? <p>No items in cart.</p> : cartSummary}
             <div className={classes.totalCartPrice}>
               <p>Total</p>
