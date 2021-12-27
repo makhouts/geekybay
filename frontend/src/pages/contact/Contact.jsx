@@ -66,19 +66,15 @@ export const Contact = () => {
           </div>
         </div>
         <div className={classes.mapContainer}>
-          <div className={classes.mapCard}>
-            <h3 className={classes.mapHeading}>Here is me</h3>
-            <p className={classes.mapText}>
-              Koningin Astridplein 27, 2018 Antwerpen
-            </p>
-            <a
-              className={classes.mapLink}
-              href="https://www.google.com/maps/place/Antwerpen-Centraal/@51.217244,4.4189571,17z/data=!3m1!4b1!4m5!3m4!1s0x47c3f703e7404c69:0x270b07bbe1f68aa6!8m2!3d51.217244!4d4.4211511"
-              target="_blank"
-            >
-              Open in Google Map
-            </a>
-          </div>
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2499.099429743485!2d4.418957051515651!3d51.217243979488416!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c3f703e7404c69%3A0x270b07bbe1f68aa6!2sAntwerpen-Centraal!5e0!3m2!1sen!2sbe!4v1640360687788!5m2!1sen!2sbe"
+            title="googleMap"
+            width="100%"
+            height="350"
+            style={{ border: "0" }}
+            allowfullscreen=""
+            loading="lazy"
+          ></iframe>
         </div>
       </div>
     </PageTransition>

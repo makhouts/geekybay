@@ -8,6 +8,14 @@ import classes from './checkout.module.css';
 export const Checkout = (props) => {
     const [showModal, setShowModal] = useState(false);
 
+cartPage
+    const getDeliveryTime = () => {
+        const firstDay = new Date();
+        const nextWeek = new Date(firstDay.getTime() + 7 * 24 * 60 * 60 * 1000);
+
+        let deliveryTime  = nextWeek.toLocaleDateString("nl-BE");
+        return deliveryTime;
+    }
     return (
         <PageTransition>
         <div className='container'>
@@ -15,6 +23,7 @@ export const Checkout = (props) => {
             <MultiStepForm cart={props.cart} deleteItemFromCart={props.deleteItemFromCart} login={() => setShowModal(true) }/>
             <div className={classes.delivery}>
                 <h1>Estimated delivery time</h1>
+                <p>Fast delivery: {getDeliveryTime()}</p>
             </div>
         </div>
 

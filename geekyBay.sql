@@ -173,6 +173,21 @@ insert  into `products`(`productName`, `sellerID`, `productDescription`, `price`
 ;
 
 
+# /*Table structure for table `requests` */
+
+DROP TABLE IF EXISTS `requests`;
+
+CREATE TABLE `requests` (
+  `requestId` char(36) NOT NULL,
+  `username` varchar(70) NOT NULL,
+  `email` varchar(70) NOT NULL,
+  PRIMARY KEY (`requestId`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+/*Data for the table `requests` */
+
+
+
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

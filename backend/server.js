@@ -17,6 +17,7 @@ import passport from "passport";
 import mySqlSession from "express-mysql-session";
 import multer from 'multer'
 import { local } from "./strategies/local.js";
+import cors from 'cors'
 const mySQLStore = mySqlSession(session);
 const store = new mySQLStore({}, pool);
 
@@ -29,11 +30,19 @@ app.use(
     resave: false,
     store: store,
     cookie: {
-      maxAge: 1000 * 60, // 1 minute
-      // secure: true NOTE: when in prod
+      maxAge: 1000 * 60 * 60 * 1, // 1 hour
+      // secure: true TODO: when in prod
     },
   })
 );
+
+//TODO: change this for prod
+const corsOptions = {
+  origin: 'http://localhost:3000',
+  optionsSuccessStatus: 200 // For legacy browser support
+}
+
+app.use(cors(corsOptions));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -59,3 +68,7 @@ app.use("/orders", orderRouter);
 app.use("/auth", authRouter);
 
 app.listen(process.env.SERVER_PORT);
+
+
+
+
