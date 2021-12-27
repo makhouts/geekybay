@@ -30,8 +30,7 @@ export const Navigation = (props) => {
     <div className={classes.container}>
       <nav className={classes.navigation}>
         <div className={classes.logo}>
-          {/* logo */}
-          <p>GeekyBay</p>
+        <Link to='/'><img src={require('../../assets/logo.png')} alt="" /></Link>
         </div>
         <SearchBar />
         <div className={classes.navLinksContainer}>

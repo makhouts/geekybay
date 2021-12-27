@@ -128,3 +128,7 @@ button:disabled:hover{
     background-color: #cccccc;
     color: #666666;
 }
+
+.logo img {
+    width: 100px;
+}

@@ -1,15 +1,26 @@
 import React, { useState } from 'react';
 import classes from './multiStepForm.module.css';
-import { Link } from 'react-router-dom';
 import { TiDelete } from 'react-icons/ti';
 import { motion } from 'framer-motion';
 import { PrimaryButton } from '../primaryButton/PrimaryButton';
+import { GuestForm } from './GuestForm';
+import { FaCcPaypal, FaCcVisa } from "react-icons/fa";
 
 
 
 export const MultiStepForm = (props) => {
     const [step, setStep] = useState(0);
-    const loggedIn = true;
+    const [inputs, setInputs] = useState({
+      fName: "",
+      lName: "",
+      email: "",
+      country: "",
+      street: "",
+      city: "",
+      postcode: "",
+    });
+
+    const loggedIn = false;
 
     const renderItems = () => (
       <div className={classes.cartSummary}>
@@ -39,7 +50,6 @@ export const MultiStepForm = (props) => {
 
     const renderLogin = () => {
       if (loggedIn) {
-        
         return (
           <motion.div
             animate={{ opacity: 1}}
@@ -50,27 +60,82 @@ export const MultiStepForm = (props) => {
           </motion.div>
         );
       } else {
-          return(
+          return (
             <motion.div
-            animate={{ opacity: 1}}
-            initial={{ opacity: 0}}
-            className={classes.cartSummary}
-          >
-            <h4>Please login to complete your purchase.</h4>
-            <PrimaryButton clicked={props.login} >Login</PrimaryButton>
-          </motion.div>
-          )
+              animate={{ opacity: 1 }}
+              initial={{ opacity: 0 }}
+              className={classes.cartSummary}
+            >
+              <h4>Please login to complete your purchase.</h4>
+              <div className={classes.userOptionBtn}>
+                <PrimaryButton clicked={props.login}>Login</PrimaryButton>
+                <PrimaryButton clicked={nextRender}>
+                  Continue as a guest
+                </PrimaryButton>
+              </div>
+            </motion.div>
+          );
         };
     };
 
+    const renderGuestForm = () => {
+      return (
+        <motion.div
+          animate={{ opacity: 1 }}
+          initial={{ opacity: 0 }}
+          className={classes.cartSummary}
+        >
+          <h4>Fill in.</h4>
+          <GuestForm inputs={inputs} setInputs={setInputs} />
+        </motion.div>
+      );
+    };
+
+    const renderPayment = () => {
+        return (
+          <motion.div
+            animate={{ opacity: 1 }}
+            initial={{ opacity: 0 }}
+            className={classes.cartSummary}
+          >
+            <div className={classes.payments}>
+              <div className={classes.shipment}>
+                <h4>Shipping details</h4>
+                <p>
+                  Full Name: {inputs.fName} {inputs.lName}
+                </p>
+                <p>Email: {inputs.email}</p>
+                <p>Country: {inputs.country}</p>
+                <p>Street: {inputs.street}</p>
+                <p>City: {inputs.city}</p>
+                <p>Postcode: {inputs.postcode}</p>
+              </div>
+              <div className={classes.paymentMethods}>
+                  <h4>Accepted payment methods</h4>
+                  <FaCcPaypal color='blue' size='50'/>
+                  <FaCcVisa color='blue' size='50' />
+              </div>
+            </div>
+          </motion.div>
+        );
+    }
+
     const nextRender = () => {
         if (step === 3) return;
-        setStep(step + 1);        
+        if (loggedIn) {
+            setStep(3);
+        } else {
+            setStep(step + 1);        
+        }
     }
 
     const previousRender = () => {
-        if (step === 0) return;
-        setStep(step - 1);        
+      if (step === 0) return;
+      if (loggedIn) {
+        setStep(0);
+      } else {
+        setStep(step - 1);
+      }
     }
 
 
@@ -78,6 +143,8 @@ export const MultiStepForm = (props) => {
       <div className={classes.cart}>
         {step === 0 ? renderItems() : null}
         {step === 1 ? renderLogin() : null}
+        {step === 2 ? renderGuestForm() : null}
+        {step === 3 ? renderPayment() : null}
 
         <div className={classes.total}>
           <div className={classes.totalPrice}>
@@ -117,7 +184,7 @@ export const MultiStepForm = (props) => {
             disabled={props.cart.length == 0 ? true : false}
             className={classes.checkoutBtn}
           >
-            Checkout
+            Next
           </button>
         </div>
       </div>
