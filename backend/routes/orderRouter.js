@@ -79,18 +79,28 @@ router.post("/", validate(orderValidation, {}, {}) ,(req, res) => {
     pool.getConnection((err, connection) => {
         const action = ['orderSeller', 'orderBuyer'];
         const data = req.body;
+        console.log(req.body);
         if (err) throw err;
         connection.query("INSERT INTO orders SET ?", data, (err, rows) => {
-            connection.release();
+           // connection.release();
             if (!err) {
-                //the request has succeeded and a new resource has been created as a result.
-                res.status(201).send(rows);
-                //todo: get email for both seller and buyer, send mail to each
+                //get email for both seller and buyer,
+                // todo: send mail to each
+                connection.query("SELECT * FROM users WHERE userid = ? OR userid = ?", [req.body.sellerID, req.body.buyerID], (err, rows) => {
+                    connection.release();
+                    if (!err) {
+                        res.status(200).send(rows);
+                    } else {
+                        res.status(400).send("Bad request for seller data");
+                    }
+                });
 
             } else {
+                connection.release();
                 //?
                 res.status(400).send('Bad request')
             }
+
         });
     });
 });

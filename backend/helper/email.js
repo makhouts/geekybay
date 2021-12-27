@@ -3,6 +3,7 @@ import nodemailer from "nodemailer";
 const messageContent = (mailType) => {
     const content = {"registration": "Placeholder for registration mail.",
                      "update": "Placeholder for an update to an existing product/user",
+                     "newPassword": "Placeholder for a forgot password email.",
                      "buyerOrder": "Placeholder for order mail to buyer.",
                      "sellerOrder": "Placeholder for order mail to seller."};
     return content[mailType];
@@ -34,7 +35,7 @@ export const email = async (emailAddress, mailType) => {
         from: '"GeekyBay" <geekybay@geekybay.com>', // sender address
         to: emailAddress, // receiving email parameter from authRouter
         subject: "Welcome to GeekyBay", // Subject line
-        text: message , // plain text body
+        text: `${message}` , // plain text body
         //html: "<b></b>", // html body
     });
 
