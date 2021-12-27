@@ -77,12 +77,12 @@ export const ShippingAddress = () => {
               ></input>
             </div>
           </div>
-          <div className={classes.btns}>
-            <SencondaryButton className={classes.btn} type="submit">
-              Cancel
-            </SencondaryButton>
-            <SencondaryButton className={classes.btn} type="submit">
+          <div className={classes.btnContainer}>
+            <SencondaryButton className={classes.btnS} type="submit">
               Save
+            </SencondaryButton>
+            <SencondaryButton className={classes.btnC} type="submit">
+              Cancel
             </SencondaryButton>
           </div>
         </div>
