@@ -78,7 +78,7 @@
     width: 70px;
 }
 
-.cartIcon:hover ~ .cartSummary {
+.cartIconHover:hover ~ .cartSummary {
     display: block;
 }
 

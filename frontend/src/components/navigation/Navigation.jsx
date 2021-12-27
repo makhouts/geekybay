@@ -30,7 +30,9 @@ export const Navigation = (props) => {
     <div className={classes.container}>
       <nav className={classes.navigation}>
         <div className={classes.logo}>
-        <Link to='/'><img src={require('../../assets/logo.png')} alt="" /></Link>
+          <Link to="/">
+            <img src={require("../../assets/logo.png")} alt="" />
+          </Link>
         </div>
         <SearchBar />
         <div className={classes.navLinksContainer}>
@@ -70,20 +72,35 @@ export const Navigation = (props) => {
           </ul>
         </div>
         <div className={classes.cart}>
-          <BsCart3 className={classes.cartIcon} />
-          <label className={classes.cartTotalItems}>{props.cart.length}</label>
-          <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 1 }} className={classes.cartSummary}>
+          
+          <div className={classes.cartIconHover}>
+            <BsCart3 className={classes.cartIcon} />
+            <label className={classes.cartTotalItems}>{props.cart.length}</label>
+          </div>
+          <motion.div
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 1 }}
+            className={classes.cartSummary}
+          >
             {cartCount === 0 ? <p>No items in cart.</p> : cartSummary}
             <div className={classes.totalCartPrice}>
               <p>Total</p>
-              <p>€ 
+              <p>
+                €
                 {props.cart.reduce((acc, item) => {
-                  const total = (item.qty * item.price )+ acc;
+                  const total = item.qty * item.price + acc;
                   return Math.round((total + Number.EPSILON) * 100) / 100;
                 }, 0)}
               </p>
             </div>
-            <Link to='checkout'><button disabled={props.cart.length == 0 ? true : false} className={classes.checkoutBtn}>Checkout</button></Link>
+            <Link to="checkout">
+              <button
+                disabled={props.cart.length == 0 ? true : false}
+                className={classes.checkoutBtn}
+              >
+                Checkout
+              </button>
+            </Link>
           </motion.div>
         </div>
       </nav>
