@@ -43,7 +43,7 @@ router.get("/seller-info/:id", (req, res) => {
   pool.getConnection((err, connection) => {
     if (err) throw err;
     // NOTE: what do we want to get here
-    connection.query("SELECT username FROM users WHERE userid = ? AND type='seller'", [req.params.id], (err, rows) => {
+    connection.query("SELECT username, email, city, country FROM users WHERE userid = ? AND type='seller'", [req.params.id], (err, rows) => {
       connection.release();
       if (!err) {
         res.status(200).send(rows);
@@ -56,8 +56,6 @@ router.get("/seller-info/:id", (req, res) => {
 
 
 
-//Create user
-//router.post("/", validate(userValidation, {}, {}) , (req, res) => {
 
 //Create buyer
 router.post("/", validate(buyerValidation, {}, {}), (req, res) => {

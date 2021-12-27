@@ -70,14 +70,6 @@ app.use("/auth", authRouter);
 app.listen(process.env.SERVER_PORT);
 
 // TODO: Routes protecting and stuff
-// Products
-// if admin then get all products else get all products where visible 1
-// get products by seller ID -> id should come from req.userid + add isauth (except if admin)
-// get product by name -> add 'where visible 1' (except if admin) -> but also what if seller
-// same for the image?
-// add isAuth to post -> params.sellerID = req.user.userID
-// add isauth to update -> add 'and sellerID= req.user.userID' (except admin againnnn)
-// delete same as update
 // Users
 // get all users only for admin?
 // get user by id: to edit user info -> different route to show seller info?

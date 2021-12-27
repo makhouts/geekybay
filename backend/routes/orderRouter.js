@@ -4,11 +4,12 @@ import pool from "../helper/dbConnection.js";
 //validation
 import {validate} from "express-validation";
 import {orderValidation} from "../middleware/validation.js";
+import { isAuth } from '../middleware/auth.js';
 
 const router = express.Router();
 
 
-//Get all orders
+//Get all orders TODO: admin only
 router.get('/', (req,res) => {
     pool.getConnection((err, connection) => {
         if (err) throw err;
@@ -28,7 +29,7 @@ router.get('/', (req,res) => {
 });
 
 
-//Get order by id
+//Get order by id TODO: admin only
 router.get("/:id", (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) throw err;
@@ -59,10 +60,10 @@ router.get("/seller/:id", (req, res) => {
 });
 
 //Get orders by buyerId
-router.get("/buyer/:id", (req, res) => {
+router.get("/buyer/:id", isAuth, (req, res) => {
     pool.getConnection((err, connection) => {
-        if (err) throw err;
-        connection.query("SELECT * FROM orders WHERE buyerID = ?", [req.params.id], (err, rows) => {
+        if (err) throw err; //TODO: query
+        connection.query("SELECT * FROM orders WHERE buyerID = ? and sellerid = req.user.userID", [req.params.id], (err, rows) => {
             connection.release();
             if (!err) {
                 res.status(200).send(rows);
@@ -73,6 +74,7 @@ router.get("/buyer/:id", (req, res) => {
     });
 });
 
+// TODO: make it secure
 //add new order
 router.post("/", validate(orderValidation, {}, {}) ,(req, res) => {
     pool.getConnection((err, connection) => {
@@ -92,25 +94,25 @@ router.post("/", validate(orderValidation, {}, {}) ,(req, res) => {
 });
 
 //update order
-router.put("/:id",validate(orderValidation, {}, {}), (req, res) => {
-    pool.getConnection((err, connection) => {
-        const data = req.body;
-        if (err) throw err;
-        //params is a request parameter in the url
-        connection.query("UPDATE orders SET ? WHERE orderID=?", [data, req.params.id], (err, rows) => {
-            connection.release();
-            if (!err) {
-                //the request has succeeded and a new resource has been created as a result.
-                res.status(201).send(rows);
-            } else {
-                //?
-                res.status(400).send('Bad request')
-            }
-        });
-    });
-});
+// router.put("/:id",validate(orderValidation, {}, {}), (req, res) => {
+//     pool.getConnection((err, connection) => {
+//         const data = req.body;
+//         if (err) throw err;
+//         //params is a request parameter in the url
+//         connection.query("UPDATE orders SET ? WHERE orderID=?", [data, req.params.id], (err, rows) => {
+//             connection.release();
+//             if (!err) {
+//                 //the request has succeeded and a new resource has been created as a result.
+//                 res.status(201).send(rows);
+//             } else {
+//                 //?
+//                 res.status(400).send('Bad request')
+//             }
+//         });
+//     });
+// });
 
-//cancel order:
+//cancel order: TODO: get back to later
 router.put("/cancel/:id", (req, res) => {
     pool.getConnection((err, connection) => {
         const orderStatus = "canceled";
