@@ -49,7 +49,7 @@
 .p {
   color: #ececda;
   margin-top: 1.1rem;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 400;
 }
 
@@ -85,33 +85,6 @@
 }
 
 .mapContainer {
-  background: url("../../assets/mapImg.png") no-repeat center / cover;
   min-height: 300px;
-  position: relative;
-  margin-bottom: 50px;
-  border-radius: 5px;
-}
-
-.mapCard {
-  color: #ececda;
-  position: absolute;
-  max-width: 200px;
-  width: 100%;
-  right: 20%;
-  bottom: 10%;
-  padding: 1.2rem;
-  background-color: #118df0;
-  border-radius: 5px;
-}
-
-.mapHeading {
-  font-size: 18px;
-}
-
-.mapText {
-  font-size: 14px;
-}
-
-.mapLink {
-  font-size: 12px;
+  margin-bottom: 5%;
 }
