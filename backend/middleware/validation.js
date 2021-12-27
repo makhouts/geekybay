@@ -39,6 +39,8 @@ export const productValidation = {
             .required(),
         visible: Joi.bool()
             .required(),
+        productImg: Joi.string()
+            .regex(/[a-zA-Z0-9.]{3,30}/),
         freeShipping: Joi.bool()
             .required(),
     })

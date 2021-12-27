@@ -77,28 +77,30 @@ router.get("/buyer/:id", (req, res) => {
 //add new order
 router.post("/", validate(orderValidation, {}, {}) ,(req, res) => {
     pool.getConnection((err, connection) => {
-        const action = ['orderSeller', 'orderBuyer'];
+        const action = ['sellerOrder', 'buyerOrder'];
         const data = req.body;
-        console.log(req.body);
+        //console.log(req.body);
         if (err) throw err;
         connection.query("INSERT INTO orders SET ?", data, (err, rows) => {
-           // connection.release();
             if (!err) {
                 //get email for both seller and buyer,
-                // todo: send mail to each
-                connection.query("SELECT * FROM users WHERE userid = ? OR userid = ?", [req.body.sellerID, req.body.buyerID], (err, rows) => {
+                connection.query("SELECT * FROM users WHERE userid = ? OR userid = ?", [data.sellerID, data.buyerID], (err, rows) => {
                     connection.release();
                     if (!err) {
                         res.status(200).send(rows);
+                        //send mail to seller
+                        email(rows[0].emailAddress, action[0]).catch(console.error);
+                        //send mail to buyer
+                        email(rows[1].emailAddress, action[1]).catch(console.error);
                     } else {
-                        res.status(400).send("Bad request for seller data");
+                        res.status(400).send("Bad request for seller & buyer data");
                     }
                 });
 
             } else {
                 connection.release();
                 //?
-                res.status(400).send('Bad request')
+                res.status(400).send('Bad order post request')
             }
 
         });

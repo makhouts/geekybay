@@ -4,6 +4,7 @@ import bcrypt from "bcrypt";
 import { isAuth } from "../middleware/auth.js";
 import {validate} from "express-validation";
 import {buyerValidation} from "../middleware/validation.js";
+import {email} from "../helper/email.js";
 
 const router = express.Router();
 
@@ -63,6 +64,7 @@ router.post("/", validate(buyerValidation, {}, {}), (req, res) => {
 // NOTE: how do we want to update the password - create separate reset-password route
 //Update user
 router.put("/", isAuth, async (req, res) => {
+  const action = 'update';
   const data = req.body;
   data.password = await bcrypt.hash(data.password, 10); // what if not password?
   pool.getConnection((err, connection) => {
@@ -71,6 +73,8 @@ router.put("/", isAuth, async (req, res) => {
       connection.release();
       if (!err) {
         res.status(200).send(rows);
+        //send email if update successful
+        email(data.emailAddress, action).catch(console.error);
       } else {
         console.log(err);
       }
