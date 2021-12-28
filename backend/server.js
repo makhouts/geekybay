@@ -2,22 +2,20 @@ if (process.env.NODE_ENV !== "production") {
   const dotenv = await import("dotenv");
   dotenv.config();
 }
-
 import express from "express";
+import {ValidationError} from "express-validation";
+import passport from "passport";
+import mySqlSession from "express-mysql-session";
+import session from "express-session";
+import bodyParser from "body-parser";
 import userRouter from "./routes/userRouter.js";
 import productRouter from "./routes/productRouter.js";
 import orderRouter from "./routes/orderRouter.js";
 import adminRouter from "./routes/adminRouter.js";
-
-import {ValidationError} from "express-validation";
 import authRouter from "./routes/authRouter.js";
-import bodyParser from "body-parser";
-import session from "express-session";
 import pool from "./helper/dbConnection.js";
-import passport from "passport";
-import mySqlSession from "express-mysql-session";
-import multer from 'multer'
 import { local } from "./strategies/local.js";
+import {limiter} from './middleware/rateLimiter.js'
 
 import cors from 'cors';
 
@@ -34,7 +32,7 @@ app.use(
     store: store,
     cookie: {
       maxAge: 1000 * 60 * 60 * 1, // 1 hour
-      // secure: true TODO: when in prod
+      secure: (process.env.NODE_ENV === "production") ? true : false
     },
   })
 );
@@ -44,6 +42,10 @@ const corsOptions = {
   origin: 'http://localhost:3000',
   optionsSuccessStatus: 200 // For legacy browser support
 }
+
+
+// Apply the rate limiting middleware to all requests
+app.use(limiter)
 
 app.use(cors(corsOptions));
 
