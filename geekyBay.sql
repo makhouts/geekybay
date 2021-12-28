@@ -65,23 +65,39 @@ insert  into `users`(`userName`, `password`,  `userLastName`, `userFirstName`,`e
 
 /*Table structure for table `employees` */
 
-# DROP TABLE IF EXISTS `orderdetails`;
-#
-# CREATE TABLE `orderdetails` (
-#   `orderNumber` int(11) NOT NULL,
-#   `productCode` varchar(15) NOT NULL,
-#   `quantityOrdered` int(11) NOT NULL,
-#   `priceEach` decimal(10,2) NOT NULL,
-#   `orderLineNumber` smallint(6) NOT NULL,
-#   PRIMARY KEY (`orderNumber`,`productCode`),
-#   KEY `productCode` (`productCode`),
-#   CONSTRAINT `orderdetails_ibfk_1` FOREIGN KEY (`orderNumber`) REFERENCES `orders` (`orderNumber`),
-#   CONSTRAINT `orderdetails_ibfk_2` FOREIGN KEY (`productCode`) REFERENCES `products` (`productCode`)
-# ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-#
-# /*Data for the table `orderdetails` */
-#
-# insert  into `orderdetails`(`orderNumber`,`productCode`,`quantityOrdered`,`priceEach`,`orderLineNumber`)
+ DROP TABLE IF EXISTS `orderdetails`;
+
+CREATE TABLE `orderdetails` (
+  `orderDetailID` int(11) NOT NULL auto_increment,
+  `orderID` int(11) NOT NULL,
+  `productID` int(15) NOT NULL,
+  `quantityOrdered` int(11) NOT NULL,
+  `priceEach` decimal(10,2) NOT NULL,
+  `sellerID` int(11) NOT NULL,
+  `buyerID` int(11) NOT NULL,
+  `orderStatus` varchar(15) NOT NULL,
+  `confirmationDate` date,
+
+  PRIMARY KEY (`orderDetailID`),
+  KEY `orderID` (`orderID`),
+  KEY `productID` (`productID`),
+#   KEY `priceEach` (`priceEach`),
+  KEY `sellerID` (`sellerID`),
+  KEY `buyerID` (`buyerID`),
+  CONSTRAINT `orderdetails_ibfk_1` FOREIGN KEY (`orderID`) REFERENCES `orders` (`orderID`),
+  CONSTRAINT `orderdetails_ibfk_2` FOREIGN KEY (`productID`) REFERENCES `products` (`productID`),
+#   CONSTRAINT `orderdetails_ibfk_3` FOREIGN KEY (`priceEach`) REFERENCES `products` (`price`),
+  CONSTRAINT `orderdetails_ibfk_4` FOREIGN KEY (`sellerID`) REFERENCES `users` (`userID`),
+  CONSTRAINT `orderdetails_ibfk_5` FOREIGN KEY (`buyerID`) REFERENCES `users` (`userID`)
+
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+/*Data for the table `orderdetails` */
+
+insert  into `orderdetails`(`orderID`,`productID`,`quantityOrdered`,`priceEach`,`sellerID`, `buyerID`, `orderStatus`, `confirmationDate`) values
+(1, 1, 3, 500, 3, 2, 'shipped', 21/12/2021),
+(2, 2, 3, 500, 1, 2, 'delivered', 03/12/2021),
+(1, 1, 3, 500, 2, 1, 'cancelled', 01/02/2021);
 
 /*Table structure for table `orders` */
 
@@ -89,26 +105,24 @@ DROP TABLE IF EXISTS `orders`;
 
 CREATE TABLE `orders` (
   `orderID` int(11) NOT NULL auto_increment,
-  `productID` int(11) NOT NULL,
   `orderDate` date NOT NULL,
   `orderStatus` varchar(15) NOT NULL,
   `sellerID` int(11) NOT NULL,
   `buyerID` int(11) NOT NULL,
   PRIMARY KEY (`orderID`),
-  KEY `sellers` (`sellerID`), KEY `buyers` (`buyerID`), KEY `products` (`productID`),
+  KEY `sellers` (`sellerID`), KEY `buyers` (`buyerID`),
   CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`sellerID`) REFERENCES `users` (`userID`),
-  CONSTRAINT `orders_ibfk_2` FOREIGN KEY (`buyerID`) REFERENCES `users` (`userID`),
-  CONSTRAINT `orders_ibfk_3` FOREIGN KEY (`productID`) REFERENCES `products` (`productID`)
+  CONSTRAINT `orders_ibfk_2` FOREIGN KEY (`buyerID`) REFERENCES `users` (`userID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 /*Data for the table `orders` */
 
-insert  into `orders`(`productID`,`orderDate`,`orderStatus`,`sellerID`, `buyerID`) values
+insert  into `orders`(`orderDate`,`orderStatus`,`sellerID`, `buyerID`) values
 
-('1', '11/11/11', 'ordered', '1', '2'),
-('2', '21/12/21', 'paid', '2', '3'),
-('3', '31/03/13', 'shipped', '3', '4'),
-('4', '14/04/14', 'lost', '4', '5')
+('11/11/11', 'ordered', '1', '2'),
+('21/12/21', 'paid', '2', '3'),
+('31/03/13', 'shipped', '3', '4'),
+('14/04/14', 'lost', '4', '5')
 ;
 /*Table structure for table `productlines` */
 #

@@ -7,8 +7,6 @@ import classes from './checkout.module.css';
 
 export const Checkout = (props) => {
     const [showModal, setShowModal] = useState(false);
-
-cartPage
     const getDeliveryTime = () => {
         const firstDay = new Date();
         const nextWeek = new Date(firstDay.getTime() + 7 * 24 * 60 * 60 * 1000);
