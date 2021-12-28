@@ -38,7 +38,7 @@ router.post("/register", isNotAuth, validate(sellerValidation, {}, {}), (req, re
       if (!err) {
         res.status(200).send(rows);
         //send email if registration successful
-        Email.registrationMail(data.emailAddress).catch(console.error);
+        Email.registrationMail(data.emailAddress, data.userName).catch(console.error);
       } else {
         res.status(400).send(err);
       }
@@ -62,8 +62,10 @@ router.post("/forgot", isNotAuth, (req, res) => {
         const thisUser = user[0];
         if (thisUser) {
           const id = uuidv1();
+          console.log(id);
           createResetRequest(id, thisUser.userName, thisUser.emailAddress);
           // sendResetLink(thisUser.email, id); NOTE: once we have mailing
+          Email.sendResetMail(thisUser.email, `http://localhost:3000/reset/${id}`)
           console.log(`http://localhost:3000/reset/${id}`);
         }
         res.status(200).json();

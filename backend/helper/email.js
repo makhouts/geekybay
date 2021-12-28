@@ -71,11 +71,12 @@ export class Email {
         // Preview URL: https://ethereal.email/message/...
     }
 
-    static registrationMail = async (emailAddress) => {
+    static registrationMail = async (emailAddress, username) => {
         // Generate test SMTP service account from ethereal.email
         // Only needed if you don't have a real mail account for testing
         let testAccount = await nodemailer.createTestAccount();
-        let message =  "Placeholder for registration mail.";
+        let message =  `Hello, ${username}, you have signed up at GeekyBay. \n
+                        Upload and sell your products today!`;
 
 
         // create reusable transporter object using the default SMTP transport
@@ -138,11 +139,11 @@ export class Email {
         // Preview URL: https://ethereal.email/message/...
     }
 
-    static forgotPasswordMail = async (emailAddress) => {
+    static sendResetMail = async (emailAddress, link) => {
         // Generate test SMTP service account from ethereal.email
         // Only needed if you don't have a real mail account for testing
         let testAccount = await nodemailer.createTestAccount();
-        let message =  "Placeholder for forgot password mail.";
+        let message =  `Placeholder for reset password mail, follow this link: ${link}`;
 
 
         // create reusable transporter object using the default SMTP transport
@@ -160,7 +161,7 @@ export class Email {
         let info = await transporter.sendMail({
             from: '"GeekyBay" <geekybay@geekybay.com>', // sender address
             to: emailAddress, // receiving email parameter from authRouter
-            subject: "forgot password", // Subject line
+            subject: "Reset your GeekyBay password", // Subject line
             text: `${message}` , // plain text body
             //html: "<b></b>", // html body
         });

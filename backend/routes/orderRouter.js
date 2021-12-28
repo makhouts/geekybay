@@ -94,6 +94,8 @@ router.post("/", validate(orderValidation, {}, {}) ,(req, res) => {
                         res.status(200).send(rows);
                         //send mail to seller
                         Email.orderMail(rows[0].emailAddress).catch(console.error);
+                        //send mail to buyer
+                        Email.orderMail(rows[1].emailAddress).catch(console.error);
                     } else {
                         res.status(400).send("Bad request for seller & buyer data");
                     }

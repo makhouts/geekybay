@@ -89,7 +89,7 @@ router.put("/", isAuth, async (req, res) => {
       if (!err) {
         res.status(200).send(rows);
         //send email if update successful
-        Email.updateEmail(data.emailAddress).catch(console.error);
+        Email.updateMail(data.emailAddress).catch(console.error);
       } else {
         res.status(400).send({message: "Could not update user"})
       }
