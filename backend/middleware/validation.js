@@ -39,6 +39,8 @@ export const productValidation = {
             .required(),
         visible: Joi.bool()
             .required(),
+        productImg: Joi.string()
+            .regex(/[a-zA-Z0-9.]{3,30}/),
         freeShipping: Joi.bool()
             .required(),
     })
@@ -73,10 +75,6 @@ export const buyerValidation = {
         country: Joi.string()
             .regex(/[a-zA-Z\s-]{2,20}/)
             .required(),
-        type: Joi.string()
-            .regex(/buyer/)
-            .required(),
-
     })
 }
 
@@ -115,10 +113,7 @@ export const sellerValidation = {
             .required(),
         country: Joi.string()
             .regex(/[a-zA-Z\s-]{2,20}/)
-            .required(),
-        type: Joi.string()
-            .regex(/seller/)
-            .required(),
+            .required()
 
     })
 }

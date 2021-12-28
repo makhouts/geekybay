@@ -7,6 +7,8 @@ import { isNotAuth, isAuth } from "../middleware/auth.js";
 import { v1 as uuidv1 } from "uuid";
 import { validate } from "express-validation";
 import { sellerValidation } from "../middleware/validation.js";
+import { Email } from '../helper/email.js';
+
 
 const router = express.Router();
 
@@ -26,13 +28,17 @@ router.post("/login", isNotAuth, passport.authenticate("local"), (req, res) => {
 router.post("/register", isNotAuth, validate(sellerValidation, {}, {}), (req, res) => {
   pool.getConnection(async (err, connection) => {
     if (err) throw err;
+
     const data = req.body;
     data.password = await bcrypt.hash(data.password, 10);
     data.type = "seller";
+
     connection.query("INSERT INTO users SET ?", data, (err, rows) => {
       connection.release();
       if (!err) {
         res.status(200).send(rows);
+        //send email if registration successful
+        Email.registrationMail(data.emailAddress, data.userName).catch(console.error);
       } else {
         res.status(400).send(err);
       }
@@ -56,8 +62,10 @@ router.post("/forgot", isNotAuth, (req, res) => {
         const thisUser = user[0];
         if (thisUser) {
           const id = uuidv1();
+          console.log(id);
           createResetRequest(id, thisUser.userName, thisUser.emailAddress);
           // sendResetLink(thisUser.email, id); NOTE: once we have mailing
+          Email.sendResetMail(thisUser.email, `http://localhost:3000/reset/${id}`)
           console.log(`http://localhost:3000/reset/${id}`);
         }
         res.status(200).json();

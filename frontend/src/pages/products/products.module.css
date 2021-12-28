@@ -1,0 +1,37 @@
+.productsContainer {
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+    grid-gap: 20px;
+}
+
+.filter {
+    padding: 10px;
+    background-color: white;
+}
+
+.filter > div {
+    margin: 20px 0px;
+}
+
+.priceFilter input {
+    width: 100px;
+}
+
+.priceFilter{
+    display: flex;
+    justify-content: space-around;
+}
+
+.shippingFilter {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+
+
+.products {
+    background-color: white;
+    min-height: 100%;
+}
+

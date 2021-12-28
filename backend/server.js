@@ -7,6 +7,7 @@ import express from "express";
 import userRouter from "./routes/userRouter.js";
 import productRouter from "./routes/productRouter.js";
 import orderRouter from "./routes/orderRouter.js";
+import adminRouter from "./routes/adminRouter.js";
 
 import {ValidationError} from "express-validation";
 import authRouter from "./routes/authRouter.js";
@@ -17,7 +18,9 @@ import passport from "passport";
 import mySqlSession from "express-mysql-session";
 import multer from 'multer'
 import { local } from "./strategies/local.js";
-import cors from 'cors'
+
+import cors from 'cors';
+
 const mySQLStore = mySqlSession(session);
 const store = new mySQLStore({}, pool);
 
@@ -66,9 +69,6 @@ app.use("/products", productRouter);
 //todo: this should not be publicly visible information - only admin?
 app.use("/orders", orderRouter);
 app.use("/auth", authRouter);
+app.use("/admin", adminRouter);
 
-app.listen(process.env.SERVER_PORT);
-
-
-
-
+app.listen(process.env.PORT);
