@@ -71,4 +71,4 @@ app.use("/orders", orderRouter);
 app.use("/auth", authRouter);
 app.use("/admin", adminRouter);
 
-app.listen(process.env.SERVER_PORT);
+app.listen(process.env.PORT);
