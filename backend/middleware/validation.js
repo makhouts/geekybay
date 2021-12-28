@@ -75,10 +75,6 @@ export const buyerValidation = {
         country: Joi.string()
             .regex(/[a-zA-Z\s-]{2,20}/)
             .required(),
-        type: Joi.string()
-            .regex(/buyer/)
-            .required(),
-
     })
 }
 
@@ -117,10 +113,7 @@ export const sellerValidation = {
             .required(),
         country: Joi.string()
             .regex(/[a-zA-Z\s-]{2,20}/)
-            .required(),
-        type: Joi.string()
-            .regex(/seller/)
-            .required(),
+            .required()
 
     })
 }

@@ -205,7 +205,7 @@ router.get("/orders/:id", (req, res) => {
 });
 
 //Get orders by sellerId
-router.get("/orders/:sellerId", (req, res) => {
+router.get("/seller-orders/:sellerId", (req, res) => {
   pool.getConnection((err, connection) => {
       if (err) throw err;
       connection.query("SELECT * FROM orders WHERE sellerID = ?", [req.params.sellerId], (err, rows) => {
@@ -220,7 +220,7 @@ router.get("/orders/:sellerId", (req, res) => {
 });
 
 //Get orders by buyerId
-router.get("/orders/:buyerId", (req, res) => {
+router.get("/buyer-orders/:buyerId", (req, res) => {
   pool.getConnection((err, connection) => {
       if (err) throw err;
       connection.query("SELECT * FROM orders WHERE buyerID = ?", [ req.params.buyerId], (err, rows) => {
