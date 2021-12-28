@@ -9,7 +9,14 @@ export const isNotAuth = (req, res, next) => {
   if (req.isAuthenticated()) {
     return res.send("error");
   }
-    next();
+  next();
 };
 
-
+export const isAdmin = (req, res, next) => {
+  if (req.isAuthenticated()) {
+    if(req.user.type ==='admin'){
+      return next()
+    }
+  }
+  res.send("error");
+};

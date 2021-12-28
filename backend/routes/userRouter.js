@@ -8,21 +8,6 @@ import { Email } from "../helper/email.js";
 
 const router = express.Router();
 
-//Get all users
-// router.get("/", (req, res) => {
-//   console.log(req.user);
-//   pool.getConnection((err, connection) => {
-//     if (err) throw err;
-//     connection.query("SELECT * from users", (err, rows) => {
-//       connection.release();
-//       if (!err) {
-//         res.status(200).send(rows);
-//       } else {
-//         res.status(400).send("Bad request");
-//       }
-//     });
-//   });
-// });
 
 //Get user by id
 router.get("/user-info",isAuth, (req, res) => {
