@@ -185,7 +185,7 @@ insert  into `products`(`productName`, `sellerID`, `productDescription`, `price`
 ( 'guitar4', '4', 'stringy3', '4000', 10, false,  false)
 ;
 
-/*DROP TABLE IF EXISTS `productImages`;
+DROP TABLE IF EXISTS `productImages`;
 
 CREATE TABLE `productImages` (
                             `imageID` INT NOT NULL auto_increment,
@@ -194,7 +194,7 @@ CREATE TABLE `productImages` (
                             PRIMARY KEY (`imageID`),
                             KEY `products` (`productID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-*/
+
 /*Data for the table `productImages` */
 
 # /*Table structure for table `requests` */

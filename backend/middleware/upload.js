@@ -56,16 +56,16 @@ const resizeImages = async (req, res, next) => {
 const saveInDatabase = async (req, res, next) => {
 }
 
-const getResult = async (req, res) => {
-    if (req.body.productImg.length <= 0) {
-        return res.send(`You must select at least 1 image.`);
-    }
+const getResult = async (req, res, next) => {
+    if (req.body.productImg.length <= 0) return next();
 
     const images = req.body.productImg
-        .map(image => "" + image + "")
-        .join("");
+            .map(image => "" + image + "")
+            .join("");
 
     return res.send(`Images were uploaded:${images}`);
+
+    next();
 };
 
 export {

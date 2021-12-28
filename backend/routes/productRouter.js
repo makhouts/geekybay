@@ -136,16 +136,17 @@ let storage = multer.diskStorage({
   }
 })
 
+let upload = multer({ storage: storage });
 //Create product TODO:
 router.post( "/multiple-upload", /*isAuth,*/
     uploadController.uploadImages,
     uploadController.resizeImages,
-    uploadController.getResult
-  /*  /!*;upload.single('avatar'), validate(productValidation, {}, {}),*!/ , (req, res) => {
+    uploadController.getResult,
+    /*upload.single('avatar'),*/ /*validate(productValidation, {}, {}),*/ (req, res) => {
       pool.getConnection((err, connection) => {
         if (err) throw err;
         const params = req.body;
-/!*        params.sellerID = req.user.userID;*!/
+/*        params.sellerID = req.user.userID;*/
         if(typeof req.file !== 'undefined'){
           // params.productImg = path.join(__dirname, "../uploads/" + req.file.filename)
           params.productImg = req.file.filename
@@ -159,7 +160,7 @@ router.post( "/multiple-upload", /*isAuth,*/
           }
         });
       });
-    }*/);
+    });
 
 
 //Update product
