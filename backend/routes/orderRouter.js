@@ -13,7 +13,6 @@ import { isAuth } from '../middleware/auth.js';
 const router = express.Router();
 
 
-
 //Get orders by sellerId
 router.get("/seller",isAuth, (req, res) => {
     pool.getConnection((err, connection) => {
@@ -49,7 +48,6 @@ router.get("/buyer", isAuth, (req, res) => {
 router.post("/", validate(orderValidation, {}, {}) ,(req, res) => {
     pool.getConnection((err, connection) => {
         const data = req.body;
-        //console.log(req.body);
         if (err) throw err;
         connection.query("INSERT INTO orders SET ?", data, (err, rows) => {
             if (!err) {

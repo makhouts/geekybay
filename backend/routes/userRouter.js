@@ -61,10 +61,9 @@ router.post("/", validate(buyerValidation, {}, {}), (req, res) => {
 
 //Update user
 router.put("/", isAuth, async (req, res) => {
-
   const action = 'update';
   const data = req.body;
-  data.password = await bcrypt.hash(data.password, 10); // what if not password?
+  // data.password = await bcrypt.hash(data.password, 10); // what if not password?
 
   pool.getConnection((err, connection) => {
     if (err) throw err;
