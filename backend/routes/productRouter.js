@@ -6,6 +6,7 @@ import { orderValidation, productValidation } from "../middleware/validation.js"
 //process multiform data
 import multer from "multer";
 import path from "path";
+import * as uploadController from "./../middleware/upload.js"
 import fs from "fs";
 // import { v4 as uuidv4 } from 'uuid';
 //needed for images
@@ -122,22 +123,10 @@ router.get("/product/img/:productId", (req, res) => {
   });
 });
 
-//Get product by price
 
-// router.get("/price/:price", (req, res) => {
-//     pool.getConnection((err, connection) => {
-//         if (err) throw err;
-//         connection.query("SELECT * FROM products WHERE price ", [req.params.productName], (err, rows) => {
-//             connection.release();
-//             if (!err) {
-//                 res.status(200).send(rows);
-//             } else {
-//                 res.status(400).send('Bad get product by price request')
-//             }
-//         });
-//     });
-// });
+//upload.js
 
+//this needs to happen after resizing.
 let storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, 'uploads/')
@@ -147,30 +136,31 @@ let storage = multer.diskStorage({
   }
 })
 
-let upload = multer({ storage: storage });
 //Create product TODO:
-router.post("/", isAuth, upload.single('avatar'), /*validate(productValidation, {}, {}),*/ (req, res) => {
-  // console.log(req.body)
-  
-  // console.log(req.file.filename + ".png")
-  pool.getConnection((err, connection) => {
-    if (err) throw err;
-    const params = req.body;
-    params.sellerID = req.user.userID;
-    if(typeof req.file !== 'undefined'){
-      // params.productImg = path.join(__dirname, "../uploads/" + req.file.filename)
-      params.productImg = req.file.filename
-    }
-    connection.query("INSERT INTO products SET ?", params, (err, rows) => {
-      connection.release();
-      if (!err) {
-        res.status(201).send(rows);
-      } else {
-        res.status(400).send("Bad product creation request");
-      }
-    });
-  });
-});
+router.post( "/multiple-upload", /*isAuth,*/
+    uploadController.uploadImages,
+    uploadController.resizeImages,
+    uploadController.getResult
+  /*  /!*;upload.single('avatar'), validate(productValidation, {}, {}),*!/ , (req, res) => {
+      pool.getConnection((err, connection) => {
+        if (err) throw err;
+        const params = req.body;
+/!*        params.sellerID = req.user.userID;*!/
+        if(typeof req.file !== 'undefined'){
+          // params.productImg = path.join(__dirname, "../uploads/" + req.file.filename)
+          params.productImg = req.file.filename
+        }
+        connection.query("INSERT INTO products SET ?", params, (err, rows) => {
+          connection.release();
+          if (!err) {
+            res.status(201).send(rows);
+          } else {
+            res.status(400).send("Bad product creation request");
+          }
+        });
+      });
+    }*/);
+
 
 //Update product
 router.put("/:id", isAuth, validate(productValidation, {}, {}), (req, res) => {
@@ -208,30 +198,6 @@ router.delete("/:id", isAuth, (req, res) => {
 const handleError = (err, res) => {
   res.status(500).contentType("text/plain").end("Oops! Something went wrong!");
 };
-
-
-router.post("/upload", isAuth, upload.single("productimage" /* name attribute of <file> element in your form */), (req, res) => {
-  const tempPath = req.file.path;
-  const targetPath = path.join(__dirname, "../productimages/image3.png");
-  if (path.extname(req.file.originalname).toLowerCase() === ".png") {
-    fs.rename(tempPath, targetPath, (err) => {
-      if (err) return handleError(err, res);
-      res.status(200).contentType("image/png").end("File uploaded!");
-    });
-  } else {
-    fs.unlink(tempPath, (err) => {
-      if (err) return handleError(err, res);
-
-      res.status(403).contentType("text/plain").end("Only .png files are allowed!");
-    });
-  }
-});
-
-
-
-
-
-
 
 
 
