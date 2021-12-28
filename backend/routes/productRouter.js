@@ -85,7 +85,7 @@ router.get("/product/:productId", (req, res) => {
   });
 });
 
-//Get product by id -> for the product details page
+//Get product by id -> for the product details page for sellers
 router.get("/seller-product/:productId", isAuth, (req, res) => {
   pool.getConnection((err, connection) => {
     if (err) throw err;
@@ -213,5 +213,6 @@ router.post("/upload", isAuth, upload.single("productimage" /* name attribute of
     });
   }
 });
+
 
 export default router;
