@@ -65,7 +65,7 @@ router.get("/seller-products", isAuth, (req, res) => {
   });
 });
 
-//Get product by id -> for the product details page
+//Get product by id -> for the product details page TODO:
 router.get("/product/:productId", (req, res) => {
   pool.getConnection((err, connection) => {
     if (err) throw err;
@@ -74,7 +74,7 @@ router.get("/product/:productId", (req, res) => {
       if (!err) {
         if (rows[0].visible === 1) {
           res.status(200).send(rows);
-          res.sendFile(path.join(__dirname, "../productimages/" + rows[0].productImg));
+          
         } else {
           res.status(400).send("Bad get product by productId request");
         }
@@ -85,7 +85,7 @@ router.get("/product/:productId", (req, res) => {
   });
 });
 
-//Get product by id -> for the product details page
+//Get product by id -> for the product details page for sellers
 router.get("/seller-product/:productId", isAuth, (req, res) => {
   pool.getConnection((err, connection) => {
     if (err) throw err;
@@ -96,7 +96,7 @@ router.get("/seller-product/:productId", isAuth, (req, res) => {
         connection.release();
         if (!err) {
           res.status(200).send(rows);
-          res.sendFile(path.join(__dirname, "../productimages/" + rows[0].productImg));
+          res.sendFile(path.join(__dirname, "../uploads/" + rows[0].productImg));
         } else {
           res.status(400).send("Bad get product by productId request");
         }
@@ -114,7 +114,7 @@ router.get("/product/img/:productId", (req, res) => {
       connection.release();
       if (!err) {
         console.log(productImg);
-        res.sendFile(path.join(__dirname, "../productimages/" + productImg[0].productImg));
+        res.sendFile(path.join(__dirname, "../uploads/" + productImg[0].productImg));
       } else {
         res.status(400).send("Bad product image request");
       }
@@ -138,13 +138,29 @@ router.get("/product/img/:productId", (req, res) => {
 //     });
 // });
 
-//Create product
-router.post("/", isAuth, validate(productValidation, {}, {}), (req, res) => {
-  const upload = multer({ dest: "uploads/" });
+let storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/')
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + "_"+ (file.originalname.split('.')[0]) + path.extname(file.originalname)) //Appending extension
+  }
+})
+
+let upload = multer({ storage: storage });
+//Create product TODO:
+router.post("/", isAuth, upload.single('avatar'), /*validate(productValidation, {}, {}),*/ (req, res) => {
+  // console.log(req.body)
+  
+  // console.log(req.file.filename + ".png")
   pool.getConnection((err, connection) => {
     if (err) throw err;
     const params = req.body;
     params.sellerID = req.user.userID;
+    if(typeof req.file !== 'undefined'){
+      // params.productImg = path.join(__dirname, "../uploads/" + req.file.filename)
+      params.productImg = req.file.filename
+    }
     connection.query("INSERT INTO products SET ?", params, (err, rows) => {
       connection.release();
       if (!err) {
@@ -192,10 +208,7 @@ router.delete("/:id", isAuth, (req, res) => {
 const handleError = (err, res) => {
   res.status(500).contentType("text/plain").end("Oops! Something went wrong!");
 };
-const upload = multer({
-  dest: "./Temp",
-  // you might also want to set some limits: https://github.com/expressjs/multer#limits
-});
+
 
 router.post("/upload", isAuth, upload.single("productimage" /* name attribute of <file> element in your form */), (req, res) => {
   const tempPath = req.file.path;
@@ -213,5 +226,13 @@ router.post("/upload", isAuth, upload.single("productimage" /* name attribute of
     });
   }
 });
+
+
+
+
+
+
+
+
 
 export default router;
