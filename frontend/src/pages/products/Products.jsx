@@ -37,6 +37,7 @@ export const Products = () => {
             </div>
           </div>
           <div className={classes.products}></div>
+            {/* hier moet component product met object als props */}
         </div>
       </div>
     </PageTransition>
