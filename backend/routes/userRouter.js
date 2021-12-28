@@ -4,7 +4,7 @@ import bcrypt from "bcrypt";
 import { isAuth } from "../middleware/auth.js";
 import {validate} from "express-validation";
 import {buyerValidation} from "../middleware/validation.js";
-import {email} from "../helper/email.js";
+import { Email } from "../helper/email.js";
 
 const router = express.Router();
 
@@ -89,7 +89,7 @@ router.put("/", isAuth, async (req, res) => {
       if (!err) {
         res.status(200).send(rows);
         //send email if update successful
-        email(data.emailAddress, action).catch(console.error);
+        Email.updateEmail(data.emailAddress).catch(console.error);
       } else {
         res.status(400).send({message: "Could not update user"})
       }

@@ -7,7 +7,7 @@ import { isNotAuth, isAuth } from "../middleware/auth.js";
 import { v1 as uuidv1 } from "uuid";
 import { validate } from "express-validation";
 import { sellerValidation } from "../middleware/validation.js";
-import { email } from '../helper/email.js';
+import { Email } from '../helper/email.js';
 
 
 const router = express.Router();
@@ -29,7 +29,6 @@ router.post("/register", isNotAuth, validate(sellerValidation, {}, {}), (req, re
   pool.getConnection(async (err, connection) => {
     if (err) throw err;
 
-    const action = 'registration';
     const data = req.body;
     data.password = await bcrypt.hash(data.password, 10);
     data.type = "seller";
@@ -39,7 +38,7 @@ router.post("/register", isNotAuth, validate(sellerValidation, {}, {}), (req, re
       if (!err) {
         res.status(200).send(rows);
         //send email if registration successful
-        email(data.emailAddress, action).catch(console.error);
+        Email.registrationMail(data.emailAddress).catch(console.error);
       } else {
         res.status(400).send(err);
       }

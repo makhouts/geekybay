@@ -5,7 +5,7 @@ import pool from "../helper/dbConnection.js";
 import {validate} from "express-validation";
 import {orderValidation} from "../middleware/validation.js";
 
-import { email } from '../helper/email.js';
+import { Email } from '../helper/email.js';
 
 import { isAuth } from '../middleware/auth.js';
 
@@ -82,21 +82,18 @@ router.get("/buyer", isAuth, (req, res) => {
 //add new order 
 router.post("/", validate(orderValidation, {}, {}) ,(req, res) => {
     pool.getConnection((err, connection) => {
-        const action = ['sellerOrder', 'buyerOrder'];
         const data = req.body;
         //console.log(req.body);
         if (err) throw err;
         connection.query("INSERT INTO orders SET ?", data, (err, rows) => {
             if (!err) {
-                //get email for both seller and buyer,
+                //get info of both seller and buyer, todo: is buyer's info necessary here?
                 connection.query("SELECT * FROM users WHERE userid = ? OR userid = ?", [data.sellerID, data.buyerID], (err, rows) => {
                     connection.release();
                     if (!err) {
                         res.status(200).send(rows);
                         //send mail to seller
-                        email(rows[0].emailAddress, action[0]).catch(console.error);
-                        //send mail to buyer
-                        email(rows[1].emailAddress, action[1]).catch(console.error);
+                        Email.orderMail(rows[0].emailAddress).catch(console.error);
                     } else {
                         res.status(400).send("Bad request for seller & buyer data");
                     }

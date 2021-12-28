@@ -13,8 +13,6 @@ import { fileURLToPath } from "url";
 import { dirname } from "path";
 import { isAuth } from "../middleware/auth.js";
 
-import {email} from "../helper/email.js";
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
@@ -181,34 +179,46 @@ router.post("/", isAuth, validate(productValidation, {}, {}), (req, res) => {
 
 //Update product
 
-router.put("/:id", validate(productValidation, {}, {}), (req, res) => {
-    pool.getConnection((err, connection) => {
-        if (err) throw err;
-        const action = 'update';
-        const data = req.body;
-        connection.query('UPDATE products SET ? WHERE productID=?', [data , req.params.id] , (err, rows) => {
-            if (!err) {
-                //res.status(201).send(rows);
-                //send email to seller if update successful
-                //get email for both seller and buyer,
-                connection.query("SELECT * FROM users WHERE userid = ?", [data.sellerID], (err, rows) => {
-                    connection.release();
-                    if (!err) {
-                        res.status(200).send(rows);
-                        //send mail to seller
-                        email(rows[0].emailAddress, action).catch(console.error);
-                    } else {
-                        res.status(400).send("Bad request for seller & buyer data");
-                    }
-                });
-            } else {
-                connection.release();
-                res.status(400).send('Bad product update request')
-            }
-        });
+// router.put("/:id", validate(productValidation, {}, {}), (req, res) => {
+//     pool.getConnection((err, connection) => {
+//         if (err) throw err;
+//         const action = 'update';
+//         const data = req.body;
+//         connection.query('UPDATE products SET ? WHERE productID=?', [data , req.params.id] , (err, rows) => {
+//             if (!err) {
+//                 //res.status(201).send(rows);
+//                 //send email to seller if update successful
+//                 //get email for both seller and buyer,
+//                 connection.query("SELECT * FROM users WHERE userid = ?", [data.sellerID], (err, rows) => {
+//                     connection.release();
+//                     if (!err) {
+//                         res.status(200).send(rows);
+//                         //send mail to seller
+//                         email(rows[0].emailAddress, action).catch(console.error);
+//                     } else {
+//                         res.status(400).send("Bad request for seller & buyer data");
+//                     }
+//                 });
+//             } else {
+//                 connection.release();
+//                 res.status(400).send('Bad product update request')
+//             }
+//         });
+
+router.put("/:id", isAuth, validate(productValidation, {}, {}), (req, res) => {
+  pool.getConnection((err, connection) => {
+    if (err) throw err;
+    const data = req.body;
+    connection.query("UPDATE products SET ? WHERE productID=? AND sellerID = ?", [data, req.params.id, req.user.userID], (err, rows) => {
+      connection.release();
+      if (!err) {
+        res.status(201).send(rows);
+      } else {
+        res.status(400).send("Bad product update request");
+      }
     });
   });
-
+});
 
 //potentially not allowed to delete if bidding not finished.
 //Delete product
