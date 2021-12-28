@@ -14,12 +14,12 @@ import {
   Contact,
   Login,
   Signup,
+  UserProfile,
   DetailProduct,
   Page404,
   Checkout,
 } from "./pages/index";
 import "./App.css";
-import { ShippingAddress } from "./pages/userInfo/ShippingAddress";
 
 function App() {
   const [cart, setCart] = useState([
@@ -138,7 +138,7 @@ function App() {
           <Route path="products" element={<Products />} />
           <Route path="productDetail" element={<DetailProduct />} />
           <Route path="contact" element={<Contact />} />
-          <Route path="shippingAddress" element={<ShippingAddress />} />
+          <Route path="userProfile" element={<UserProfile />} />
           <Route path="login" element={<Login />} />
           <Route
             path="checkout"

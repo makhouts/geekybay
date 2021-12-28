@@ -45,7 +45,7 @@ export const Signup = () => {
         </div>
         <div className={classes.linkContainer}>
           <p class={classes.linkText}>Already have an account?</p>
-          <Link className={classes.link} to="/shippingAddress">
+          <Link className={classes.link} to="/userProfile">
             Login
           </Link>
         </div>

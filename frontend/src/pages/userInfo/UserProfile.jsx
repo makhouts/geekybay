@@ -1,16 +1,52 @@
 import React from "react";
-import classes from "./shippingAddress.module.css";
+import classes from "./userProfile.module.css";
 import { PageTransition } from "../../helpers/animations";
 import { SencondaryButton } from "../../components/secondaryButton/SencondaryButton";
 
-export const ShippingAddress = () => {
+export const UserProfile = () => {
   return (
     <PageTransition>
       <div className="container">
-        <div className={classes.addressContainer}>
-          <div className={classes.topContainer}>
-            <div className={classes.heading}>Shipping Addresss</div>
+        <div className={classes.topContainer}>
+          <div className={classes.heading}>User Profile</div>
+        </div>
+        <div className={classes.passContainer}>
+          <div className={classes.passForm}>
+            <div className={classes.formGrop}>
+              <label className={classes.label}>User Name</label>
+              <input
+                className={classes.formInput}
+                type="text"
+                placeholder="Enter email"
+              ></input>
+            </div>
+            <div className={classes.formGrop}>
+              <label className={classes.label}>Password</label>
+              <input
+                className={classes.formInput}
+                type="text"
+                placeholder="Enter password"
+              ></input>
+            </div>
+            <div className={classes.formGrop}>
+              <label className={classes.label}>Confirm Password</label>
+              <input
+                className={classes.formInput}
+                type="text"
+                placeholder="Enter confirm password"
+              ></input>
+            </div>
+            <div className={classes.btnContainer}>
+              <SencondaryButton className={classes.btnS} type="submit">
+                Update
+              </SencondaryButton>
+              <SencondaryButton className={classes.btnC} type="submit">
+                Cancel
+              </SencondaryButton>
+            </div>
           </div>
+        </div>
+        <div className={classes.addressContainer}>
           <div className={classes.addressForm}>
             <div className={classes.formGrop}>
               <label className={classes.label}>First Name</label>
@@ -41,7 +77,7 @@ export const ShippingAddress = () => {
               <input
                 className={classes.formInput}
                 type="text"
-                placeholder="Street"
+                placeholder="Enter street"
               ></input>
             </div>
             <div className={classes.formGrop}>
@@ -57,7 +93,7 @@ export const ShippingAddress = () => {
               <input
                 className={classes.formInput}
                 type="text"
-                placeholder="City"
+                placeholder="Enter city"
               ></input>
             </div>
             <div className={classes.formGrop}>
@@ -79,7 +115,7 @@ export const ShippingAddress = () => {
           </div>
           <div className={classes.btnContainer}>
             <SencondaryButton className={classes.btnS} type="submit">
-              Save
+              Update
             </SencondaryButton>
             <SencondaryButton className={classes.btnC} type="submit">
               Cancel
