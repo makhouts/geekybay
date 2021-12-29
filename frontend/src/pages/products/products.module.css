@@ -28,10 +28,24 @@
     align-items: center;
 }
 
-
-
 .products {
     background-color: white;
     min-height: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    justify-items: center;
+    row-gap: 70px;
+    padding: 30px 0px;
 }
+
+.product {
+    display: flex;
+    flex-direction: column;
+}
+
+.product img {
+    width: 230px;
+    background-color: rgba(222, 222, 222, 0.205);
+}
+
 

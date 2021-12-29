@@ -3,6 +3,7 @@ import classes from "./products.module.css";
 import { PageTransition } from '../../helpers/animations';
 import { Modal } from '../../components/modal/Modal';
 import { AddProduct } from "../../components/addProduct/AddProduct";
+import { Product } from "./Product";
 
 
 export const Products = () => {
@@ -31,13 +32,42 @@ export const Products = () => {
             <div className="shipping">
               <label>Shipping</label>
               <div className={classes.shippingFilter}>
-              <input type="checkbox" />
-              <label htmlFor="">Free international shipping</label>
+                <input type="checkbox" />
+                <label htmlFor="">Free international shipping</label>
               </div>
             </div>
           </div>
-          <div className={classes.products}></div>
-            {/* hier moet component product met object als props */}
+          <div className={classes.products}>
+            <Product />
+            <Product />
+
+            <Product />
+
+            <Product />
+
+            <Product />
+            <Product />
+
+            <Product />
+
+            <Product />
+
+            <Product />
+            <Product />
+
+            <Product />
+
+            <Product />
+
+            <Product />
+            <Product />
+
+            <Product />
+
+            <Product />
+
+            <Product />
+          </div>
         </div>
       </div>
     </PageTransition>
