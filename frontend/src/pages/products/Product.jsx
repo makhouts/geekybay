@@ -3,13 +3,17 @@ import classes from './products.module.css';
 
 let text = 'Amazing camera with beatiful bezels...'; 
 
-export const Product = () => {
+export const Product = (props) => {
     return (
       <div className={classes.product}>
         <img src={require("../../assets/iphone.png")} alt="iphone" />
-        <p>Iphone 13 Pro</p>
-        <p>{text.substring(0, 20)}...</p>
-        <p>€ 1299.00</p>
+        <p>{props.product.productName}</p>
+        {props.showDescription && (
+          <p>{props.product.productDescription.substring(0, 20)}...</p>
+        )}
+        <p className={classes.productPrice}>
+          € {props.product.price.toFixed(2)}
+        </p>
       </div>
     );
 }

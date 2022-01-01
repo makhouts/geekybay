@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Navigation } from "./components/navigation/Navigation";
 import { Footer } from "./components/footer/Footer";
 import { AnimatePresence } from "framer-motion";
+import axios from 'axios';
 import {
   BrowserRouter as Router,
   Routes,
@@ -37,92 +38,19 @@ function App() {
       price: "1299.89",
       qty: "1",
     },
-    {
-      id: 3,
-      image: "",
-      productName: "Iphone 13 Pro",
-      price: "1299.99",
-      qty: "2",
-    },
-    {
-      id: 4,
-      image: "",
-      productName: "Iphone 11 Pro",
-      price: "1299.89",
-      qty: "1",
-    },
-    {
-      id: 5,
-      image: "",
-      productName: "Iphone 13 Pro",
-      price: "1299.99",
-      qty: "2",
-    },
-    {
-      id: 6,
-      image: "",
-      productName: "Iphone 11 Pro",
-      price: "1299.89",
-      qty: "1",
-    },
   ]);
 
-  const [products, setProducts] = useState([
-    {
-      productId: 1,
-      productName: "Iphone 13 Pro",
-      sellerID: 1,
-      productDescription: "Iphone 13 Pro",
-      image: "./assets/iphone.png",
-      price: "€ 1299.00",
-      available: true,
-    },
-    {
-      productId: 2,
-      productName: "Guitar heroX",
-      sellerID: 2,
-      productDescription: "Guitar heroX, now with amazing sound",
-      image: "./assets/iphone.png",
-      price: "€ 899.00",
-      available: true,
-    },
-    {
-      productId: 3,
-      productName: "Samsung Smart TV",
-      sellerID: 3,
-      productDescription: "Iphone 13 Pro",
-      image: "./assets/iphone.png",
-      price: "€ 2299.00",
-      available: true,
-    },
-    {
-      productId: 4,
-      productName: "",
-      sellerID: 4,
-      productDescription: "Furniture table - Wood",
-      image: "./assets/iphone.png",
-      price: "€ 350.00",
-      available: true,
-    },
-    {
-      productId: 5,
-      productName: "Cozy Family Heater",
-      sellerID: 5,
-      productDescription: "Iphone 13 Pro",
-      image: "./assets/iphone.png",
-      price: "€ 95.99",
-      available: true,
-    },
-    {
-      productId: 6,
-      productName: "Winter Jacket extra thermo",
-      sellerID: 6,
-      productDescription: "Iphone 13 Pro",
-      image: "./assets/iphone.png",
-      price: "€ 30.00",
-      available: true,
-    },
-  ]);
+  const [products, setProducts] = useState([]);
+
+  useEffect( async () => {
+    try {
+      const data = await axios.get('https://geekybay.herokuapp.com/products')
+      setProducts(data.data);
+    } catch(error) {
+      console.log(error);
+    }
+  }, [])
+
   const location = useLocation();
 
   const deleteItemFromCart = (id) => {
@@ -135,8 +63,8 @@ function App() {
       <Navigation cart={cart} deleteItemFromCart={deleteItemFromCart} />
       <AnimatePresence exitBeforeEnter>
         <Routes location={location} key={location.pathname}>
-          <Route path="products" element={<Products />} />
-          <Route path="productDetail" element={<DetailProduct />} />
+          <Route path="products" element={<Products products={products} />} />
+          <Route path="productDetail:id" element={<DetailProduct />} />
           <Route path="contact" element={<Contact />} />
           <Route path="userProfile" element={<UserProfile />} />
           <Route path="login" element={<Login />} />

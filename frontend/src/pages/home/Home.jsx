@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import classes from './home.module.css';
 import { PageTransition } from '../../helpers/animations';
 import { PrimaryButton } from '../../components/primaryButton/PrimaryButton';
@@ -9,6 +8,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import carousel1 from '../../assets/carousel1.png';
 import carousel2 from '../../assets/carousel2.png';
 import carousel3 from '../../assets/carousel3.png';
+import { Product } from '../products/Product';
 
 
 export const Home = (props) => {
@@ -37,10 +37,9 @@ export const Home = (props) => {
             <section>
               <h1>Today's Deals - All with free shipping!</h1>
               <div className={classes.todaysDealRow}>
-                  {props.products.map((product, i) => (
+                  {props.products.slice(0,5).map((product, i) => (
                     <div key={i} className={classes.tDeal}>
-                      <img src={require('../../assets/iphone.png')} alt="product-image" />
-                      <h4>{product.price}</h4>
+                      <Product product={product} />
                     </div>
                   ))}
               </div>
@@ -50,10 +49,9 @@ export const Home = (props) => {
             <section>
               <h1>Bestsellers - Limited stock!</h1>
               <div className={classes.todaysDealRow}>
-                  {props.products.map((product, i) => (
+                  {props.products.slice(0,5).map((product, i) => (
                     <div key={i} className={classes.tDeal}>
-                      <img src={require('../../assets/iphone.png')} alt="product-image" />
-                      <h4>{product.price}</h4>
+                      <Product product={product} />
                     </div>
                   ))}
               </div>

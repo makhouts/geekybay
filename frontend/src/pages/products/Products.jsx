@@ -4,9 +4,10 @@ import { PageTransition } from '../../helpers/animations';
 import { Modal } from '../../components/modal/Modal';
 import { AddProduct } from "../../components/addProduct/AddProduct";
 import { Product } from "./Product";
+import { Link } from 'react-router-dom';
 
 
-export const Products = () => {
+export const Products = (props) => {
   const [showModal, setShowModal] = useState(false);
 
   const toggleModal = () => {
@@ -38,35 +39,11 @@ export const Products = () => {
             </div>
           </div>
           <div className={classes.products}>
-            <Product />
-            <Product />
-
-            <Product />
-
-            <Product />
-
-            <Product />
-            <Product />
-
-            <Product />
-
-            <Product />
-
-            <Product />
-            <Product />
-
-            <Product />
-
-            <Product />
-
-            <Product />
-            <Product />
-
-            <Product />
-
-            <Product />
-
-            <Product />
+            {props.products.map(product => (
+              <Link to='/productDetail'>
+                <Product product={product} showDescription={true} />
+              </Link>
+            ))}
           </div>
         </div>
       </div>

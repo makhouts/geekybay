@@ -48,4 +48,12 @@
     background-color: rgba(222, 222, 222, 0.205);
 }
 
+.product p {
+    text-align: center;
+    font-family: var(--font2);
+}
 
+.productPrice {
+    margin-top: 10px;
+    font-weight: 300;
+}
