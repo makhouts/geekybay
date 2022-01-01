@@ -15,7 +15,7 @@ import adminRouter from "./routes/adminRouter.js";
 import authRouter from "./routes/authRouter.js";
 import pool from "./helper/dbConnection.js";
 import { local } from "./strategies/local.js";
-import {limiter} from './middleware/rateLimiter.js'
+import {mainLimiter} from './middleware/rateLimiter.js'
 
 import cors from 'cors';
 
@@ -45,7 +45,7 @@ const corsOptions = {
 
 
 // Apply the rate limiting middleware to all requests
-app.use(limiter)
+app.use(mainLimiter)
 
 app.use(cors(corsOptions));
 

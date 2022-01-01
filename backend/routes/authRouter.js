@@ -8,6 +8,7 @@ import { v1 as uuidv1 } from "uuid";
 import { validate } from "express-validation";
 import { sellerValidation } from "../middleware/validation.js";
 import { Email } from '../helper/email.js';
+import { createAccountLimiter,changePasswordLimiter } from "../middleware/rateLimiter.js";
 
 
 const router = express.Router();
@@ -25,7 +26,7 @@ router.post("/login", isNotAuth, passport.authenticate("local"), (req, res) => {
 });
 
 // Register/create a seller
-router.post("/register", isNotAuth, validate(sellerValidation, {}, {}), (req, res) => {
+router.post("/register", createAccountLimiter,isNotAuth,  validate(sellerValidation, {}, {}), (req, res) => {
   pool.getConnection(async (err, connection) => {
     if (err) throw err;
 
@@ -52,7 +53,7 @@ router.delete("/logout", isAuth, (req, res) => {
   res.status(200).send({message: "Successfully logged out"})
 });
 
-router.post("/forgot", isNotAuth, (req, res) => {
+router.post("/forgot", changePasswordLimiter,isNotAuth, (req, res) => {
   pool.getConnection(async (err, connection) => {
     if (err) throw err;
     connection.query("SELECT * FROM users WHERE userName = ?", [req.body.username], (err, user) => {
@@ -77,7 +78,7 @@ router.post("/forgot", isNotAuth, (req, res) => {
 });
 
 // NOTE: nice to have -> expiry date on reset links (add column in db Date.now())
-router.patch("/reset", async (req, res) => {
+router.patch("/reset",changePasswordLimiter, async (req, res) => {
   pool.getConnection(async (err, connection) => {
     if (err) throw err;
     connection.query("SELECT * FROM requests WHERE requestId = ?", [req.body.id], async (err, request) => {
