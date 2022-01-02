@@ -1,3 +1,7 @@
+* {
+  font-family: var(--font3);
+}
+
 .boxContainer {
   width: 300px;
   min-height: 500px;
@@ -7,11 +11,10 @@
   align-items: center;
   justify-content: center;
   border-radius: 19px;
-  background-color: #fff;
+  background: white;
   box-shadow: 0 0 2px rgba(15, 15, 15, 0.28);
   position: relative;
   overflow: hidden;
-  font-family: var(--font3);
 }
 .topContainer {
   width: 100%;
@@ -99,6 +102,7 @@
 }
 
 .link {
+  color: black;
   display: flex;
   margin-right: 5px;
   cursor: pointer;
