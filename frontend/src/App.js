@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Navigation } from "./components/navigation/Navigation";
-import { Footer } from './components/footer/Footer';
+import { Footer } from "./components/footer/Footer";
 import { AnimatePresence } from "framer-motion";
 import {
   BrowserRouter as Router,
@@ -14,6 +14,7 @@ import {
   Contact,
   Login,
   Signup,
+  UserProfile,
   DetailProduct,
   Page404,
   Checkout,
@@ -49,7 +50,8 @@ function App() {
       productName: "Iphone 11 Pro",
       price: "1299.89",
       qty: "1",
-    },{
+    },
+    {
       id: 5,
       image: "",
       productName: "Iphone 13 Pro",
@@ -64,7 +66,7 @@ function App() {
       qty: "1",
     },
   ]);
-  
+
   const [products, setProducts] = useState([
     {
       productId: 1,
@@ -124,9 +126,9 @@ function App() {
   const location = useLocation();
 
   const deleteItemFromCart = (id) => {
-    const deletedItem = cart.filter(cart => cart.id !== id);
+    const deletedItem = cart.filter((cart) => cart.id !== id);
     setCart(deletedItem);
-  }
+  };
 
   return (
     <div className="App">
@@ -136,8 +138,14 @@ function App() {
           <Route path="products" element={<Products />} />
           <Route path="productDetail" element={<DetailProduct />} />
           <Route path="contact" element={<Contact />} />
+          <Route path="userProfile" element={<UserProfile />} />
           <Route path="login" element={<Login />} />
-          <Route path="checkout" element={<Checkout cart={cart} deleteItemFromCart={deleteItemFromCart} />} />
+          <Route
+            path="checkout"
+            element={
+              <Checkout cart={cart} deleteItemFromCart={deleteItemFromCart} />
+            }
+          />
           <Route path="signUp" element={<Signup />} />
           <Route path="/" element={<Home products={products} />} />
           <Route path="*" element={<Page404 />} />

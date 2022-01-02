@@ -1,0 +1,46 @@
+* {
+  font-family: var(--font3);
+}
+
+.addressContainer,
+.passContainer {
+  width: 600px;
+  display: flex;
+  flex-direction: column;
+  padding: 2%;
+  background-color: white;
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  margin: 5% auto;
+  gap: 1rem;
+}
+
+.topContainer {
+  width: 100%;
+  text-align: center;
+  padding: 2%;
+  font-size: 30px;
+}
+.addressForm,
+.passForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.formGrop {
+  display: flex;
+  flex-direction: column;
+}
+
+.formInput {
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid lightgray;
+}
+
+.btnContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+}

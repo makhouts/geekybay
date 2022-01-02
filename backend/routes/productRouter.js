@@ -111,7 +111,7 @@ router.get("/seller-product/:productId", isAuth, (req, res) => {
 router.get("/product/img/:productId", (req, res) => {
   pool.getConnection((err, connection) => {
     if (err) throw err;
-    connection.query("SELECT productImg FROM products WHERE productID = ?", [req.params.productId], (err, productImg) => {
+    connection.query("SELECT productImg FROM productimages WHERE productID = ?", [req.params.productId], (err, productImg) => {
       connection.release();
       if (!err) {
         console.log(productImg);
@@ -124,9 +124,30 @@ router.get("/product/img/:productId", (req, res) => {
 });
 
 
+
 //upload.js
 
 //this needs to happen after resizing.
+//Create product
+
+// router.post("/", validate(productValidation, {}, {}), (req, res) => {
+//     const upload = multer({ dest: 'uploads/' })
+//
+//     console.log(req.body);
+//     pool.getConnection((err, connection) => {
+//         if (err) throw err;
+//         const params = req.body
+//         connection.query('INSERT INTO products SET ?' , params, (err, rows) => {
+//             connection.release();
+//             if (!err) {
+//                 res.status(201).send(rows);
+//
+//             } else {
+//                 res.status(400).send('Bad product creation request')
+//             }
+//         });
+//
+
 let storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, 'uploads/')
@@ -138,6 +159,7 @@ let storage = multer.diskStorage({
 
 let upload = multer({ storage: storage });
 //Create product TODO:
+
 router.post( "/multiple-upload", /*isAuth,*/
     uploadController.uploadImages,
     uploadController.resizeImages,
@@ -146,8 +168,8 @@ router.post( "/multiple-upload", /*isAuth,*/
       pool.getConnection((err, connection) => {
         if (err) throw err;
         const params = req.body;
-/*        params.sellerID = req.user.userID;*/
-        if(typeof req.file !== 'undefined'){
+        /*        params.sellerID = req.user.userID;*/
+        if (typeof req.file !== 'undefined') {
           // params.productImg = path.join(__dirname, "../uploads/" + req.file.filename)
           params.productImg = req.file.filename
         }
@@ -162,8 +184,59 @@ router.post( "/multiple-upload", /*isAuth,*/
       });
     });
 
+/*
+router.post("/", isAuth, upload.single('avatar'), /!*validate(productValidation, {}, {}),*!/ (req, res) => {
+  // console.log(req.body)
+  
+  // console.log(req.file.filename + ".png")
+
+  pool.getConnection((err, connection) => {
+    if (err) throw err;
+    const params = req.body;
+    params.sellerID = req.user.userID;
+    if(typeof req.file !== 'undefined'){
+      // params.productImg = path.join(__dirname, "../uploads/" + req.file.filename)
+      params.productImg = req.file.filename
+    }
+    connection.query("INSERT INTO products SET ?", params, (err, rows) => {
+      connection.release();
+      if (!err) {
+        res.status(201).send(rows);
+      } else {
+        res.status(400).send("Bad product creation request");
+      }
+    });
+*/
+
 
 //Update product
+
+// router.put("/:id", validate(productValidation, {}, {}), (req, res) => {
+//     pool.getConnection((err, connection) => {
+//         if (err) throw err;
+//         const action = 'update';
+//         const data = req.body;
+//         connection.query('UPDATE products SET ? WHERE productID=?', [data , req.params.id] , (err, rows) => {
+//             if (!err) {
+//                 //res.status(201).send(rows);
+//                 //send email to seller if update successful
+//                 //get email for both seller and buyer,
+//                 connection.query("SELECT * FROM users WHERE userid = ?", [data.sellerID], (err, rows) => {
+//                     connection.release();
+//                     if (!err) {
+//                         res.status(200).send(rows);
+//                         //send mail to seller
+//                         email(rows[0].emailAddress, action).catch(console.error);
+//                     } else {
+//                         res.status(400).send("Bad request for seller & buyer data");
+//                     }
+//                 });
+//             } else {
+//                 connection.release();
+//                 res.status(400).send('Bad product update request')
+//             }
+//         });
+
 router.put("/:id", isAuth, validate(productValidation, {}, {}), (req, res) => {
   pool.getConnection((err, connection) => {
     if (err) throw err;
@@ -200,6 +273,21 @@ const handleError = (err, res) => {
   res.status(500).contentType("text/plain").end("Oops! Something went wrong!");
 };
 
+router.post("/upload", isAuth, upload.single("productimage" /* name attribute of <file> element in your form */), (req, res) => {
+  const tempPath = req.file.path;
+  const targetPath = path.join(__dirname, "../productimages/image3.png");
+  if (path.extname(req.file.originalname).toLowerCase() === ".png") {
+    fs.rename(tempPath, targetPath, (err) => {
+      if (err) return handleError(err, res);
+      res.status(200).contentType("image/png").end("File uploaded!");
+    });
+  } else {
+    fs.unlink(tempPath, (err) => {
+      if (err) return handleError(err, res);
 
+      res.status(403).contentType("text/plain").end("Only .png files are allowed!");
+    });
+  }
+});
 
 export default router;

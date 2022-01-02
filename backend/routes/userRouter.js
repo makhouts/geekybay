@@ -4,6 +4,7 @@ import bcrypt from "bcrypt";
 import { isAuth } from "../middleware/auth.js";
 import {validate} from "express-validation";
 import {buyerValidation} from "../middleware/validation.js";
+import { Email } from "../helper/email.js";
 
 const router = express.Router();
 
@@ -38,6 +39,7 @@ router.get("/seller-info/:id", (req, res) => {
   });
 });
 
+
 //Create buyer
 router.post("/", validate(buyerValidation, {}, {}), (req, res) => {
   pool.getConnection(async (err, connection) => {
@@ -59,6 +61,10 @@ router.post("/", validate(buyerValidation, {}, {}), (req, res) => {
 
 //Update user
 router.put("/", isAuth, async (req, res) => {
+  const action = 'update';
+  const data = req.body;
+  // data.password = await bcrypt.hash(data.password, 10); // what if not password?
+
   pool.getConnection((err, connection) => {
     if (err) throw err;
     const data = req.body;
@@ -66,6 +72,8 @@ router.put("/", isAuth, async (req, res) => {
       connection.release();
       if (!err) {
         res.status(200).send(rows);
+        //send email if update successful
+        Email.updateMail(data.emailAddress).catch(console.error);
       } else {
         res.status(400).send({message: "Could not update user"})
       }
