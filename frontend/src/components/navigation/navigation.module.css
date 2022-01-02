@@ -1,8 +1,8 @@
 .navigation {
     display: flex;
     justify-content: space-evenly;
-    padding: 40px;
-    background-color: var(--darkBlue);
+    background: rgb(4,8,37);
+    background: linear-gradient(84deg, rgba(4,8,37,1) 0%, rgba(0,6,47,1) 100%);
     color: white;
     font-family: var(--font1);
     align-items: center;
