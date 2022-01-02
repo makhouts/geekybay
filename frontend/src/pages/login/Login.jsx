@@ -40,7 +40,9 @@ export const Login = () => {
           </div>
           <div className={classes.linkContainer}>
             <p class={classes.linkText}>Don't have an account?</p>
-            <Link to="/signUp">SignUp</Link>
+            <Link className={classes.link} to="/signUp">
+              SignUp
+            </Link>
           </div>
         </div>
       </div>
