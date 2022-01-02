@@ -18,7 +18,7 @@ const __dirname = dirname(__filename);
 
 const router = express.Router();
 
-//Get all products
+//Get all products NOTE:
 router.get("/", (req, res) => {
   pool.getConnection((err, connection) => {
     //check here for searches also, ~ if isset req.query.search

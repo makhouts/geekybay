@@ -37,17 +37,21 @@ app.use(
   })
 );
 
-//TODO: change this for prod
-const corsOptions = {
-  origin: 'http://localhost:3000',
-  optionsSuccessStatus: 200 // For legacy browser support
-}
-
+//TODO: change this for prod NOTE: idk if this does anything
+// const corsOptions = {
+//   origin: 'http://localhost:3000',
+//   optionsSuccessStatus: 200 // For legacy browser support
+// }
 
 // Apply the rate limiting middleware to all requests
 app.use(mainLimiter)
-
-app.use(cors(corsOptions));
+app.all("/*", function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+  res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
+  res.header('Access-Control-Allow-Credentials', true);
+  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization, Content-Length,Accept, X-Requested-With");
+  next();
+});
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

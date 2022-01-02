@@ -11,6 +11,7 @@ const router = express.Router();
 
 
 //Get user by id
+//TODO: dont send back password and type and userid in response
 router.get("/user-info",isAuth, (req, res) => {
   pool.getConnection((err, connection) => {
     if (err) throw err;
