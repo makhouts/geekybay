@@ -41,11 +41,14 @@ function App() {
   ]);
 
   const [products, setProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [showSpinner, setShowSpinner] = useState(true);
 
   useEffect( async () => {
     try {
-      const data = await axios.get('https://geekybay.herokuapp.com/products')
-      setProducts(data.data);
+      const getProducts = await axios.get('https://geekybay.herokuapp.com/products')
+      setProducts(getProducts.data);
+      setShowSpinner(false);
     } catch(error) {
       console.log(error);
     }
@@ -58,23 +61,35 @@ function App() {
     setCart(deletedItem);
   };
 
+  const showOnlyFreeShipping = (showOnlyFreeShipping) => {
+    if (showOnlyFreeShipping) {
+      const freeShipping = products.filter(product => product.freeShipping == showOnlyFreeShipping);
+      setFilteredProducts(freeShipping);
+    } else {
+      setFilteredProducts([]);
+    }
+  }
+
   return (
     <div className="App">
       <Navigation cart={cart} deleteItemFromCart={deleteItemFromCart} />
       <AnimatePresence exitBeforeEnter>
-        <Routes location={location} key={location.pathname}>
-          <Route path="products" element={<Products products={products} />} />
-          <Route path="productDetail:id" element={<DetailProduct />} />
-          <Route path="contact" element={<Contact />} />
-          <Route path="userProfile" element={<UserProfile />} />
-          <Route path="login" element={<Login />} />
+        <Routes location={location} key={location.pathname}>          
+          <Route path="/products">
+            <Route path=":search" element={<Products products={filteredProducts.length ? filteredProducts : products} showOnlyFreeShipping={showOnlyFreeShipping} showSpinner={showSpinner} />} />
+            <Route path="" element={<Products products={filteredProducts.length ? filteredProducts : products} showOnlyFreeShipping={showOnlyFreeShipping} showSpinner={showSpinner} />} />
+          </Route>
+          <Route path="/productDetail/:id" element={<DetailProduct />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/userProfile" element={<UserProfile />} />
+          <Route path="/login" element={<Login />} />
           <Route
-            path="checkout"
+            path="/checkout"
             element={
               <Checkout cart={cart} deleteItemFromCart={deleteItemFromCart} />
             }
           />
-          <Route path="signUp" element={<Signup />} />
+          <Route path="/signUp" element={<Signup />} />
           <Route path="/" element={<Home products={products} />} />
           <Route path="*" element={<Page404 />} />
         </Routes>

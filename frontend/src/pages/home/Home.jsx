@@ -37,11 +37,13 @@ export const Home = (props) => {
             <section>
               <h1>Today's Deals - All with free shipping!</h1>
               <div className={classes.todaysDealRow}>
-                  {props.products.slice(0,5).map((product, i) => (
-                    <div key={i} className={classes.tDeal}>
+                {props.products.slice(0, 5).map((product, i) => (
+                  <div key={i} className={classes.tDeal}>
+                    <Link to={`productDetail/${product.productID}`}>
                       <Product product={product} />
-                    </div>
-                  ))}
+                    </Link>
+                  </div>
+                ))}
               </div>
             </section>
           </div>
@@ -49,24 +51,28 @@ export const Home = (props) => {
             <section>
               <h1>Bestsellers - Limited stock!</h1>
               <div className={classes.todaysDealRow}>
-                  {props.products.slice(0,5).map((product, i) => (
-                    <div key={i} className={classes.tDeal}>
+                {props.products.slice(0, 5).map((product, i) => (
+                  <div key={i} className={classes.tDeal}>
+                    <Link to={`productDetail/${product.productID}`}>
                       <Product product={product} />
-                    </div>
-                  ))}
+                    </Link>
+                  </div>
+                ))}
               </div>
             </section>
           </div>
           <div>
-              <section className={classes.sellAdBanner}>
-                  <div className={classes.createAccountAd}>
-                      <h1 className={classes.adText}>Sell without any risk.</h1>
-                      <p className={classes.adText}>Sell for free now!</p>
-                      <br />
-                      <Link to='login'><PrimaryButton btnStyle='red'>Sell now</PrimaryButton></Link>
-                  </div>
-                  <div className={classes.sellAd}></div>
-              </section>
+            <section className={classes.sellAdBanner}>
+              <div className={classes.createAccountAd}>
+                <h1 className={classes.adText}>Sell without any risk.</h1>
+                <p className={classes.adText}>Sell for free now!</p>
+                <br />
+                <Link to="login">
+                  <PrimaryButton btnStyle="red">Sell now</PrimaryButton>
+                </Link>
+              </div>
+              <div className={classes.sellAd}></div>
+            </section>
           </div>
         </div>
       </PageTransition>
