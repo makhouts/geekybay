@@ -8,12 +8,12 @@ import classes from "./checkout.module.css";
 export const Checkout = (props) => {
   const [showModal, setShowModal] = useState(false);
   const getDeliveryTime = () => {
+    // const firstDay = new Date();
+    // const nextWeek = new Date(firstDay.getTime() + 7 * 24 * 60 * 60 * 1000);
+    // const [showModal, setShowModal] = useState(false);
+    // const getDeliveryTime = () => {
     const firstDay = new Date();
     const nextWeek = new Date(firstDay.getTime() + 7 * 24 * 60 * 60 * 1000);
-    const [showModal, setShowModal] = useState(false);
-    const getDeliveryTime = () => {
-        const firstDay = new Date();
-        const nextWeek = new Date(firstDay.getTime() + 7 * 24 * 60 * 60 * 1000);
 
     let deliveryTime = nextWeek.toLocaleDateString("nl-BE");
     return deliveryTime;
@@ -38,4 +38,4 @@ export const Checkout = (props) => {
       </Modal>
     </PageTransition>
   );
-}
+};

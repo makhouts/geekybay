@@ -64,7 +64,7 @@
   padding: 5px;
 }
 
-.formInput {
+.formGroup input {
   width: 100%;
   font-size: 14px;
   margin-top: 5px;
@@ -73,7 +73,12 @@
   border: 1px solid lightgray;
 }
 
-.label {
+.formGroup.invalid input {
+  border-color: red;
+  background-color: rgb(223, 182, 182);
+}
+
+.formGroup label {
   flex: 1;
   display: flex;
   margin-top: 5px;
