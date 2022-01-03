@@ -7,6 +7,7 @@
 .filter {
     padding: 10px;
     background-color: white;
+    max-height: 200px;
 }
 
 .filter > div {
@@ -28,10 +29,32 @@
     align-items: center;
 }
 
-
-
 .products {
     background-color: white;
     min-height: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    justify-items: center;
+    row-gap: 70px;
+    padding: 30px 0px;
 }
 
+.product {
+    display: flex;
+    flex-direction: column;
+}
+
+.product img {
+    width: 230px;
+    background-color: rgba(222, 222, 222, 0.205);
+}
+
+.product p {
+    text-align: center;
+    font-family: var(--font2);
+}
+
+.productPrice {
+    margin-top: 10px;
+    font-weight: 300;
+}

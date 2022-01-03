@@ -16,14 +16,14 @@
     align-items: center;
 }
 
-a {
+.footerLinks a {
     color: white;
     text-decoration: none;
     transition: 0.2s;
     font-weight: bold;
 }
 
-a:hover {
+.footerLinks a:hover {
     color: var(--red);
     transition: 0.2s;
 }

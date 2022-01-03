@@ -171,13 +171,3 @@ PUT https://geekybay.herokuapp.com/admin/orders/:id
 
 PUT https://geekybay.herokuapp.com/admin/orders/cancel/:id
 - Cancel order
-
-
-
-
-
-
-
-
-
-
