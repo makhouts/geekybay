@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Navigation } from "./components/navigation/Navigation";
 import { Footer } from "./components/footer/Footer";
 import { AnimatePresence } from "framer-motion";
@@ -130,6 +130,19 @@ function App() {
     setCart(deletedItem);
   };
 
+  //Login page
+  const [isLogin, setIsLogin] = useState(false);
+  useEffect(() => {
+    const storeLocal = localStorage.getItem("isLogin");
+    if (storeLocal === "1") {
+      setIsLogin(true);
+    }
+  }, []);
+  const loginHandler = (email, password) => {
+    localStorage.setItem("isLogin", "1");
+    setIsLogin(true);
+  };
+
   return (
     <div className="App">
       <Navigation cart={cart} deleteItemFromCart={deleteItemFromCart} />
@@ -139,7 +152,7 @@ function App() {
           <Route path="productDetail" element={<DetailProduct />} />
           <Route path="contact" element={<Contact />} />
           <Route path="userProfile" element={<UserProfile />} />
-          <Route path="login" element={<Login />} />
+          <Route path="login" element={<Login onLogin={loginHandler} />} />
           <Route
             path="checkout"
             element={

@@ -4,11 +4,25 @@ import { PageTransition } from "../../helpers/animations";
 import { Link } from "react-router-dom";
 import { SencondaryButton } from "../../components/secondaryButton/SencondaryButton";
 
-export const Login = () => {
+export const Login = (props) => {
   const [enterEmail, setEnterEmail] = useState("");
   const [emailIsValid, setEmailIsValid] = useState();
   const [enterPassword, setEnterPassword] = useState("");
   const [passwordIsValid, setPasswordIsValid] = useState();
+  const [formIsValid, setFormIsValid] = useState(false);
+
+  useEffect(() => {
+    const identifier = setTimeout(() => {
+      console.log("checking invalidation");
+      setFormIsValid(
+        enterEmail.includes("@") && enterPassword.trim().length > 6
+      );
+    }, 500);
+    return () => {
+      console.log("effect cleanup");
+      clearTimeout(identifier);
+    };
+  }, [enterEmail, enterPassword]);
 
   const emailChangeHandler = (event) => {
     setEnterEmail(event.target.value);
@@ -26,6 +40,11 @@ export const Login = () => {
     setPasswordIsValid(enterPassword.trim().length > 6);
   };
 
+  const submitHandler = (event) => {
+    event.preventDefault();
+    props.onLogin(enterEmail, enterPassword);
+  };
+
   return (
     <PageTransition>
       <div>
@@ -37,7 +56,7 @@ export const Login = () => {
             </div>
           </div>
           <div className={classes.form}>
-            <form>
+            <form onSubmit={submitHandler}>
               <div
                 className={`${classes.formGroup} ${
                   emailIsValid === false ? classes.invalid : ""
@@ -71,7 +90,11 @@ export const Login = () => {
             </form>
           </div>
           <div className={classes.buttonContainer}>
-            <SencondaryButton class={classes.btn} type="submit">
+            <SencondaryButton
+              class={classes.btn}
+              type="submit"
+              disabled={!formIsValid}
+            >
               Login
             </SencondaryButton>
           </div>
