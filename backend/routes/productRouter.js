@@ -3,12 +3,14 @@ import pool from "../helper/dbConnection.js";
 //validation
 import { validate } from "express-validation";
 import { orderValidation, productValidation } from "../middleware/validation.js";
+
 //process multiform data
 import multer from "multer";
 import path from "path";
-import * as uploadController from "./../middleware/upload.js"
+import * as uploadController from "./../middleware/upload.js" // here uploadController
 import fs from "fs";
 // import { v4 as uuidv4 } from 'uuid';
+
 //needed for images
 import { fileURLToPath } from "url";
 import { dirname } from "path";
@@ -19,7 +21,7 @@ const __dirname = dirname(__filename);
 
 const router = express.Router();
 
-//Get all products
+// WORKING: Get all products
 router.get("/", (req, res) => {
   pool.getConnection((err, connection) => {
     //check here for searches also, ~ if isset req.query.search
@@ -36,7 +38,7 @@ router.get("/", (req, res) => {
 });
 //imagegetter refactoring for use in getter by any other means.
 
-//Get products by sellerid
+// WORKING:  Get products by sellerid
 router.get("/:sellerId", (req, res) => {
   pool.getConnection((err, connection) => {
     if (err) throw err;
@@ -51,7 +53,7 @@ router.get("/:sellerId", (req, res) => {
   });
 });
 
-//Get products by sellerid also where its not visible
+// WORKING: Get products by sellerid also where its not visible: todo: need way to check without auth though.
 router.get("/seller-products", isAuth, (req, res) => {
   pool.getConnection((err, connection) => {
     if (err) throw err;
@@ -66,7 +68,7 @@ router.get("/seller-products", isAuth, (req, res) => {
   });
 });
 
-//Get product by id -> for the product details page TODO:
+// WORKING: Get product by id -> for the product details page TODO:
 router.get("/product/:productId", (req, res) => {
   pool.getConnection((err, connection) => {
     if (err) throw err;
@@ -86,13 +88,13 @@ router.get("/product/:productId", (req, res) => {
   });
 });
 
-//Get product by id -> for the product details page for sellers
-router.get("/seller-product/:productId", isAuth, (req, res) => {
+//not working atm Get product by id -> for the product details page for sellers Sellerid needs to go through auth?
+router.get("/seller-product/:productId", /*isAuth,*/ (req, res) => {
   pool.getConnection((err, connection) => {
     if (err) throw err;
     connection.query(
       "SELECT * FROM products WHERE productID = ? AND sellerID = ?",
-      [req.params.productId, req.user.userID],
+      [req.params.productId, req.user.sellerID],
       (err, rows) => {
         connection.release();
         if (!err) {
@@ -158,22 +160,23 @@ let storage = multer.diskStorage({
 })
 
 let upload = multer({ storage: storage });
-//Create product TODO:
+
+//Create product, possible, data for a product and multiple images TODO:
 
 router.post( "/multiple-upload", /*isAuth,*/
-    uploadController.uploadImages,
+    uploadController.uploadImages, // uploadController defined at the imports
     uploadController.resizeImages,
     uploadController.getResult,
     /*upload.single('avatar'),*/ /*validate(productValidation, {}, {}),*/ (req, res) => {
       pool.getConnection((err, connection) => {
         if (err) throw err;
-        const params = req.body;
+        const uploadData = req.body;
         /*        params.sellerID = req.user.userID;*/
         if (typeof req.file !== 'undefined') {
-          // params.productImg = path.join(__dirname, "../uploads/" + req.file.filename)
-          params.productImg = req.file.filename
+          uploadData.productImg = path.join(__dirname, "../uploads/" + req.file.filename)
+          uploadData.productImg = req.file.filename
         }
-        connection.query("INSERT INTO products SET ?", params, (err, rows) => {
+        connection.query("INSERT INTO products SET ? ", uploadData, (err, rows) => {
           connection.release();
           if (!err) {
             res.status(201).send(rows);
@@ -184,16 +187,16 @@ router.post( "/multiple-upload", /*isAuth,*/
       });
     });
 
-/*
-router.post("/", isAuth, upload.single('avatar'), /!*validate(productValidation, {}, {}),*!/ (req, res) => {
+// TESTING: for uploading just one product without image?
+router.post("/", /*isAuth,*/ upload.single('avatar'), /*validate(productValidation, {}, {}),*/ (req, res) => {
   // console.log(req.body)
-  
+
   // console.log(req.file.filename + ".png")
 
   pool.getConnection((err, connection) => {
     if (err) throw err;
     const params = req.body;
-    params.sellerID = req.user.userID;
+/*    params.sellerID = req.user.userID;*/
     if(typeof req.file !== 'undefined'){
       // params.productImg = path.join(__dirname, "../uploads/" + req.file.filename)
       params.productImg = req.file.filename
@@ -206,11 +209,12 @@ router.post("/", isAuth, upload.single('avatar'), /!*validate(productValidation,
         res.status(400).send("Bad product creation request");
       }
     });
-*/
+  });
+});
 
 
 //Update product
-
+//
 // router.put("/:id", validate(productValidation, {}, {}), (req, res) => {
 //     pool.getConnection((err, connection) => {
 //         if (err) throw err;
@@ -236,7 +240,7 @@ router.post("/", isAuth, upload.single('avatar'), /!*validate(productValidation,
 //                 res.status(400).send('Bad product update request')
 //             }
 //         });
-
+// for updating a product.
 router.put("/:id", isAuth, validate(productValidation, {}, {}), (req, res) => {
   pool.getConnection((err, connection) => {
     if (err) throw err;
@@ -270,22 +274,23 @@ router.delete("/:id", isAuth, (req, res) => {
 //Multer test for implementation: using router and post. multipart form data.
 
 const handleError = (err, res) => {
-  res.status(500).contentType("text/plain").end("Oops! Something went wrong!");
+  res.status(500).contentType("text/plain").end("Oops! Something went wrong!"); //check
 };
 
-router.post("/upload", isAuth, upload.single("productimage" /* name attribute of <file> element in your form */), (req, res) => {
+//TESTING: for uploading an image , just one for testing
+router.post("/upload", /*isAuth,*/ upload.single("productImg" /* name attribute of <file> element in your form */), (req, res) => {
   const tempPath = req.file.path;
-  const targetPath = path.join(__dirname, "../productimages/image3.png");
+  const targetPath = path.join(__dirname, "/backend/uploads/image-3.png");
   if (path.extname(req.file.originalname).toLowerCase() === ".png") {
     fs.rename(tempPath, targetPath, (err) => {
-      if (err) return handleError(err, res);
+      if (err) return handleError(err, res); //ending here
       res.status(200).contentType("image/png").end("File uploaded!");
     });
   } else {
     fs.unlink(tempPath, (err) => {
       if (err) return handleError(err, res);
 
-      res.status(403).contentType("text/plain").end("Only .png files are allowed!");
+      res.status(403).contentType("text/plain").end("Only .png files are allowed!"); //check
     });
   }
 });

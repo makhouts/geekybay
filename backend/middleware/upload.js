@@ -53,10 +53,10 @@ const resizeImages = async (req, res, next) => {
     next();
 };
 
-const saveInDatabase = async (req, res, next) => {
-}
+/*const saveInDatabase = async (req, res, next) => {
+}*/
 
-const getResult = async (req, res, next) => {
+const getResult = async (req, res) => {
     if (req.body.productImg.length <= 0) return next();
 
     const images = req.body.productImg
@@ -64,6 +64,7 @@ const getResult = async (req, res, next) => {
             .join("");
 
     return res.send(`Images were uploaded:${images}`);
+
 
     next();
 };
