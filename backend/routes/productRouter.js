@@ -160,7 +160,7 @@ router.get("/product/img/:productId", (req, res) => {
 
 let storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'uploads/')
+    cb(null, 'backend/uploads/')
   },
   filename: function (req, file, cb) {
     cb(null, Date.now() + "_"+ (file.originalname.split('.')[0]) + path.extname(file.originalname)) //Appending extension
@@ -169,7 +169,7 @@ let storage = multer.diskStorage({
 
 let upload = multer({ storage: storage });
 //Create product TODO:
-router.post("/", isAuth, upload.single('avatar'), /*validate(productValidation, {}, {}),*/ (req, res) => {
+router.post("/",  upload.single('avatar'), /*validate(productValidation, {}, {}),*/ (req, res) => {
   // console.log(req.body)
   
   // console.log(req.file.filename + ".png")
@@ -177,14 +177,15 @@ router.post("/", isAuth, upload.single('avatar'), /*validate(productValidation, 
   pool.getConnection((err, connection) => {
     if (err) throw err;
     const params = req.body;
-    params.sellerID = req.user.userID;
+    // params.sellerID = req.user.userID;
     if(typeof req.file !== 'undefined'){
       // params.productImg = path.join(__dirname, "../uploads/" + req.file.filename)
       params.productImg = req.file.filename
     }
-    connection.query("INSERT INTO products SET ?", params, (err, rows) => {
+    connection.query("INSERT OUTPUT inserted.productID INTO products  SET ?", params, (err, rows) => {
       connection.release();
       if (!err) {
+        console.log(rows)
         res.status(201).send(rows);
       } else {
         res.status(400).send("Bad product creation request");
