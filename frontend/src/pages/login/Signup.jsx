@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import classes from "./login.module.css";
 import { SencondaryButton } from "../../components/secondaryButton/SencondaryButton";
 import { Link } from "react-router-dom";
 import { UseInput } from "../../hook/UseInput";
 
 export const Signup = () => {
+  const [singup, setSingup] = useState(false);
   const {
     value: enteredEmail,
     isValid: enteredEmailIsValid,
@@ -33,7 +34,6 @@ export const Signup = () => {
   } = UseInput((value) => value.trim().length > 6);
 
   let formIsValid = false;
-
   if (
     enteredEmailIsValid &&
     enteredPasswordIsValid &&
@@ -41,21 +41,22 @@ export const Signup = () => {
     enteredPassword === enteredConfirm
   ) {
     formIsValid = true;
-    console.log(enteredEmail, enteredPassword, enteredConfirm);
   }
 
   const formSubmissionHandler = (event) => {
     event.preventDefault();
-    if (
-      !enteredEmailIsValid ||
-      !enteredPasswordIsValid ||
-      !enteredConfirmIsValid
-    ) {
+    buttonHandler();
+    if (!formIsValid) {
       return;
     }
     resetEmailInput();
     resetPasswordInput();
     resetConfirmInput();
+  };
+
+  const buttonHandler = () => {
+    setSingup(true);
+    console.log(enteredEmail, enteredPassword, enteredConfirm);
   };
 
   return (
@@ -74,7 +75,7 @@ export const Signup = () => {
                 emailInputHasError === true ? classes.invalid : ""
               }`}
             >
-              <label>User Name</label>
+              <label htmlFor="email">User Name</label>
               <input
                 type="email"
                 id="email"
@@ -92,14 +93,14 @@ export const Signup = () => {
                 passwordInputHasError === true ? classes.invalid : ""
               }`}
             >
-              <label>Password</label>
+              <label htmlFor="password">Password</label>
               <input
                 type="password"
                 id="password"
                 value={enteredPassword}
                 onChange={passwordChangeHandler}
                 onBlur={passwordBlurHandler}
-                placeholder="Password"
+                placeholder="Enter minimum 7 digits password"
               />
               {passwordInputHasError && (
                 <p className={classes.error}>
@@ -112,14 +113,14 @@ export const Signup = () => {
                 confirmInputHasError === true ? classes.invalid : ""
               }`}
             >
-              <label>Confirm Password</label>
+              <label htmlFor="password">Confirm Password</label>
               <input
                 type="password"
-                id="password"
+                id="passwordConfim"
                 value={enteredConfirm}
                 onChange={confirmChangeHandler}
                 onBlur={confirmBlurHandler}
-                placeholder="Confirm Password"
+                placeholder="Confirm your password"
               />
               {passwordInputHasError && (
                 <p className={classes.error}>Please confirm your password</p>

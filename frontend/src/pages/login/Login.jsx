@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import classes from "./login.module.css";
 import { PageTransition } from "../../helpers/animations";
 import { Link } from "react-router-dom";
@@ -6,6 +6,7 @@ import { SencondaryButton } from "../../components/secondaryButton/SencondaryBut
 import { UseInput } from "../../hook/UseInput";
 
 export const Login = (props) => {
+  const [login, setLogin] = useState(false);
   const {
     value: enteredEmail,
     isValid: enteredEmailIsValid,
@@ -25,19 +26,26 @@ export const Login = (props) => {
   } = UseInput((value) => value.trim().length > 6);
 
   let formIsValid = false;
-
   if (enteredEmailIsValid && enteredPasswordIsValid) {
     formIsValid = true;
   }
 
   const formSubmissionHandler = (event) => {
     event.preventDefault();
-    if (!enteredEmailIsValid || !enteredPasswordIsValid) {
+    buttonHandler();
+
+    if (!formIsValid) {
       return;
     }
     resetEmailInput();
     resetPasswordInput();
   };
+
+  const buttonHandler = () => {
+    setLogin(true);
+    console.log(enteredEmail, enteredPassword);
+  };
+
   return (
     <PageTransition>
       <div>
@@ -55,7 +63,7 @@ export const Login = (props) => {
                   emailInputHasError === true ? classes.invalid : ""
                 }`}
               >
-                <label>User Name</label>
+                <label htmlFor="email">User Name</label>
                 <input
                   type="email"
                   id="email"
@@ -73,7 +81,7 @@ export const Login = (props) => {
                   passwordInputHasError === true ? classes.invalid : ""
                 }`}
               >
-                <label>Password</label>
+                <label htmlFor="password">Password</label>
                 <input
                   type="password"
                   id="password"
@@ -95,6 +103,7 @@ export const Login = (props) => {
               class={classes.btn}
               type="submit"
               disabled={!formIsValid}
+              onClick={buttonHandler}
             >
               Login
             </SencondaryButton>
