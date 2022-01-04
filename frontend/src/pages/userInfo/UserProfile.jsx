@@ -175,7 +175,7 @@ export const UserProfile = () => {
           <div className={classes.heading}>User Profile</div>
         </div>
         <div className={classes.passContainer}>
-          <div className={classes.passForm}>
+          <div className={classes.form}>
             <form onSubmit={userSubmitHandler}>
               <div
                 className={`${classes.formGroup} ${
@@ -256,7 +256,7 @@ export const UserProfile = () => {
           </div>
         </div>
         <div className={classes.addressContainer}>
-          <div className={classes.addressForm}>
+          <div className={classes.form}>
             <form onSubmit={addressSubmitHandler}>
               <div
                 className={`${classes.formGroup} ${
