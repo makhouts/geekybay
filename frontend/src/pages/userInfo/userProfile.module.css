@@ -25,7 +25,6 @@
 
 .addressForm,
 .passForm {
-  background-color: #118df0;
   align-items: center;
   width: 100%;
   display: flex;
@@ -33,7 +32,7 @@
   padding: 5px;
 }
 
-.formGoup input {
+.formGroup input {
   width: 100%;
   padding: 5px;
   border-radius: 5px;
