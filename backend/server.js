@@ -13,6 +13,7 @@ import productRouter from "./routes/productRouter.js";
 import orderRouter from "./routes/orderRouter.js";
 import adminRouter from "./routes/adminRouter.js";
 import authRouter from "./routes/authRouter.js";
+import paymentRouter from "./routes/paymentRouter.js";
 import pool from "./helper/dbConnection.js";
 import { local } from "./strategies/local.js";
 import {mainLimiter} from './middleware/rateLimiter.js'
@@ -76,5 +77,6 @@ app.use("/products", productRouter);
 app.use("/orders", orderRouter);
 app.use("/auth", authRouter);
 app.use("/admin", adminRouter);
+app.use("/pay", paymentRouter);
 
 app.listen(process.env.PORT);
