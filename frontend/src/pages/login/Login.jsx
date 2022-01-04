@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import classes from "./login.module.css";
 import { PageTransition } from "../../helpers/animations";
 import { Link } from "react-router-dom";
@@ -64,6 +64,9 @@ export const Login = (props) => {
                   onBlur={emailBlurHandler}
                   placeholder="Email"
                 />
+                {emailInputHasError && (
+                  <p className={classes.error}>Please enter a valid email</p>
+                )}
               </div>
               <div
                 className={`${classes.formGroup} ${
@@ -79,6 +82,11 @@ export const Login = (props) => {
                   onBlur={passwordBlurHandler}
                   placeholder="Password"
                 />
+                {passwordInputHasError && (
+                  <p className={classes.error}>
+                    Please enter a minmum 7 digits password
+                  </p>
+                )}
               </div>
             </form>
           </div>
