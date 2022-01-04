@@ -11,7 +11,8 @@ export const Navigation = (props) => {
   let cartCount = props.cart.length;
 
   const cartSummary = props.cart.map((item) => (
-    <div className={classes.item} key={item.id}>
+    <div className={classes.item} key={item.productID}>
+          {console.log(item)}
       <img src={require("../../assets/iphone.png")} alt="" />
       <div className={classes.productInfo}>
         <h4>{item.productName}</h4>
@@ -21,7 +22,7 @@ export const Navigation = (props) => {
       <p>€ {item.qty * item.price}</p>
       <TiDeleteOutline
         className={classes.deleteIcon}
-        onClick={props.deleteItemFromCart.bind(this, item.id)}
+        onClick={props.deleteItemFromCart.bind(this, item.productID)}
       />
     </div>
   ));

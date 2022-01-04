@@ -4,7 +4,7 @@ import "./secondaryButton.module.css";
 export const SencondaryButton = (props) => {
   return (
     <div>
-      <button>{props.children}</button>
+      <button onClick={props.clicked}>{props.children}</button>
     </div>
   );
 };
