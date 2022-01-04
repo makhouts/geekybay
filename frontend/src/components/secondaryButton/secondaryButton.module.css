@@ -1,8 +1,27 @@
-button {
+.button {
   background-color: #118df0;
   color: white;
   border: none;
   padding: 5px;
   border-radius: 5px;
   cursor: pointer;
+}
+
+.button:hover,
+.button:active {
+  background: brown;
+  border-color: brown;
+}
+
+.button:focus {
+  outline: none;
+}
+
+.button:disabled,
+.button:hover:disabled,
+.button:active:disabled {
+  background: lightgray;
+  border-color: lightgray;
+  color: gray;
+  cursor: not-allowed;
 }

@@ -5,6 +5,7 @@ import { Link, NavLink } from "react-router-dom";
 import { SearchBar } from '../searchBar/SearchBar';
 import { BsCart3 } from "react-icons/bs";
 import { TiDeleteOutline } from 'react-icons/ti'
+import { SencondaryButton } from '../secondaryButton/SencondaryButton';
 
 
 export const Navigation = (props) => {
@@ -95,12 +96,12 @@ export const Navigation = (props) => {
               </p>
             </div>
             <Link to="checkout">
-              <button
+              <SencondaryButton
                 disabled={props.cart.length == 0 ? true : false}
                 className={classes.checkoutBtn}
               >
                 Checkout
-              </button>
+              </SencondaryButton>
             </Link>
           </motion.div>
         </div>

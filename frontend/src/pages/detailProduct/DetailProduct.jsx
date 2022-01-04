@@ -49,11 +49,11 @@ if(showSpinner) {
             </div>
             <div className={classes.buyContainer}>
               <div className={classes.quantityContainer}>
-                <button onClick={() => setQty(qty -1)} className={classes.removeBtn}>-</button>
+                <SencondaryButton onClick={() => setQty(qty -1)} className={classes.removeBtn}>-</SencondaryButton>
                 <span className={classes.buyAmount}>{qty}</span>
-                <button onClick={() => setQty(qty +1)} className={classes.addBtn}>+</button>
+                <SencondaryButton onClick={() => setQty(qty +1)} className={classes.addBtn}>+</SencondaryButton>
               </div>
-              <SencondaryButton clicked={() => props.addToCart(product, qty)}>
+              <SencondaryButton onClick={() => props.addToCart(product, qty)}>
                 Add to Cart
               </SencondaryButton>
             </div>
