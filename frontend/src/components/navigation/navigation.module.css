@@ -1,8 +1,8 @@
 .navigation {
     display: flex;
     justify-content: space-evenly;
-    padding: 40px;
-    background-color: var(--darkBlue);
+    background: rgb(4,8,37);
+    background: linear-gradient(84deg, rgba(4,8,37,1) 0%, rgba(0,6,47,1) 100%);
     color: white;
     font-family: var(--font1);
     align-items: center;
@@ -78,7 +78,7 @@
     width: 70px;
 }
 
-.cartIcon:hover ~ .cartSummary {
+.cartIconHover:hover ~ .cartSummary {
     display: block;
 }
 
@@ -127,4 +127,8 @@ button:disabled{
 button:disabled:hover{
     background-color: #cccccc;
     color: #666666;
+}
+
+.logo img {
+    width: 100px;
 }

@@ -9,7 +9,9 @@ export const Footer = () => {
         <div className="footerRow">
           <div className={classes.content}>
             <div className={classes.footerLeftContent}>
-              <img src="" alt="logo" />
+              <Link to="/">
+                <img className={classes.logo} src={require("../../assets/logo.png")} alt="" />
+              </Link>
               <div className={classes.footerLinks}>
                 <Link to="/">Home</Link> -<Link to="products"> Products</Link> -
                 <Link to="contact"> Contact</Link> -
@@ -29,8 +31,8 @@ export const Footer = () => {
           </div>
         </div>
         <div className={classes.policy}>
-            <p>© {new Date().getFullYear()} GeekyBay. All Rights Reserved</p>
-            <p>Privacy Policy - Terms and Conditions</p>
+          <p>© {new Date().getFullYear()} GeekyBay. All Rights Reserved</p>
+          <p>Privacy Policy - Terms and Conditions</p>
         </div>
       </footer>
     );

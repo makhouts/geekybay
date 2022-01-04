@@ -1,144 +1,112 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Navigation } from "./components/navigation/Navigation";
-import { Footer } from './components/footer/Footer';
+import { Footer } from "./components/footer/Footer";
 import { AnimatePresence } from "framer-motion";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  useLocation,
-} from "react-router-dom";
-import {
-  Home,
-  Products,
-  Contact,
-  Login,
-  Signup,
-  DetailProduct,
-  Page404,
-  Checkout,
-} from "./pages/index";
+import axios from "axios";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import { Home, Products, Contact, Login, Signup, UserProfile, DetailProduct, Page404, Checkout } from "./pages/index";
 import "./App.css";
 
 function App() {
-  const [cart, setCart] = useState([
-    {
-      id: 1,
-      image: "",
-      productName: "Iphone 13 Pro",
-      price: "1299.99",
-      qty: "2",
-    },
-    {
-      id: 2,
-      image: "",
-      productName: "Iphone 11 Pro",
-      price: "1299.89",
-      qty: "1",
-    },
-    {
-      id: 3,
-      image: "",
-      productName: "Iphone 13 Pro",
-      price: "1299.99",
-      qty: "2",
-    },
-    {
-      id: 4,
-      image: "",
-      productName: "Iphone 11 Pro",
-      price: "1299.89",
-      qty: "1",
-    },{
-      id: 5,
-      image: "",
-      productName: "Iphone 13 Pro",
-      price: "1299.99",
-      qty: "2",
-    },
-    {
-      id: 6,
-      image: "",
-      productName: "Iphone 11 Pro",
-      price: "1299.89",
-      qty: "1",
-    },
-  ]);
-  
-  const [products, setProducts] = useState([
-    {
-      productId: 1,
-      productName: "Iphone 13 Pro",
-      sellerID: 1,
-      productDescription: "Iphone 13 Pro",
-      image: "./assets/iphone.png",
-      price: "€ 1299.00",
-      available: true,
-    },
-    {
-      productId: 2,
-      productName: "Guitar heroX",
-      sellerID: 2,
-      productDescription: "Guitar heroX, now with amazing sound",
-      image: "./assets/iphone.png",
-      price: "€ 899.00",
-      available: true,
-    },
-    {
-      productId: 3,
-      productName: "Samsung Smart TV",
-      sellerID: 3,
-      productDescription: "Iphone 13 Pro",
-      image: "./assets/iphone.png",
-      price: "€ 2299.00",
-      available: true,
-    },
-    {
-      productId: 4,
-      productName: "",
-      sellerID: 4,
-      productDescription: "Furniture table - Wood",
-      image: "./assets/iphone.png",
-      price: "€ 350.00",
-      available: true,
-    },
-    {
-      productId: 5,
-      productName: "Cozy Family Heater",
-      sellerID: 5,
-      productDescription: "Iphone 13 Pro",
-      image: "./assets/iphone.png",
-      price: "€ 95.99",
-      available: true,
-    },
-    {
-      productId: 6,
-      productName: "Winter Jacket extra thermo",
-      sellerID: 6,
-      productDescription: "Iphone 13 Pro",
-      image: "./assets/iphone.png",
-      price: "€ 30.00",
-      available: true,
-    },
-  ]);
+  const [cart, setCart] = useState([]);
+
+  const [products, setProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [showSpinner, setShowSpinner] = useState(true);
+
+  useEffect(async () => {
+    try {
+      const getProducts = await axios.get("https://geekybay.herokuapp.com/products");
+      setProducts(getProducts.data);
+      setShowSpinner(false);
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+
+  useEffect(() => {
+    const data = localStorage.getItem('cart');
+    if(data) {
+      setCart(JSON.parse(data));
+    }
+  }, [])
+
+  useEffect(() => {
+    localStorage.setItem('cart', JSON.stringify(cart))
+  })
+
   const location = useLocation();
 
+  const addToCart = (product, qty) => {
+    if (cart.filter((c) => c.productID === product[0].productID).length > 0) {
+      const index = cart.findIndex((x) => x.productID === product[0].productID);
+      const newCart = [...cart];
+      newCart[index].qty += qty;
+      setCart(newCart);
+    } else {
+      setCart((prevCart) => [...prevCart, { qty: qty, ...product[0] }]);
+    }
+  }; 
+
   const deleteItemFromCart = (id) => {
-    const deletedItem = cart.filter(cart => cart.id !== id);
+    const deletedItem = cart.filter((cart) => cart.productID !== id);
     setCart(deletedItem);
-  }
+  };
+
+  const showOnlyFreeShipping = (showOnlyFreeShipping) => {
+    if (showOnlyFreeShipping) {
+      const freeShipping = products.filter((product) => product.freeShipping == showOnlyFreeShipping);
+      setFilteredProducts(freeShipping);
+    } else {
+      setFilteredProducts([]);
+    }
+  };
 
   return (
     <div className="App">
       <Navigation cart={cart} deleteItemFromCart={deleteItemFromCart} />
       <AnimatePresence exitBeforeEnter>
         <Routes location={location} key={location.pathname}>
-          <Route path="products" element={<Products />} />
-          <Route path="productDetail" element={<DetailProduct />} />
-          <Route path="contact" element={<Contact />} />
-          <Route path="login" element={<Login />} />
-          <Route path="checkout" element={<Checkout cart={cart} deleteItemFromCart={deleteItemFromCart} />} />
-          <Route path="signUp" element={<Signup />} />
+          <Route path="/products">
+            <Route
+              path=":search"
+              element={
+                <Products
+                  products={
+                    filteredProducts.length ? filteredProducts : products
+                  }
+                  showOnlyFreeShipping={showOnlyFreeShipping}
+                  showSpinner={showSpinner}
+                />
+              }
+            />
+            <Route
+              path=""
+              element={
+                <Products
+                  products={
+                    filteredProducts.length ? filteredProducts : products
+                  }
+                  showOnlyFreeShipping={showOnlyFreeShipping}
+                  showSpinner={showSpinner}
+                />
+              }
+            />
+          </Route>
+          <Route
+            path="/productDetail/:id"
+            element={<DetailProduct addToCart={addToCart} />}
+          />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/userProfile" element={<UserProfile />} />
+          <Route path="/login" element={<Login />} />
+          <Route
+            path="/checkout"
+            element={
+              <Checkout cart={cart} deleteItemFromCart={deleteItemFromCart} />
+            }
+          />
+          <Route path="/signUp" element={<Signup />} />
           <Route path="/" element={<Home products={products} />} />
           <Route path="*" element={<Page404 />} />
         </Routes>

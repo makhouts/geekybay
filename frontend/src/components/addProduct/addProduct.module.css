@@ -1,0 +1,14 @@
+.addProduct {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 20px;
+}
+
+.checkboxes {
+    margin: 30px 0px;
+}
+
+.checkboxes input {
+    margin: 10px;
+}

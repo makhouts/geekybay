@@ -6,5 +6,4 @@ export { Signup } from "./login/Signup";
 export { DetailProduct } from "./detailProduct/DetailProduct";
 export { Page404 } from "./page404/Page404";
 export { Checkout } from "./cart/Checkout";
-
-
+export { UserProfile } from "./userInfo/UserProfile";

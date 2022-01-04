@@ -1,5 +1,6 @@
 .delivery {
     background-color: white;
-    min-height: 200px;
+    min-height: 50px;
     margin-top: 20px;
+    padding: 20px;
 }

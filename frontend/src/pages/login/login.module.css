@@ -1,3 +1,7 @@
+* {
+  font-family: var(--font3);
+}
+
 .boxContainer {
   width: 300px;
   min-height: 500px;
@@ -7,11 +11,10 @@
   align-items: center;
   justify-content: center;
   border-radius: 19px;
-  background-color: #fff;
+  background: white;
   box-shadow: 0 0 2px rgba(15, 15, 15, 0.28);
   position: relative;
   overflow: hidden;
-  font-family: var(--font3);
 }
 .topContainer {
   width: 100%;
@@ -61,7 +64,7 @@
   padding: 5px;
 }
 
-.formInput {
+.formGroup input {
   width: 100%;
   font-size: 14px;
   margin-top: 5px;
@@ -70,11 +73,20 @@
   border: 1px solid lightgray;
 }
 
-.label {
+.formGroup.invalid input {
+  border-color: red;
+  background-color: rgb(223, 182, 182);
+}
+
+.formGroup label {
   flex: 1;
   display: flex;
   margin-top: 5px;
   margin-left: 5px;
+}
+
+.error {
+  color: red;
 }
 .buttonContainer {
   display: flex;
@@ -99,6 +111,7 @@
 }
 
 .link {
+  color: black;
   display: flex;
   margin-right: 5px;
   cursor: pointer;
