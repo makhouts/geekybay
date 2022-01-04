@@ -43,6 +43,7 @@ export const MultiStepForm = (props) => {
       });
       const { status } = response;
       if (status === 200) {
+        // TODO: add order details here
         navigate("/"); // TODO: add ty for purchase or something
       }
     } catch (error) {
