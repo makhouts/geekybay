@@ -177,6 +177,8 @@ router.post( "/multiple-upload", /*isAuth,*/
           uploadData.productImg = req.file.filename
         }
         connection.query("INSERT INTO products SET ? ", uploadData, (err, rows) => {
+          connection.query("INSERT INTO productimages SET productImg = ?, productID = ? ", [uploadData.productImg, products.productId] , (err, rows) => {
+          //more queries, release later.
           connection.release();
           if (!err) {
             res.status(201).send(rows);
@@ -278,7 +280,7 @@ const handleError = (err, res) => {
 };
 
 //TESTING: for uploading an image , just one for testing
-router.post("/upload", /*isAuth,*/ upload.single("productImg" /* name attribute of <file> element in your form */), (req, res) => {
+/*router.post("/upload", /!*isAuth,*!/ upload.single("productImg" /!* name attribute of <file> element in your form *!/), (req, res) => {
   const tempPath = req.file.path;
   const targetPath = path.join(__dirname, "/backend/uploads/image-3.png");
   if (path.extname(req.file.originalname).toLowerCase() === ".png") {
@@ -293,6 +295,6 @@ router.post("/upload", /*isAuth,*/ upload.single("productImg" /* name attribute 
       res.status(403).contentType("text/plain").end("Only .png files are allowed!"); //check
     });
   }
-});
+});*/
 
 export default router;
