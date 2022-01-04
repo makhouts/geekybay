@@ -39,15 +39,29 @@ function App() {
     }
   }, [])
 
+  useEffect(() => {
+    const data = localStorage.getItem('cart');
+    if(data) {
+      setCart(JSON.parse(data));
+    }
+  }, [])
+
+  useEffect(() => {
+    localStorage.setItem('cart', JSON.stringify(cart))
+  })
+
   const location = useLocation();
 
   const addToCart = (product, qty) => {
-    
-    setCart(prevCart => [
-      ...prevCart,
-      {qty: qty, ...product[0]}
-    ])
-  }
+    if (cart.filter((c) => c.productID === product[0].productID).length > 0) {
+      const index = cart.findIndex((x) => x.productID === product[0].productID);
+      const newCart = [...cart];
+      newCart[index].qty += qty;
+      setCart(newCart);
+    } else {
+      setCart((prevCart) => [...prevCart, { qty: qty, ...product[0] }]);
+    }
+  }; 
 
   const deleteItemFromCart = (id) => {
     const deletedItem = cart.filter((cart) => cart.productID !== id);

@@ -23,13 +23,6 @@ export const Products = (props) => {
         </Modal>
         <div className={classes.productsContainer}>
           <div className={classes.filter}>
-            <div className="price">
-              <label>Price</label>
-              <div className={classes.priceFilter}>
-                <input type="text" name="minPrice" placeholder="€" />
-                <input type="text" name="maxPrice" placeholder="€" />
-              </div>
-            </div>
             <div className="shipping">
               <label>Shipping</label>
               <div className={classes.shippingFilter}>
