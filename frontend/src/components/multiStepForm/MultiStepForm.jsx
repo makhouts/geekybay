@@ -38,7 +38,7 @@ export const MultiStepForm = (props) => {
               <p>{item.price}</p>
               <TiDelete
                 className={classes.deleteIcon}
-                onClick={props.deleteItemFromCart.bind(this, item.id)}
+                onClick={props.deleteItemFromCart.bind(this, item.productID)}
               />
             </motion.div>
           ))

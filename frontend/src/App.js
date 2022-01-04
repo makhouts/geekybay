@@ -23,22 +23,7 @@ import {
 import "./App.css";
 
 function App() {
-  const [cart, setCart] = useState([
-    {
-      id: 1,
-      image: "",
-      productName: "Iphone 13 Pro",
-      price: "1299.99",
-      qty: "2",
-    },
-    {
-      id: 2,
-      image: "",
-      productName: "Iphone 11 Pro",
-      price: "1299.89",
-      qty: "1",
-    },
-  ]);
+  const [cart, setCart] = useState([]);
 
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -56,8 +41,16 @@ function App() {
 
   const location = useLocation();
 
+  const addToCart = (product, qty) => {
+    
+    setCart(prevCart => [
+      ...prevCart,
+      {qty: qty, ...product[0]}
+    ])
+  }
+
   const deleteItemFromCart = (id) => {
-    const deletedItem = cart.filter((cart) => cart.id !== id);
+    const deletedItem = cart.filter((cart) => cart.productID !== id);
     setCart(deletedItem);
   };
 
@@ -79,7 +72,7 @@ function App() {
             <Route path=":search" element={<Products products={filteredProducts.length ? filteredProducts : products} showOnlyFreeShipping={showOnlyFreeShipping} showSpinner={showSpinner} />} />
             <Route path="" element={<Products products={filteredProducts.length ? filteredProducts : products} showOnlyFreeShipping={showOnlyFreeShipping} showSpinner={showSpinner} />} />
           </Route>
-          <Route path="/productDetail/:id" element={<DetailProduct />} />
+          <Route path="/productDetail/:id" element={<DetailProduct addToCart={addToCart} />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/userProfile" element={<UserProfile />} />
           <Route path="/login" element={<Login />} />

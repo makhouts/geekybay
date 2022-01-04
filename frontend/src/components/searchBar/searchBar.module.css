@@ -13,8 +13,11 @@
 }
 
 .searchBar input:focus {
-    width: 700px;
+    /* width: 500px; */
     transition: 0.3s;
+}
+.searchBar a{
+    align-self: center;
 }
 
 .searchIcon {
