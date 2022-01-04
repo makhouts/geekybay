@@ -1,10 +1,29 @@
 import React, { useState } from "react";
 import classes from "./login.module.css";
 import { SencondaryButton } from "../../components/secondaryButton/SencondaryButton";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { UseInput } from "../../hook/UseInput";
+import { GuestForm } from "../../components/multiStepForm/GuestForm";
+import axios from "axios";
 
 export const Signup = () => {
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+
+  const navigate = useNavigate();
+
+  const postRegister = () => {
+    axios.post('https://geekybay.herokuapp.com/auth/register', {
+      userName: username,
+      emailAddress: email,
+      password: password,
+    }).then(res => {
+     return res.status === 200 ? navigate('/login') : null;
+    })
+  };
+
   const [singup, setSingup] = useState(false);
   const {
     value: enteredEmail,
@@ -45,18 +64,12 @@ export const Signup = () => {
 
   const formSubmissionHandler = (event) => {
     event.preventDefault();
-    buttonHandler();
     if (!formIsValid) {
       return;
     }
     resetEmailInput();
     resetPasswordInput();
     resetConfirmInput();
-  };
-
-  const buttonHandler = () => {
-    setSingup(true);
-    console.log(enteredEmail, enteredPassword, enteredConfirm);
   };
 
   return (
@@ -71,16 +84,35 @@ export const Signup = () => {
         <div className={classes.form}>
           <form onSubmit={formSubmissionHandler}>
             <div
-              className={`${classes.formGroup} ${
-                emailInputHasError === true ? classes.invalid : ""
-              }`}
+              // className={`${classes.formGroup} ${
+              //   emailInputHasError === true ? classes.invalid : ""
+              // }`}
+            >
+              <label htmlFor="username">User Name</label>
+              <input
+                type="username"
+                // id="username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                // onBlur={emailBlurHandler}
+                placeholder="Username"
+              />
+              {/* {emailInputHasError && (
+                <p className={classes.error}>Please enter a valid email</p>
+              )} */}
+            </div>
+
+            <div
+              // className={`${classes.formGroup} ${
+              //   emailInputHasError === true ? classes.invalid : ""
+              // }`}
             >
               <label htmlFor="email">User Name</label>
               <input
                 type="email"
                 id="email"
-                value={enteredEmail}
-                onChange={emailChangeHandler}
+                value={email}
+                onChange={e => setEmail(e.target.value)}
                 onBlur={emailBlurHandler}
                 placeholder="Email"
               />
@@ -88,17 +120,18 @@ export const Signup = () => {
                 <p className={classes.error}>Please enter a valid email</p>
               )}
             </div>
+
             <div
-              className={`${classes.formGroup} ${
-                passwordInputHasError === true ? classes.invalid : ""
-              }`}
+              // className={`${classes.formGroup} ${
+              //   passwordInputHasError === true ? classes.invalid : ""
+              // }`}
             >
               <label htmlFor="password">Password</label>
               <input
                 type="password"
                 id="password"
-                value={enteredPassword}
-                onChange={passwordChangeHandler}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 onBlur={passwordBlurHandler}
                 placeholder="Enter minimum 7 digits password"
               />
@@ -109,16 +142,16 @@ export const Signup = () => {
               )}
             </div>
             <div
-              className={`${classes.formGroup} ${
-                confirmInputHasError === true ? classes.invalid : ""
-              }`}
+              // className={`${classes.formGroup} ${
+              //   confirmInputHasError === true ? classes.invalid : ""
+              // }`}
             >
               <label htmlFor="password">Confirm Password</label>
               <input
                 type="password"
                 id="passwordConfim"
-                value={enteredConfirm}
-                onChange={confirmChangeHandler}
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
                 onBlur={confirmBlurHandler}
                 placeholder="Confirm your password"
               />
@@ -133,14 +166,13 @@ export const Signup = () => {
           <SencondaryButton
             class={classes.btn}
             type="submit"
-            disabled={!formIsValid}
-            onClick={buttonHandler}
+            onClick={postRegister}
           >
             SignUp
           </SencondaryButton>
         </div>
         <div className={classes.linkContainer}>
-          <p class={classes.linkText}>Already have an account?</p>
+          <p className={classes.linkText}>Already have an account?</p>
           <Link className={classes.link} to="/userProfile">
             Login
           </Link>
