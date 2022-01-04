@@ -15,7 +15,7 @@ const router = express.Router();
 router.get("/seller",isAuth, (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) throw err;
-        connection.query("SELECT * FROM orderdetail WHERE sellerID = ?", [req.user.userID], (err, rows) => {
+        connection.query("SELECT * FROM orderdetails WHERE sellerID = ?", [req.user.userID], (err, rows) => {
             connection.release();
             if (!err) {
                 res.status(200).send(rows);
@@ -30,7 +30,7 @@ router.get("/seller",isAuth, (req, res) => {
 router.get("/buyer",isAuth, (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) throw err;
-        connection.query("SELECT * FROM orderdetail WHERE buyerID = ?", [req.user.userID], (err, rows) => {
+        connection.query("SELECT * FROM orderdetails WHERE buyerID = ?", [req.user.userID], (err, rows) => {
             connection.release();
             if (!err) {
                 res.status(200).send(rows);
@@ -45,7 +45,7 @@ router.get("/buyer",isAuth, (req, res) => {
 router.get("/buyer",isAuth, (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) throw err;
-        connection.query("SELECT * FROM orderdetail WHERE orderID = ? AND ( sellerID = ? OR buyerID = ?)", [req.params.orderID, req.user.userID, req.user.userID], (err, rows) => {
+        connection.query("SELECT * FROM orderdetails WHERE orderID = ? AND ( sellerID = ? OR buyerID = ?)", [req.params.orderID, req.user.userID, req.user.userID], (err, rows) => {
             connection.release();
             if (!err) {
                 res.status(200).send(rows);
