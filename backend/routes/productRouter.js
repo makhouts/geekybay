@@ -36,7 +36,6 @@ router.get("/", (req, res) => {
     });
   });
 });
-//imagegetter refactoring for use in getter by any other means.
 
 // WORKING:  Get products by sellerid
 router.get("/:sellerId", (req, res) => {
@@ -88,7 +87,7 @@ router.get("/product/:productId", (req, res) => {
   });
 });
 
-//not working atm Get product by id -> for the product details page for sellers Sellerid needs to go through auth?
+//WORKING with hardcoded user and probably also afther auth.  atm Get product by id -> for the product details page for sellers Sellerid needs to go through auth?
 router.get("/seller-product/:productId", /*isAuth,*/ (req, res) => {
   pool.getConnection((err, connection) => {
     if (err) throw err;
@@ -161,28 +160,50 @@ let storage = multer.diskStorage({
 
 let upload = multer({ storage: storage });
 
-//Create product, possible, data for a product and multiple images TODO:
-
+//Create product, possible, data for a product and multiple images TODO: currently can upload multiple images.
+//todo: sanitise and double-check
+//todo create class/function, errorhandling in the class/function.
 router.post( "/multiple-upload", /*isAuth,*/
-    uploadController.uploadImages, // uploadController defined at the imports
+    uploadController.uploadImages, // uploadController defined at the imports,
     uploadController.resizeImages,
-    uploadController.getResult,
-    /*upload.single('avatar'),*/ /*validate(productValidation, {}, {}),*/ (req, res) => {
+    uploadController.getResult, //looks like command is ending here, how to extend.
+    /*upload.single('avatar'),*/ /*validate(productValidation, {}, {}),*/  async (req, res) => {
       pool.getConnection((err, connection) => {
         if (err) throw err;
-        const uploadData = req.body;
+        const uploadData = req.body; //
+        console.log(uploadData);
+        if (req.body.productImg) {
+          const productData = req.body.productImg;
+        }
+
         /*        params.sellerID = req.user.userID;*/
         if (typeof req.file !== 'undefined') {
           uploadData.productImg = path.join(__dirname, "../uploads/" + req.file.filename)
           uploadData.productImg = req.file.filename
         }
-        connection.query("INSERT INTO products SET ? ", uploadData, (err, rows) => {
-          connection.query("INSERT INTO productimages SET productImg = ?, productID = ? ", [uploadData.productImg, products.productId] , (err, rows) => {
+        connection.query("" +
+            "INSERT INTO products SET productName = ?, sellerID = ?, productDescription=? , price= ?, inStock =? , visible = ?, freeShipping =?" //error is here
+            ,[uploadData.productName, uploadData.sellerID, uploadData.productDescription, uploadData.price, uploadData.inStock, uploadData.visible, uploadData.freeShipping],
+            (err, rows) => {
+          if (req.body.productImg !== []) {
+            connection.query("" +
+                "INSERT INTO productimages SET productImg = ?, productID= ?" //error is here
+                ,[uploadData.productImg, uploadData.productId],
+                (err, rows) => {
+                  if (!err) {
+                    res.status(201).send(rows);
+                  } else {
+                    console.error(err);
+                }
+          });
+          }
           //more queries, release later.
           connection.release();
           if (!err) {
             res.status(201).send(rows);
           } else {
+            console.error(err);
+            console.log(uploadData);
             res.status(400).send("Bad product creation request");
           }
         });
@@ -213,35 +234,6 @@ router.post("/", /*isAuth,*/ upload.single('avatar'), /*validate(productValidati
     });
   });
 });
-
-
-//Update product
-//
-// router.put("/:id", validate(productValidation, {}, {}), (req, res) => {
-//     pool.getConnection((err, connection) => {
-//         if (err) throw err;
-//         const action = 'update';
-//         const data = req.body;
-//         connection.query('UPDATE products SET ? WHERE productID=?', [data , req.params.id] , (err, rows) => {
-//             if (!err) {
-//                 //res.status(201).send(rows);
-//                 //send email to seller if update successful
-//                 //get email for both seller and buyer,
-//                 connection.query("SELECT * FROM users WHERE userid = ?", [data.sellerID], (err, rows) => {
-//                     connection.release();
-//                     if (!err) {
-//                         res.status(200).send(rows);
-//                         //send mail to seller
-//                         email(rows[0].emailAddress, action).catch(console.error);
-//                     } else {
-//                         res.status(400).send("Bad request for seller & buyer data");
-//                     }
-//                 });
-//             } else {
-//                 connection.release();
-//                 res.status(400).send('Bad product update request')
-//             }
-//         });
 // for updating a product.
 router.put("/:id", isAuth, validate(productValidation, {}, {}), (req, res) => {
   pool.getConnection((err, connection) => {

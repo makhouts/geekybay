@@ -11,19 +11,19 @@ const multerFilter = (req, file, cb) => {
         cb("Please upload only images.", false);
     }
 };
-
 const upload = multer({
     storage: multerStorage,
     fileFilter: multerFilter
 });
-
+//using a multer function uploading several images.
 const uploadFiles = upload.array("productImg", 5); // limit to 5 images
 
+//uploads images to the upload array.
 const uploadImages = (req, res, next) => {
     uploadFiles(req, res, err => {
         if (err instanceof multer.MulterError) { // A Multer error occurred when uploading.
             if (err.code === "LIMIT_UNEXPECTED_FILE") { // Too many images exceeding the allowed limit
-                // ...
+                return res.send("too many images, reduce image amount")
             }
         } else if (err) {
             // handle other errors
@@ -32,6 +32,8 @@ const uploadImages = (req, res, next) => {
         next();
     });
 };
+
+//resize images, using sharp
 const resizeImages = async (req, res, next) => {
     if (!req.files) return next();
     req.body.productImg = [];
@@ -48,23 +50,23 @@ const resizeImages = async (req, res, next) => {
             console.log(req.body.productImg);
         })
     );
-
-
     next();
 };
 
-/*const saveInDatabase = async (req, res, next) => {
-}*/
+//Todo create class/function and fix input sanitize.
+const storeImage = async () => {
 
-const getResult = async (req, res) => {
+};
+
+//show which images were uploaded.
+const getResult = async (req, res, next) => {
     if (req.body.productImg.length <= 0) return next();
 
     const images = req.body.productImg
             .map(image => "" + image + "")
             .join("");
 
-    return res.send(`Images were uploaded:${images}`);
-
+    await console.log(`Images were uploaded:${images}`);
 
     next();
 };
