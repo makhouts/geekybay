@@ -2,6 +2,7 @@ if (process.env.NODE_ENV !== "production") {
   const dotenv = await import("dotenv");
   dotenv.config();
 }
+
 import express from "express";
 import {ValidationError} from "express-validation";
 import passport from "passport";
@@ -11,6 +12,7 @@ import bodyParser from "body-parser";
 import userRouter from "./routes/userRouter.js";
 import productRouter from "./routes/productRouter.js";
 import orderRouter from "./routes/orderRouter.js";
+import orderDetailRouter from "./routes/orderDetailRouter.js";
 import adminRouter from "./routes/adminRouter.js";
 import authRouter from "./routes/authRouter.js";
 import pool from "./helper/dbConnection.js";
@@ -69,11 +71,10 @@ app.use(function(err, req, res, next) {
 app.use(passport.initialize());
 app.use(passport.session()); // 
 
-//todo: visible to who?
 app.use("/users", userRouter);
 app.use("/products", productRouter);
-//todo: this should not be publicly visible information - only admin?
 app.use("/orders", orderRouter);
+app.use("/orderdetails", orderDetailRouter);
 app.use("/auth", authRouter);
 app.use("/admin", adminRouter);
 
