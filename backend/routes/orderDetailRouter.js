@@ -88,4 +88,41 @@ router.post("/" ,(req, res) => {
     });
 });
 
+//cancel order
+router.put("/cancel/:id", (req, res) => {
+    pool.getConnection((err, connection) => {
+        const orderStatus = "canceled";
+        if (err) throw err;
+        //params is a request parameter in the url
+        connection.query("UPDATE orderdetails SET orderStatus=? WHERE orderID=? AND sellerID=?", [orderStatus, req.params.id, req.user.userID], (err, rows) => {
+            connection.release();
+            if (!err) {
+                //the request has succeeded and a new resource has been created as a result.
+                res.status(201).send(rows);
+            } else {
+                //?
+                res.status(400).send('Bad request')
+            }
+        });
+    });
+});
+
+//confirm order
+router.put("/cancel/:id", (req, res) => {
+    pool.getConnection((err, connection) => {
+        const orderStatus = "confirmed";
+        if (err) throw err;
+        //params is a request parameter in the url
+        connection.query("UPDATE orderdetails SET orderStatus=? WHERE orderID=? AND sellerID=?", [orderStatus, req.params.id, req.user.userID], (err, rows) => {
+            connection.release();
+            if (!err) {
+                //the request has succeeded and a new resource has been created as a result.
+                res.status(201).send(rows);
+            } else {
+                //?
+                res.status(400).send('Bad request')
+            }
+        });
+    });
+});
 export default router;

@@ -100,7 +100,7 @@ router.put("/cancel/:id", (req, res) => {
         const orderStatus = "canceled";
         if (err) throw err;
         //params is a request parameter in the url
-        connection.query("UPDATE orders SET status=? WHERE orderID=?", [orderStatus, req.params.id], (err, rows) => {
+        connection.query("UPDATE orders SET orderStatus=? WHERE orderID=?", [orderStatus, req.params.id], (err, rows) => {
             connection.release();
             if (!err) {
                 //the request has succeeded and a new resource has been created as a result.
