@@ -174,7 +174,7 @@ export const UserProfile = () => {
         <div className={classes.topContainer}>
           <div className={classes.heading}>User Profile</div>
         </div>
-        <div className={classes.passContainer}>
+        <div className={classes.formContainer}>
           <div className={classes.form}>
             <form onSubmit={userSubmitHandler}>
               <div
@@ -255,7 +255,7 @@ export const UserProfile = () => {
             </SencondaryButton>
           </div>
         </div>
-        <div className={classes.addressContainer}>
+        <div className={classes.formContainer}>
           <div className={classes.form}>
             <form onSubmit={addressSubmitHandler}>
               <div
