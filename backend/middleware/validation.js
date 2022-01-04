@@ -17,6 +17,29 @@ export const orderValidation = {
     })
 }
 
+export const orderDetailValidation = {
+    body: Joi.object({
+        orderID: Joi.number()
+            .required(),
+        productID: Joi.number()
+            .required(),
+        quantityOrdered: Joi.number()
+            .required(),
+        priceEach: Joi.number()
+            .required(),
+        sellerID: Joi.number()
+            .required(),
+        buyerID: Joi.number()
+            .integer()
+            .required(),
+        orderStatus: Joi.string()
+            .regex(/[a-zA-Z0-9]{3,30}/)
+            .required(),
+        confirmationDate: Joi.date()
+            .required()
+    })
+}
+
 export const productValidation = {
     body: Joi.object({
         productName: Joi.string()

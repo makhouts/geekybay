@@ -1,12 +1,11 @@
 import express from 'express';
 //import connection pool
 import pool from "../helper/dbConnection.js";
-//validation?
-//import {validate} from "express-validation";
-//import {orderValidation} from "../middleware/validation.js";
-
+//validation
+import {validate} from "express-validation";
+import {orderDetailValidation} from "../middleware/validation.js";
+//authentication
 import { isAuth } from '../middleware/auth.js';
-//import {orderValidation} from "../middleware/validation.js";
 import {Email} from "../helper/email.js";
 
 
@@ -57,8 +56,8 @@ router.get("/buyer",isAuth, (req, res) => {
     });
 });
 
-//add new orderdetail ,validate(orderDetailValidation, {}, {})
-router.post("/" ,(req, res) => {
+//add new orderdetail
+router.post("/" , validate(orderDetailValidation, {}, {}),(req, res) => {
     pool.getConnection((err, connection) => {
         const data = req.body;
         if (err) throw err;
@@ -108,7 +107,7 @@ router.put("/cancel/:id", (req, res) => {
 });
 
 //confirm order
-router.put("/cancel/:id", (req, res) => {
+router.put("/confirm/:id", (req, res) => {
     pool.getConnection((err, connection) => {
         const orderStatus = "confirmed";
         if (err) throw err;
