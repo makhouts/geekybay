@@ -17,6 +17,12 @@ export const Checkout = (props) => {
 
     let deliveryTime = nextWeek.toLocaleDateString("nl-BE");
     return deliveryTime;
+  const [showModal, setShowModal] = useState(false);    
+  const getDeliveryTime = () => {
+        const firstDay = new Date();
+        const nextWeek = new Date(firstDay.getTime() + 7 * 24 * 60 * 60 * 1000);
+        let deliveryTime = nextWeek.toLocaleDateString("nl-BE");
+        return deliveryTime;
   };
   return (
     <PageTransition>
