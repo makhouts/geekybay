@@ -196,14 +196,6 @@ CREATE TABLE `productImages` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
-insert  into `productimages`(`productImg`, `productID`) values
-                 ( 'image1.png', '1'),
-                 ( 'image2.png', '1'),
-                 ( 'image3.png', '2'),
-                 ( 'image4.png', '3')
-                 ;
-
-
 /*Data for the table `productImages` */
 
 # /*Table structure for table `requests` */

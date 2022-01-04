@@ -1,10 +1,14 @@
 import React from "react";
-import "./secondaryButton.module.css";
+import classes from "./secondaryButton.module.css";
 
 export const SencondaryButton = (props) => {
   return (
-    <div>
-      <button>{props.children}</button>
-    </div>
+    <button
+      className={`${classes.button} ${props.className}`}
+      onClick={props.onClick}
+      disabled={props.disabled}
+    >
+      {props.children}
+    </button>
   );
 };

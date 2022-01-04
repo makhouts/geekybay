@@ -22,6 +22,7 @@ const __dirname = dirname(__filename);
 const router = express.Router();
 
 // WORKING: Get all products
+//Get all products NOTE:
 router.get("/", (req, res) => {
     pool.getConnection((err, connection) => {
         //check here for searches also, ~ if isset req.query.search
@@ -110,6 +111,7 @@ router.get("/seller-product/:productId", /*isAuth,*/ (req, res) => {
 // get product image
 // TODO: is this good? anyone can access pictures of all products i think
 router.get("/product/img/:productId", (req, res) => {
+    console.log(req.params);
     pool.getConnection((err, connection) => {
         if (err) throw err;
         connection.query("SELECT productImg FROM productimages WHERE productID = ?", [req.params.productId], (err, productImg) => {
@@ -193,16 +195,14 @@ router.post("/multiple-upload", /*isAuth,*/
                                     , [image, rows.insertId],
                                     (err) => {
                                         if (!err) {
-                                            console.log("a-okay")
+                                            console.log(image)
                                         } else {
                                             console.error(err);
                                         }
                                     });
                             });
-                            res.status(200).send('check2');
+                            res.status(200).send('multiple images uploaded and referenced in database');
                         } else {
-                            console.error(err);
-                            console.log(uploadData);
                             res.status(400).send("Bad product creation request");
                         }
                     }
@@ -210,6 +210,8 @@ router.post("/multiple-upload", /*isAuth,*/
             );
         });
     });
+
+
 
 // TESTING: for uploading just one product without image?
 router.post("/", /*isAuth,*/ upload.single('avatar'), /*validate(productValidation, {}, {}),*/ (req, res) => {
@@ -271,23 +273,5 @@ router.delete("/:id", isAuth, (req, res) => {
 const handleError = (err, res) => {
     res.status(500).contentType("text/plain").end("Oops! Something went wrong!"); //check
 };
-
-//TESTING: for uploading an image , just one for testing
-/*router.post("/upload", /!*isAuth,*!/ upload.single("productImg" /!* name attribute of <file> element in your form *!/), (req, res) => {
-  const tempPath = req.file.path;
-  const targetPath = path.join(__dirname, "/backend/uploads/image-3.png");
-  if (path.extname(req.file.originalname).toLowerCase() === ".png") {
-    fs.rename(tempPath, targetPath, (err) => {
-      if (err) return handleError(err, res); //ending here
-      res.status(200).contentType("image/png").end("File uploaded!");
-    });
-  } else {
-    fs.unlink(tempPath, (err) => {
-      if (err) return handleError(err, res);
-
-      res.status(403).contentType("text/plain").end("Only .png files are allowed!"); //check
-    });
-  }
-});*/
 
 export default router;
