@@ -55,10 +55,21 @@ function App() {
 
   const showOnlyFreeShipping = (showOnlyFreeShipping) => {
     if (showOnlyFreeShipping) {
-      const freeShipping = products.filter((product) => product.freeShipping == showOnlyFreeShipping);
+      const freeShipping = products.filter(
+        (product) => product.freeShipping == showOnlyFreeShipping
+      );
       setFilteredProducts(freeShipping);
     } else {
       setFilteredProducts([]);
+    }
+  };
+
+  const searchProduct = (searchQuery) => {
+    const searchedProduct = products.filter(product => {
+      return Object.values(product).includes(searchQuery)
+    });
+    if(searchedProduct.length !== 0) {
+      setProducts(searchedProduct);
     }
   };
 
@@ -75,6 +86,7 @@ function App() {
                   products={
                     filteredProducts.length ? filteredProducts : products
                   }
+                  searchProduct={searchProduct}
                   showOnlyFreeShipping={showOnlyFreeShipping}
                   showSpinner={showSpinner}
                 />
