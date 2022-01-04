@@ -70,31 +70,31 @@ export const buyerValidation = {
     body: Joi.object({
         userLastName: Joi.string()
             .regex(/[a-zA-Z\s]{2,20}/)
-            .required(),
+            // .required(),
         userFirstName: Joi.string()
             .regex(/[a-zA-Z\s]{2,20}/)
-            .required(),
+            // .required(),
         emailAddress: Joi.string()
             .email()
             .required(),
         phone: Joi.string()
             .regex(/[\d\s\/\+]{9,15}/)
-            .required(),
+            // .required(),
         addressLine1: Joi.string()
             .regex(/[a-zA-Z\d\s-]{2,20}/)
-            .required(),
+            // .required(),
         addressLine2: Joi.string()
             .regex(/[a-zA-Z\d\s-]{1,20}/)
-            .required(),
+            // .required(),
         postalCode: Joi.string()
             .regex(/[\d]{4,9}/)
-            .required(),
+            // .required(),
         city: Joi.string()
             .regex(/[a-zA-Z\s-]{2,20}/)
-            .required(),
+            // .required(),
         country: Joi.string()
             .regex(/[a-zA-Z\s-]{2,20}/)
-            .required(),
+            // .required(),
     })
 }
 
@@ -109,34 +109,34 @@ export const sellerValidation = {
             .required(),
         userLastName: Joi.string()
             .regex(/[a-zA-Z\s]{2,20}/)
-            .required(),
+            // .required(),
         userFirstName: Joi.string()
             .regex(/[a-zA-Z\s]{2,20}/)
-            .required(),
+            // .required(),
         emailAddress: Joi.string()
             .email()
             .required(),
         phone: Joi.string()
             .regex(/[\d\s\/\+]{9,15}/)
-            .required(),
+            // .required(),
         addressLine1: Joi.string()
             .regex(/[a-zA-Z\d\s\-]{2,20}/)
-            .required(),
+            // .required(),
         addressLine2: Joi.string()
             .regex(/[a-zA-Z\d\s\-]{1,20}/)
-            .required(),
+            // .required(),
         postalCode: Joi.string()
             .regex(/[\d]{4,9}/)
-            .required(),
+            // .required(),
         city: Joi.string()
             .regex(/[a-zA-Z\s\-]{2,20}/)
-            .required(),
+            // .required(),
         country: Joi.string()
             .regex(/[a-zA-Z\s\-]{2,20}/)
-            .required(),
+            // .required(),
         type: Joi.string()
             .regex(/seller/)
-            .required()
+            // .required()
 
     })
 }
