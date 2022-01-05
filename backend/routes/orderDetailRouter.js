@@ -14,6 +14,7 @@ const router = express.Router();
 //Get order details by sellerId
 router.get("/seller",isAuth, (req, res) => {
     pool.getConnection((err, connection) => {
+        console.log(req.user.userID);
         if (err) throw err;
         connection.query("SELECT * FROM orderdetails WHERE sellerID = ?", [req.user.userID], (err, rows) => {
             connection.release();
@@ -42,7 +43,7 @@ router.get("/buyer",isAuth, (req, res) => {
 });
 
 //Get order details by orderId //todo: add option for admin here or in adminRouter?
-router.get("/buyer",isAuth, (req, res) => {
+router.get("/order",isAuth, (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) throw err;
         connection.query("SELECT * FROM orderdetails WHERE orderID = ? AND ( sellerID = ? OR buyerID = ?)", [req.params.orderID, req.user.userID, req.user.userID], (err, rows) => {
@@ -113,13 +114,21 @@ router.put("/confirm/:id", (req, res) => {
         if (err) throw err;
         //params is a request parameter in the url
         connection.query("UPDATE orderdetails SET orderStatus=? WHERE orderID=? AND sellerID=?", [orderStatus, req.params.id, req.user.userID], (err, rows) => {
-            connection.release();
             if (!err) {
-                //the request has succeeded and a new resource has been created as a result.
-                res.status(201).send(rows);
+                connection.query("SELECT * FROM users WHERE userid = ?", [req.body.buyerID], (err, rows) => {
+                    connection.release();
+                    //the request has succeeded and a new resource has been created as a result.
+                    if (!err) {
+                        res.status(200).send(rows);
+                        //send mail to buyer
+                        Email.orderConfirmationMail(rows[0].emailAddress).catch(console.error);
+                    } else {
+                        res.status(400).send("Bad request for seller & buyer data");
+                    }
+                });
             } else {
-                //?
-                res.status(400).send('Bad request')
+                connection.release();
+                res.status(400).send('Bad request for order details')
             }
         });
     });

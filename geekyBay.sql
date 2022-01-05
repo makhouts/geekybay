@@ -95,9 +95,10 @@ CREATE TABLE `orderdetails` (
 /*Data for the table `orderdetails` */
 
 insert  into `orderdetails`(`orderID`,`productID`,`quantityOrdered`,`priceEach`,`sellerID`, `buyerID`, `orderStatus`, `confirmationDate`) values
-(1, 1, 3, 500, 3, 2, 'shipped', 21/12/2021),
-(2, 2, 3, 500, 1, 2, 'delivered', 03/12/2021),
-(1, 1, 3, 500, 2, 1, 'cancelled', 01/02/2021);
+(1, 1, 3, 500, 3, 2, 'shipped', '11/11/11'),
+(2, 2, 3, 500, 1, 2, 'delivered', '21/12/21'),
+(1, 1, 3, 500, 2, 1, 'cancelled', '11/11/11'),
+(2, 1, 3, 600, 6, 2, 'pending', '21/12/21');
 
 /*Table structure for table `orders` */
 
@@ -122,7 +123,8 @@ insert  into `orders`(`orderDate`,`orderStatus`,`sellerID`, `buyerID`) values
 ('11/11/11', 'ordered', '1', '2'),
 ('21/12/21', 'paid', '2', '3'),
 ('31/03/13', 'shipped', '3', '4'),
-('14/04/14', 'lost', '4', '5')
+('14/04/14', 'lost', '4', '5'),
+('22/01/04', 'pending', '6', '2')
 ;
 /*Table structure for table `productlines` */
 #
