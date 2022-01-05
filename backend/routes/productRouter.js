@@ -88,7 +88,7 @@ router.get("/product/:productId", (req, res) => {
     });
 });
 
-//WORKING with hardcoded user and probably also afther auth.  atm Get product by id -> for the product details page for sellers Sellerid needs to go through auth?
+//WORKING with hardcoded user and probably also after auth.  atm Get product by id -> for the product details page for sellers Sellerid needs to go through auth?
 router.get("/seller-product/:productId", /*isAuth,*/ (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) throw err;
@@ -112,42 +112,20 @@ router.get("/seller-product/:productId", /*isAuth,*/ (req, res) => {
 // TODO: is this good? anyone can access pictures of all products i think
 router.get("/product/img/:productId", (req, res) => {
     console.log(req.params);
-    pool.getConnection((err, connection) => {
+    pool.getConnection((err, connection, rows) => {
         if (err) throw err;
         connection.query("SELECT productImg FROM productimages WHERE productID = ?", [req.params.productId], (err, productImg) => {
             connection.release();
+            console.log(productImg);
             if (!err) {
-                res.sendFile(path.join(__dirname, "../uploads/" + productImg[0].productImg));
-            } else {
+                    res.sendFile(path.join(__dirname, "../../uploads/" + productImg[1].productImg))
+            }
+                else {
                 res.status(400).send("Bad product image request");
             }
         });
     });
 });
-
-
-//upload.js
-
-//this needs to happen after resizing.
-//Create product
-
-// router.post("/", validate(productValidation, {}, {}), (req, res) => {
-//     const upload = multer({ dest: 'uploads/' })
-//
-//     console.log(req.body);
-//     pool.getConnection((err, connection) => {
-//         if (err) throw err;
-//         const params = req.body
-//         connection.query('INSERT INTO products SET ?' , params, (err, rows) => {
-//             connection.release();
-//             if (!err) {
-//                 res.status(201).send(rows);
-//
-//             } else {
-//                 res.status(400).send('Bad product creation request')
-//             }
-//         });
-//
 
 let storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -163,32 +141,30 @@ let upload = multer({storage: storage});
 //Create product, possible, data for a product and multiple images TODO: currently can upload multiple images.
 //todo: sanitise and double-check
 //todo create class/function, errorhandling in the class/function.
+//using the path root/products/multiple-upload we're trying to upload both textual form data as well as multiple images that should be linked to the data.
 router.post("/multiple-upload", /*isAuth,*/
-    uploadController.uploadImages, // uploadController defined at the imports,
-    uploadController.resizeImages,
-    uploadController.getResult, //looks like command is ending here, how to extend.
-    /*upload.single('avatar'),*/ /*validate(productValidation, {}, {}),*/  async (req, res) => {
+    //We've created several middleware functions each responsible for an element for processing the images to a standard size.
+    // uploadController is how we import these functions to reference them.
+    uploadController.uploadImages, // uploading the images to an array and checking for amount of images.
+    uploadController.resizeImages, // resizes the images to a specific size.
+    uploadController.getResult, // displays in the console which images were uploaded
+    /*validate(productValidation, {}, {}),*/  async (req, res) => {
         pool.getConnection((err, connection) => {
             if (err) throw err;
+            //defining the body as the data that is uploaded.
             const uploadData = req.body; //
-            console.log(uploadData);
-            if (req.body.productImg) {
-                const productData = req.body.productImg;
-            }
-            /*        params.sellerID = req.user.userID;*/
+            console.log(uploadData)
             if (typeof req.file !== 'undefined') {
-                uploadData.productImg = path.join(__dirname, "../uploads/" + req.file.filename)
+                /*uploadData.productImg = path.join(__dirname, "../uploads/" + req.file.filename)*/
                 uploadData.productImg = req.file.filename
             }
-            connection.query("" +
-                "INSERT INTO products SET productName = ?, sellerID = ?, productDescription=? , price= ?, inStock =? , visible = ?, freeShipping =?" //error is here
+            connection.query("INSERT INTO products SET productName = ?, sellerID = ?, productDescription=? , price= ?, inStock =? , visible = ?, freeShipping =?" //error is here
                 , [uploadData.productName, uploadData.sellerID, uploadData.productDescription, uploadData.price, uploadData.inStock, uploadData.visible, uploadData.freeShipping],
                 (err, rows) => {
                     //more queries, release later.
                     connection.release();
                     if (!err) {
                         if (req.body.productImg !== []) {
-                            //fruits.forEach(myFunction);
                             req.body.productImg.forEach((image) => {
                                 connection.query("" +
                                     "INSERT INTO productimages SET productImg = ?, productID = ?" //error is here
@@ -212,13 +188,8 @@ router.post("/multiple-upload", /*isAuth,*/
     });
 
 
-
 // TESTING: for uploading just one product without image?
 router.post("/", /*isAuth,*/ upload.single('avatar'), /*validate(productValidation, {}, {}),*/ (req, res) => {
-    // console.log(req.body)
-
-    // console.log(req.file.filename + ".png")
-
     pool.getConnection((err, connection) => {
         if (err) throw err;
         const params = req.body;

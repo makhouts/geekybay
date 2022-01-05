@@ -42,7 +42,7 @@ const resizeImages = async (req, res, next) => {
             const newFilename = Date.now() + "_"+ (file.originalname.split('.')[0])  + path.extname(file.originalname);
 
             await sharp(file.buffer)
-                .resize(640, 320)
+                .resize(666, 333)
                 .toFormat("png")
                 .png({ quality: 90 })
                 .toFile(`uploads/${newFilename}`);
