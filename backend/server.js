@@ -70,7 +70,7 @@ app.use(function(err, req, res, next) {
 
 
 app.use(passport.initialize());
-app.use(passport.session()); //
+app.use(passport.session()); // 
 
 app.use("/users", userRouter);
 app.use("/products", productRouter);
