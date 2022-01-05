@@ -16,7 +16,7 @@ function App() {
 
   useEffect(async () => {
     try {
-      const getProducts = await axios.get("https://geekybay.herokuapp.com/products");
+      const getProducts = await axios.get("/products");
       setProducts(getProducts.data);
       setShowSpinner(false);
     } catch (error) {
@@ -46,7 +46,7 @@ function App() {
     } else {
       setCart((prevCart) => [...prevCart, { qty: qty, ...product[0] }]);
     }
-  }; 
+  };
 
   const deleteItemFromCart = (id) => {
     const deletedItem = cart.filter((cart) => cart.productID !== id);
