@@ -19,6 +19,11 @@ import paymentRouter from "./routes/paymentRouter.js";
 import pool from "./helper/dbConnection.js";
 import { local } from "./strategies/local.js";
 import {mainLimiter} from './middleware/rateLimiter.js'
+import { fileURLToPath } from "url";
+import { dirname } from "path";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 import cors from 'cors';
 
