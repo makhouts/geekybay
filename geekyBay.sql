@@ -167,7 +167,6 @@ CREATE TABLE `products` (
   `price` decimal(10,2) NOT NULL,
   `inStock`INT NOT NULL,
   `visible` boolean NOT NULL,
-  `productImg` varchar(255),
   `freeShipping` BOOL NOT NULL,
   PRIMARY KEY (`productID`),
   KEY `products` (`sellerID`),
@@ -178,14 +177,26 @@ CREATE TABLE `products` (
 
 /*Data for the table `products` */
 
-insert  into `products`(`productName`, `sellerID`, `productDescription`, `price`,`inStock`,`visible`, `productImg`, `freeShipping`) values
+insert  into `products`(`productName`, `sellerID`, `productDescription`, `price`,`inStock`,`visible`, `freeShipping`) values
 
-( 'guitar1', '1', 'stringy1', '1000', 5, true, '1.jpg', true),
-( 'guitar2', '2', 'stringy2', '2000', 6, true, '2.jpg', false),
-( 'guitar3', '3', 'stringy3', '3000', 0, false, '3.jpg', true),
-( 'guitar4', '4', 'stringy3', '4000', 10, false, '4.jpg', false)
+( 'guitar1', '1', 'stringy1', '1000', 5, true, true),
+( 'guitar2', '2', 'stringy2', '2000', 6, true,  false),
+( 'guitar3', '3', 'stringy3', '3000', 0, false, true),
+( 'guitar4', '4', 'stringy3', '4000', 10, false,  false)
 ;
 
+DROP TABLE IF EXISTS `productImages`;
+
+CREATE TABLE `productImages` (
+                            `imageID` INT NOT NULL auto_increment,
+                            `productImg` varchar(255),
+                            `productID` INT NOT NULL,
+                            PRIMARY KEY (`imageID`),
+                            KEY `products` (`productID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+/*Data for the table `productImages` */
 
 # /*Table structure for table `requests` */
 
