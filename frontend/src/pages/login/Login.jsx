@@ -12,54 +12,51 @@ export const Login = (props) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  // const postLogin = () => {
-  //   axios
-  //     .post(
-  //       "https://geekybay.herokuapp.com/auth/login",
-  //       {
-  //         username: username,
-  //         password: password,
-  //       },
-  //       {
-  //         withCredentials: true,
-  //       }
-  //     )
-  //     .then((response) => {
-  //       console.log(response);
-  //       navigate("/");
-  //     });
-  // };
-
-  const postLogin = async () => {
-    const data = {
-      username: username,
-      password: password,
-    };
-    try {
-      const res = await fetch("/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+  const postLogin = () => {
+    axios
+      .post(
+        "/auth/login",
+        {
+          username: username,
+          password: password,
         },
-        credentials: "include",
-        body: JSON.stringify(data),
-      });
-      if (!res.ok) {
-        if(res.status === 401){
-          console.log('unauth')
+        {
+          withCredentials: true,
         }
-        const resData = await res.json()
-        throw new Error(resData.message)
-      }
-      navigate('/')
-    } catch (error) {
-      const e= error
-      console.log(e)
-    }
+      )
+      .then((response) => {
+        console.log(response);
+        navigate("/");
+      });
   };
 
-
-
+  // const postLogin = async () => {
+  //   const data = {
+  //     username: username,
+  //     password: password,
+  //   };
+  //   try {
+  //     const res = await fetch("/auth/login", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       credentials: "include",
+  //       body: JSON.stringify(data),
+  //     });
+  //     if (!res.ok) {
+  //       if(res.status === 401){
+  //         console.log('unauth')
+  //       }
+  //       const resData = await res.json()
+  //       throw new Error(resData.message)
+  //     }
+  //     navigate('/')
+  //   } catch (error) {
+  //     const e= error
+  //     console.log(e)
+  //   }
+  // };
 
   const {
     value: enteredEmail,
