@@ -26,7 +26,7 @@ router.get("/", (req, res) => {
     connection.query("SELECT * from products where visible = 1", (err, rows) => {
       connection.release();
       if (!err) {
-        res.status(200).send(rows);
+        res.status(200).send({prod:"sasjt"});
       } else {
         res.status(400).send("Bad request");
       }
@@ -74,7 +74,7 @@ router.get("/product/:productId", (req, res) => {
       if (!err) {
         if (rows[0].visible === 1) {
           res.status(200).send(rows);
-          
+
         } else {
           res.status(400).send("Bad get product by productId request");
         }
@@ -171,7 +171,7 @@ let upload = multer({ storage: storage });
 //Create product TODO:
 router.post("/",  upload.single('avatar'), /*validate(productValidation, {}, {}),*/ (req, res) => {
   // console.log(req.body)
-  
+
   // console.log(req.file.filename + ".png")
 
   pool.getConnection((err, connection) => {
