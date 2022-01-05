@@ -1,28 +1,37 @@
 import React, { useState } from "react";
 import classes from "./login.module.css";
 import { PageTransition } from "../../helpers/animations";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { SencondaryButton } from "../../components/secondaryButton/SencondaryButton";
 import { UseInput } from "../../hook/UseInput";
 import axios from "axios";
 
 export const Login = (props) => {
+  const navigate = useNavigate();
 
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   const postLogin = () => {
-    axios.post('https://geekybay.herokuapp.com/auth/login', {
-      username: username,
-      password: password
-    },{
-      withCredentials: true,
-    }).then(response => console.log(response));
-  }
+    axios
+      .post(
+        "https://geekybay.herokuapp.com/auth/login",
+        {
+          username: username,
+          password: password,
+        },
+        {
+          withCredentials: true,
+        }
+      )
+      .then((response) => {
+        console.log(response);
+        navigate("/");
+      });
+  };
 
 
-
+  
 
   const {
     value: enteredEmail,
@@ -69,29 +78,19 @@ export const Login = (props) => {
           </div>
           <div className={classes.form}>
             <form onSubmit={formSubmissionHandler}>
-              <div
-                className={`${classes.formGroup} ${
-                  emailInputHasError === true ? classes.invalid : ""
-                }`}
-              >
+              <div className={`${classes.formGroup} ${emailInputHasError === true ? classes.invalid : ""}`}>
                 <label htmlFor="email">User Name</label>
                 <input
                   type="email"
                   id="email"
                   value={username}
-                  onChange={e => setUsername(e.target.value)}
+                  onChange={(e) => setUsername(e.target.value)}
                   onBlur={emailBlurHandler}
                   placeholder="Username"
                 />
-                {emailInputHasError && (
-                  <p className={classes.error}>Please enter a valid email</p>
-                )}
+                {emailInputHasError && <p className={classes.error}>Please enter a valid email</p>}
               </div>
-              <div
-                className={`${classes.formGroup} ${
-                  passwordInputHasError === true ? classes.invalid : ""
-                }`}
-              >
+              <div className={`${classes.formGroup} ${passwordInputHasError === true ? classes.invalid : ""}`}>
                 <label htmlFor="password">Password</label>
                 <input
                   type="password"
@@ -101,20 +100,12 @@ export const Login = (props) => {
                   onBlur={passwordBlurHandler}
                   placeholder="Password"
                 />
-                {passwordInputHasError && (
-                  <p className={classes.error}>
-                    Please enter a minmum 7 digits password
-                  </p>
-                )}
+                {passwordInputHasError && <p className={classes.error}>Please enter a minmum 7 digits password</p>}
               </div>
             </form>
           </div>
           <div className={classes.buttonContainer}>
-            <SencondaryButton
-              className={classes.btn}
-              type="submit"
-              onClick={postLogin}
-            >
+            <SencondaryButton className={classes.btn} type="submit" onClick={postLogin}>
               Login
             </SencondaryButton>
           </div>
