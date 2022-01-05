@@ -21,8 +21,16 @@ router.get("/register",isNotAuth, (req, res) => {
   res.status(200).send({ message: "User is not authenticated." });
 });
 
+router.get('/isLoggedIn', (req,res) => {
+  if (req.isAuthenticated()) {
+    return res.status(200).send({loggedIn: true});
+  }
+  return res.status(200).send({loggedIn: false});
+})
+
 router.post("/login", isNotAuth, passport.authenticate("local"), (req, res) => {
-  res.status(200).send({message: "Login successful"});
+  console.log(req.user)
+  res.status(200).send({userId: req.user.userID, username: req.user.userName})
 });
 
 // Register/create a seller

@@ -1,19 +1,22 @@
-import React from 'react';
-import classes from './navigation.module.css';
-import { motion } from 'framer-motion';
+import React, { useContext } from "react";
+import classes from "./navigation.module.css";
+import { motion } from "framer-motion";
 import { Link, NavLink } from "react-router-dom";
-import { SearchBar } from '../searchBar/SearchBar';
+import { SearchBar } from "../searchBar/SearchBar";
 import { BsCart3 } from "react-icons/bs";
-import { TiDeleteOutline } from 'react-icons/ti'
-import { SencondaryButton } from '../secondaryButton/SencondaryButton';
-
+import { TiDeleteOutline } from "react-icons/ti";
+import { HiOutlineUserCircle } from "react-icons/hi";
+import { SencondaryButton } from "../secondaryButton/SencondaryButton";
+import { AuthContext } from "../../App";
+import axios from 'axios'
+import url from '../../helpers/endpoint'
 
 export const Navigation = (props) => {
+  const { authenticated,setAuthenticated } = useContext(AuthContext);
   let cartCount = props.cart.length;
 
   const cartSummary = props.cart.map((item) => (
     <div className={classes.item} key={item.productID}>
-          {console.log(item)}
       <img src={require("../../assets/iphone.png")} alt="" />
       <div className={classes.productInfo}>
         <h4>{item.productName}</h4>
@@ -21,12 +24,18 @@ export const Navigation = (props) => {
         <p>Qty: {item.qty}</p>
       </div>
       <p>€ {item.qty * item.price}</p>
-      <TiDeleteOutline
-        className={classes.deleteIcon}
-        onClick={props.deleteItemFromCart.bind(this, item.productID)}
-      />
+      <TiDeleteOutline className={classes.deleteIcon} onClick={props.deleteItemFromCart.bind(this, item.productID)} />
     </div>
   ));
+
+  const logout = async() =>{
+    try {
+      await axios.delete(`${url}/auth/logout`, {withCredentials:true});
+      setAuthenticated(false);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <div className={classes.container}>
@@ -69,21 +78,25 @@ export const Navigation = (props) => {
                 transition: { duration: 0.2 },
               }}
             >
-              <NavLink to="login">Login</NavLink>
+              {authenticated ? <NavLink to="/" onClick={logout}>Log out</NavLink> : <NavLink to="login">Log in</NavLink>}
+            </motion.li>
+            <motion.li
+              whileHover={{
+                scale: 1.2,
+                transition: { duration: 0.2 },
+              }}
+            >
+            {/* This doesn't look good you can change it */}
+              {authenticated && <HiOutlineUserCircle />}
             </motion.li>
           </ul>
         </div>
         <div className={classes.cart}>
-          
           <div className={classes.cartIconHover}>
             <BsCart3 className={classes.cartIcon} />
             <label className={classes.cartTotalItems}>{props.cart.length}</label>
           </div>
-          <motion.div
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 1 }}
-            className={classes.cartSummary}
-          >
+          <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 1 }} className={classes.cartSummary}>
             {cartCount === 0 ? <p>No items in cart.</p> : cartSummary}
             <div className={classes.totalCartPrice}>
               <p>Total</p>
@@ -96,10 +109,7 @@ export const Navigation = (props) => {
               </p>
             </div>
             <Link to="checkout">
-              <SencondaryButton
-                disabled={props.cart.length == 0 ? true : false}
-                className={classes.checkoutBtn}
-              >
+              <SencondaryButton disabled={props.cart.length == 0 ? true : false} className={classes.checkoutBtn}>
                 Checkout
               </SencondaryButton>
             </Link>

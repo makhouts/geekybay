@@ -1,12 +1,15 @@
-import React, { useState } from "react";
+import React, { useState,useContext } from "react";
 import classes from "./login.module.css";
 import { PageTransition } from "../../helpers/animations";
 import { Link, useNavigate } from "react-router-dom";
 import { SencondaryButton } from "../../components/secondaryButton/SencondaryButton";
 import { UseInput } from "../../hook/UseInput";
 import axios from "axios";
+import url from '../../helpers/endpoint'
+import { AuthContext } from "../../App";
 
 export const Login = (props) => {
+  const {setAuthenticated} =  useContext(AuthContext)
   const navigate = useNavigate();
 
   const [username, setUsername] = useState("");
@@ -15,7 +18,7 @@ export const Login = (props) => {
   const postLogin = () => {
     axios
       .post(
-        "/auth/login",
+        `${url}/auth/login`,
         {
           username: username,
           password: password,
@@ -26,37 +29,14 @@ export const Login = (props) => {
       )
       .then((response) => {
         console.log(response);
+        if(response.status === 200){
+          setAuthenticated(true)
+        }
         navigate("/");
-      });
+      }).catch(err => console.log(err));
   };
 
-  // const postLogin = async () => {
-  //   const data = {
-  //     username: username,
-  //     password: password,
-  //   };
-  //   try {
-  //     const res = await fetch("/auth/login", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       credentials: "include",
-  //       body: JSON.stringify(data),
-  //     });
-  //     if (!res.ok) {
-  //       if(res.status === 401){
-  //         console.log('unauth')
-  //       }
-  //       const resData = await res.json()
-  //       throw new Error(resData.message)
-  //     }
-  //     navigate('/')
-  //   } catch (error) {
-  //     const e= error
-  //     console.log(e)
-  //   }
-  // };
+
 
   const {
     value: enteredEmail,
