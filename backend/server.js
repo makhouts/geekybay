@@ -48,6 +48,8 @@ app.use(
 // }
 
 // Apply the rate limiting middleware to all requests
+app.use(express.static(path.resolve(__dirname, "../frontend/build")));
+
 app.use(mainLimiter)
 app.all("/*", function (req, res, next) {
   res.header("Access-Control-Allow-Origin", req.headers.origin);
@@ -80,5 +82,10 @@ app.use("/orderdetails", orderDetailRouter);
 app.use("/auth", authRouter);
 app.use("/admin", adminRouter);
 app.use("/pay", paymentRouter);
+
+// All other GET requests not handled before will return our React app
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "../client/build", "index.html"));
+});
 
 app.listen(process.env.PORT);
