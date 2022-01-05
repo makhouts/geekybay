@@ -144,14 +144,15 @@ router.put("/confirm/:id", isAuth, (req, res) => {
         //params is a request parameter in the url
         connection.query("UPDATE orderdetails SET orderStatus=?, confirmationDate = CURRENT_DATE() WHERE orderDetailID=? AND sellerID=?", [orderStatus, req.params.id, req.user.userID], (err, rows) => {
             if (!err) {
-                connection.query("SELECT * FROM users LEFT JOIN orderdetails o on users.userID = o.sellerID WHERE orderDetailID=?;", [req.params.id], (err, rows) => {
+                connection.query("SELECT * FROM users LEFT JOIN orderdetails o on users.userID = o.sellerID OR users.userID = o.buyerID JOIN products p on o.productID=p.productID WHERE orderDetailID=?;", [req.params.id], (err, rows) => {
                     connection.release();
                     //the request has succeeded and a new resource has been created as a result.
                     if (!err) {
-                       // console.log(rows);
+                       console.log(rows);
                         res.status(200).send(rows);
                         //send mail to buyer
-                        Email.orderConfirmationMail(rows[0].emailAddress).catch(console.error);
+                        Email.orderConfirmationMail(rows[1].emailAddress, rows[1].userFirstName, rows[1].userLastName,
+                            rows[0].userName, rows[1].productName, rows[1].quantityOrdered).catch(console.error);
                     } else {
                         res.status(400).send("Bad request for seller & buyer data");
                     }
