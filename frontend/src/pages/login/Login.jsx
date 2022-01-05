@@ -1,12 +1,15 @@
-import React, { useState } from "react";
+import React, { useState,useContext } from "react";
 import classes from "./login.module.css";
 import { PageTransition } from "../../helpers/animations";
 import { Link, useNavigate } from "react-router-dom";
 import { SencondaryButton } from "../../components/secondaryButton/SencondaryButton";
 import { UseInput } from "../../hook/UseInput";
 import axios from "axios";
+import url from '../../helpers/endpoint'
+import { AuthContext } from "../../App";
 
 export const Login = (props) => {
+  const {setAuthenticated} =  useContext(AuthContext)
   const navigate = useNavigate();
 
   const [username, setUsername] = useState("");
@@ -15,7 +18,7 @@ export const Login = (props) => {
   const postLogin = () => {
     axios
       .post(
-        "https://geekybay.herokuapp.com/auth/login",
+        `${url}/auth/login`,
         {
           username: username,
           password: password,
@@ -26,12 +29,12 @@ export const Login = (props) => {
       )
       .then((response) => {
         console.log(response);
+        if(response.status === 200){
+          setAuthenticated(true)
+        }
         navigate("/");
-      });
+      }).catch(err => console.log(err));
   };
-
-
-
 
   
 
