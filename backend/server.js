@@ -40,8 +40,8 @@ app.use(
     store: store,
     cookie: {
       maxAge: 1000 * 60 * 60 * 1, // 1 hour
-      secure: (process.env.NODE_ENV === "production"),
-      sameSite: 'none'
+      // secure: (process.env.NODE_ENV === "production"),
+      // sameSite: 'none'
     },
   })
 );
