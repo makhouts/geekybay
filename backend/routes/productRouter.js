@@ -26,7 +26,7 @@ router.get("/", (req, res) => {
     connection.query("SELECT * from products where visible = 1", (err, rows) => {
       connection.release();
       if (!err) {
-        res.status(200).send({prod:"sasjt"});
+        res.status(200).send({rows});
       } else {
         res.status(400).send("Bad request");
       }
