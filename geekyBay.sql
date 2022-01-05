@@ -98,7 +98,7 @@ insert  into `orderdetails`(`orderID`,`productID`,`quantityOrdered`,`priceEach`,
 (1, 1, 3, 500, 3, 2, 'shipped', '11/11/11'),
 (2, 2, 3, 500, 1, 2, 'delivered', '21/12/21'),
 (1, 1, 3, 500, 2, 1, 'cancelled', '11/11/11'),
-(2, 1, 3, 600, 6, 2, 'pending', '21/12/21');
+(2, 1, 3, 600, 6, 2, 'pending', null);
 
 /*Table structure for table `orders` */
 
