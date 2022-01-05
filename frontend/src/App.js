@@ -37,7 +37,7 @@ function App() {
 
   useEffect(async () => {
     try {
-      const getProducts = await axios.get("https://geekybay.herokuapp.com/products");
+      const getProducts = await axios.get(`${url}/products`);
       setProducts(getProducts.data);
       setShowSpinner(false);
     } catch (error) {

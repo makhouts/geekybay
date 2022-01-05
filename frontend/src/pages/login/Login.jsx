@@ -36,7 +36,6 @@ export const Login = (props) => {
       }).catch(err => console.log(err));
   };
 
-  
 
   const {
     value: enteredEmail,
@@ -54,7 +53,9 @@ export const Login = (props) => {
     valueChangeHandler: passwordChangeHandler,
     inputBlurHandler: passwordBlurHandler,
     reset: resetPasswordInput,
-  } = UseInput((value) => value.trim().length > 6);
+  } = UseInput((value) => {
+    console.log(value)
+    return value.trim().length > 6});
 
   let formIsValid = false;
   if (enteredEmailIsValid && enteredPasswordIsValid) {
@@ -71,6 +72,7 @@ export const Login = (props) => {
     resetPasswordInput();
   };
 
+
   return (
     <PageTransition>
       <div>
@@ -83,17 +85,15 @@ export const Login = (props) => {
           </div>
           <div className={classes.form}>
             <form onSubmit={formSubmissionHandler}>
-              <div className={`${classes.formGroup} ${emailInputHasError === true ? classes.invalid : ""}`}>
-                <label htmlFor="email">User Name</label>
+              <div className={`${classes.formGroup}`}>
+                <label htmlFor="username">Username</label>
                 <input
-                  type="email"
-                  id="email"
+                  type="username"
+                  id="username"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  onBlur={emailBlurHandler}
                   placeholder="Username"
                 />
-                {emailInputHasError && <p className={classes.error}>Please enter a valid email</p>}
               </div>
               <div className={`${classes.formGroup} ${passwordInputHasError === true ? classes.invalid : ""}`}>
                 <label htmlFor="password">Password</label>
