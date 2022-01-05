@@ -35,7 +35,8 @@ app.use(
     store: store,
     cookie: {
       maxAge: 1000 * 60 * 60 * 1, // 1 hour
-      // secure: (process.env.NODE_ENV === "production") ? true : false
+      secure: (process.env.NODE_ENV === "production"),
+      sameSite="none"
     },
   })
 );
@@ -70,7 +71,7 @@ app.use(function(err, req, res, next) {
 
 
 app.use(passport.initialize());
-app.use(passport.session()); // 
+app.use(passport.session()); //
 
 app.use("/users", userRouter);
 app.use("/products", productRouter);
