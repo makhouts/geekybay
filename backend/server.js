@@ -27,8 +27,6 @@ const store = new mySQLStore({}, pool);
 
 const app = express();
 
-// app.set("trust proxy", 1);
-
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
@@ -37,8 +35,7 @@ app.use(
     store: store,
     cookie: {
       maxAge: 1000 * 60 * 60 * 1, // 1 hour
-      sameSite: 'none'
-      //secure: (process.env.NODE_ENV === "production") ? true : false
+      // secure: (process.env.NODE_ENV === "production") ? true : false
     },
   })
 );
