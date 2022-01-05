@@ -27,7 +27,7 @@ const store = new mySQLStore({}, pool);
 
 const app = express();
 
-app.set("trust proxy", 1);
+// app.set("trust proxy", 1);
 
 app.use(
   session({
