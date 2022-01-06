@@ -8,32 +8,30 @@
   font-size: 30px;
 }
 
-.addressContainer,
-.passContainer {
+.formContainer {
   width: 600px;
   display: flex;
+  margin: 2% auto;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
   padding: 2%;
   background-color: white;
   border: 1px solid lightgray;
+  box-shadow: 0 0 2px rgba(15, 15, 15, 0.28);
   border-radius: 5px;
-  margin: 2% auto;
   gap: 1rem;
   position: relative;
-  align-items: center;
 }
 
-.addressForm,
-.passForm {
-  background-color: #118df0;
-  align-items: center;
+.form {
   width: 100%;
   display: flex;
   flex-direction: column;
   padding: 5px;
 }
 
-.formGoup input {
+.formGroup input {
   width: 100%;
   padding: 5px;
   border-radius: 5px;
