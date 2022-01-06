@@ -9,10 +9,6 @@ import axios from "axios";
 export const Login = (props) => {
   const navigate = useNavigate();
 
-  // const [username, setUsername] = useState("");
-
-  // const [password, setPassword] = useState("");
-
   const postLogin = () => {
     axios
       .post(
