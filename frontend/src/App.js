@@ -95,7 +95,12 @@ function App() {
   return (
     <div className="App">
       <AuthContext.Provider value={{ authenticated, setAuthenticated }}>
-        <Navigation cart={cart} deleteItemFromCart={deleteItemFromCart} />
+        <Navigation
+          authenticated={authenticated}
+          setAuthenticated={setAuthenticated}
+          cart={cart}
+          deleteItemFromCart={deleteItemFromCart}
+        />
         <AnimatePresence exitBeforeEnter>
           <Routes location={location} key={location.pathname}>
             <Route path="/products">
@@ -103,7 +108,9 @@ function App() {
                 path=":search"
                 element={
                   <Products
-                    products={filteredProducts.length ? filteredProducts : products}
+                    products={
+                      filteredProducts.length ? filteredProducts : products
+                    }
                     searchProduct={searchProduct}
                     showOnlyFreeShipping={showOnlyFreeShipping}
                     showSpinner={showSpinner}
@@ -114,18 +121,28 @@ function App() {
                 path=""
                 element={
                   <Products
-                    products={filteredProducts.length ? filteredProducts : products}
+                    products={
+                      filteredProducts.length ? filteredProducts : products
+                    }
                     showOnlyFreeShipping={showOnlyFreeShipping}
                     showSpinner={showSpinner}
                   />
                 }
               />
             </Route>
-            <Route path="/productDetail/:id" element={<DetailProduct addToCart={addToCart} />} />
+            <Route
+              path="/productDetail/:id"
+              element={<DetailProduct addToCart={addToCart} />}
+            />
             <Route path="/contact" element={<Contact />} />
             <Route path="/userProfile" element={<UserProfile />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/checkout" element={<Checkout cart={cart} deleteItemFromCart={deleteItemFromCart} />} />
+            <Route
+              path="/checkout"
+              element={
+                <Checkout cart={cart} deleteItemFromCart={deleteItemFromCart} />
+              }
+            />
             <Route path="/signUp" element={<Signup />} />
             <Route path="/" element={<Home products={products} />} />
             <Route path="*" element={<Page404 />} />

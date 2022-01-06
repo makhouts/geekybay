@@ -132,3 +132,7 @@ button:disabled:hover{
 .logo img {
     width: 100px;
 }
+
+.accountIcon {
+    font-size: 20px;
+}

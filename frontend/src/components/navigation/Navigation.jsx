@@ -12,7 +12,7 @@ import axios from 'axios'
 import url from '../../helpers/endpoint'
 
 export const Navigation = (props) => {
-  const { authenticated,setAuthenticated } = useContext(AuthContext);
+  // const { authenticated,setAuthenticated } = useContext(AuthContext);
   let cartCount = props.cart.length;
 
   const cartSummary = props.cart.map((item) => (
@@ -31,7 +31,7 @@ export const Navigation = (props) => {
   const logout = async() =>{
     try {
       await axios.delete(`${url}/auth/logout`, {withCredentials:true});
-      setAuthenticated(false);
+      props.setAuthenticated(false);
     } catch (error) {
       console.log(error);
     }
@@ -78,25 +78,41 @@ export const Navigation = (props) => {
                 transition: { duration: 0.2 },
               }}
             >
-              {authenticated ? <NavLink to="/" onClick={logout}>Log out</NavLink> : <NavLink to="login">Log in</NavLink>}
+              {props.authenticated ? (
+                <NavLink to="/" onClick={logout}>
+                  Log out
+                </NavLink>
+              ) : (
+                <NavLink to="login">Log in</NavLink>
+              )}
             </motion.li>
             <motion.li
               whileHover={{
-                scale: 1.2,
-                transition: { duration: 0.2 },
+                scale: 1.1,
+                transition: { duration: 0.1 },
               }}
-            > 
-            {/* This doesn't look good you can change it */}
-              {authenticated && <HiOutlineUserCircle />}
+            >
+              {" "}
+              {props.authenticated && (
+                <NavLink to='/userProfile'>
+                  <HiOutlineUserCircle className={classes.accountIcon} />
+                </NavLink>
+              )}
             </motion.li>
           </ul>
         </div>
         <div className={classes.cart}>
           <div className={classes.cartIconHover}>
             <BsCart3 className={classes.cartIcon} />
-            <label className={classes.cartTotalItems}>{props.cart.length}</label>
+            <label className={classes.cartTotalItems}>
+              {props.cart.length}
+            </label>
           </div>
-          <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 1 }} className={classes.cartSummary}>
+          <motion.div
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 1 }}
+            className={classes.cartSummary}
+          >
             {cartCount === 0 ? <p>No items in cart.</p> : cartSummary}
             <div className={classes.totalCartPrice}>
               <p>Total</p>
@@ -109,7 +125,10 @@ export const Navigation = (props) => {
               </p>
             </div>
             <Link to="checkout">
-              <SencondaryButton disabled={props.cart.length == 0 ? true : false} className={classes.checkoutBtn}>
+              <SencondaryButton
+                disabled={props.cart.length == 0 ? true : false}
+                className={classes.checkoutBtn}
+              >
                 Checkout
               </SencondaryButton>
             </Link>
