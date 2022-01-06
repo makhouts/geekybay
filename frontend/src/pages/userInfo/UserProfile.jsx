@@ -5,12 +5,52 @@ import { SencondaryButton } from "../../components/secondaryButton/SencondaryBut
 import { UseInput } from "../../hook/UseInput";
 
 export const UserProfile = () => {
-  const [update, setUpdate] = useState(false);
-
   const isNotEmpty = (value) => value.trim() !== "";
   const isEmail = (value) => value.includes("@");
   const isPassword = (value) => value.trim().length > 6;
   // const isPhoneNumber = (value) => value.length > 10;
+
+  const userUpdatedHandler = () => {
+    //request function here for update user
+    //   axios.post("", {
+    //     userName: enteredUsername,
+    //     emailAddress: enteredEmail,
+    //     password: enteredPassword,
+    //   }).then;
+    //   console.log("enteredEmail");
+  };
+
+  const addressUpdateHandler = () => {
+    //requset function here for update address
+  };
+
+  const userCancelHandler = () => {
+    //for user cancel
+    resetUsernameInput();
+    resetEmailInput();
+    resetPasswordInput();
+    resetConfirmInput();
+  };
+
+  const addressCancelHandler = () => {
+    //for address cancel
+    resetfirstNameInput();
+    resetLastNameInput();
+    resetphoneNumberInput();
+    resetstreetInput();
+    resetcityInput();
+    resetpostInput();
+    resetcountryInput();
+  };
+
+  const {
+    value: enteredUsername,
+    isValid: enteredUsernameIsValid,
+    hasError: usernameHasError,
+    valueChangeHandler: usernameChangeHandler,
+    inputBlurHandler: usernameBlurHandler,
+    reset: resetUsernameInput,
+  } = UseInput(isNotEmpty);
 
   const {
     value: enteredEmail,
@@ -104,6 +144,7 @@ export const UserProfile = () => {
 
   let userFormIsValid = false;
   if (
+    enteredUsernameIsValid &&
     enteredEmailIsValid &&
     enteredPasswordIsValid &&
     enteredConfirmIsValid &&
@@ -140,33 +181,6 @@ export const UserProfile = () => {
       return;
     }
   };
-  const userUpdatedHandler = () => {
-    setUpdate(true);
-    console.log(enteredEmail, enteredPassword, enteredConfirm);
-  };
-
-  const addressUpdateHandler = () => {
-    setUpdate(true);
-    // console.log(enteredFirstName, enteredLastName);
-  };
-
-  const userCancelHandler = () => {
-    setUpdate(false);
-    resetEmailInput();
-    resetPasswordInput();
-    resetConfirmInput();
-  };
-
-  const addressCancelHandler = () => {
-    setUpdate(false);
-    resetfirstNameInput();
-    resetLastNameInput();
-    resetphoneNumberInput();
-    resetstreetInput();
-    resetcityInput();
-    resetpostInput();
-    resetcountryInput();
-  };
 
   return (
     <PageTransition>
@@ -179,17 +193,36 @@ export const UserProfile = () => {
             <form onSubmit={userSubmitHandler}>
               <div
                 className={`${classes.formGroup} ${
+                  usernameHasError === true ? classes.invalid : ""
+                }`}
+              >
+                <label htmlFor="username">User Name</label>
+                <input
+                  type="text"
+                  id="username"
+                  value={enteredUsername}
+                  onChange={usernameChangeHandler}
+                  onBlur={usernameBlurHandler}
+                  placeholder="Enter new username"
+                />
+                {usernameHasError && (
+                  <p className={classes.error}>Please enter your username</p>
+                )}
+              </div>
+
+              <div
+                className={`${classes.formGroup} ${
                   emailInputHasError === true ? classes.invalid : ""
                 }`}
               >
-                <label htmlFor="email">User Name</label>
+                <label htmlFor="email">Email</label>
                 <input
                   type="email"
                   id="email"
                   value={enteredEmail}
                   onChange={emailChangeHandler}
                   onBlur={emailBlurHandler}
-                  placeholder="Enter email"
+                  placeholder="Enter new email"
                 />
                 {emailInputHasError && (
                   <p className={classes.error}>Please enter a valid email</p>
@@ -241,7 +274,6 @@ export const UserProfile = () => {
             <SencondaryButton
               className={classes.btn}
               type="submit"
-              disabled={!userFormIsValid}
               onClick={userUpdatedHandler}
             >
               Update
@@ -392,7 +424,6 @@ export const UserProfile = () => {
             <SencondaryButton
               className={classes.btnS}
               type="submit"
-              disabled={!addressFormIsValid}
               onClick={addressUpdateHandler}
             >
               Update

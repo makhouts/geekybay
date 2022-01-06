@@ -7,11 +7,6 @@ import { GuestForm } from "../../components/multiStepForm/GuestForm";
 import axios from "axios";
 
 export const Signup = () => {
-  // const [username, setUsername] = useState("");
-  // const [email, setEmail] = useState("");
-  // const [password, setPassword] = useState("");
-  // const [confirmPassword, setConfirmPassword] = useState("");
-
   const navigate = useNavigate();
 
   const postRegister = () => {
@@ -26,7 +21,6 @@ export const Signup = () => {
       });
   };
 
-  const [singup, setSingup] = useState(false);
   const {
     value: enteredUsername,
     isValid: enteredUsernameIsValid,
@@ -65,7 +59,7 @@ export const Signup = () => {
 
   let formIsValid = false;
   if (
-    enteredUsername &&
+    enteredUsernameIsValid &&
     enteredEmailIsValid &&
     enteredPasswordIsValid &&
     enteredConfirmIsValid &&
@@ -119,7 +113,7 @@ export const Signup = () => {
                 emailInputHasError === true ? classes.invalid : ""
               }`}
             >
-              <label htmlFor="email">User Name</label>
+              <label htmlFor="email">Email</label>
               <input
                 type="email"
                 id="email"
