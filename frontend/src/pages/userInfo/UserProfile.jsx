@@ -272,6 +272,9 @@ export const UserProfile = () => {
                   onBlur={firstNameBlurHandler}
                   placeholder="Enter firstname"
                 />
+                {firstNameHasError && (
+                  <p className={classes.error}>Please enter your firstname</p>
+                )}
               </div>
               <div
                 className={`${classes.formGroup} ${
@@ -287,6 +290,9 @@ export const UserProfile = () => {
                   onBlur={lastNameBlurHandler}
                   placeholder="Enter lastname"
                 />
+                {lastNameHasError && (
+                  <p className={classes.error}>Please enter your lastname</p>
+                )}
               </div>
               <div
                 className={`${classes.formGroup} ${
@@ -302,6 +308,11 @@ export const UserProfile = () => {
                   onBlur={phoneNumberBlurHandler}
                   placeholder="Enter phone number"
                 />
+                {phoneNumberHasError && (
+                  <p className={classes.error}>
+                    Please enter your phone number
+                  </p>
+                )}
               </div>
               <div
                 className={`${classes.formGroup} ${
@@ -317,6 +328,9 @@ export const UserProfile = () => {
                   onBlur={streetBlurHandler}
                   placeholder="Enter street"
                 />
+                {streetHasError && (
+                  <p className={classes.error}>Please enter street</p>
+                )}
               </div>
               <div
                 className={`${classes.formGroup} ${
@@ -332,6 +346,9 @@ export const UserProfile = () => {
                   onBlur={cityBlurHandler}
                   placeholder="Enter city"
                 />
+                {cityHasError && (
+                  <p className={classes.error}>Please enter city</p>
+                )}
               </div>
               <div
                 className={`${classes.formGroup} ${
@@ -347,6 +364,9 @@ export const UserProfile = () => {
                   onBlur={postBlurHandler}
                   placeholder="Enter postal code"
                 />
+                {postHasError && (
+                  <p className={classes.error}>Please enter postal code</p>
+                )}
               </div>
               <div
                 className={`${classes.formGroup} ${
@@ -361,7 +381,10 @@ export const UserProfile = () => {
                   onChange={countryChangeHandler}
                   onBlur={countryBlurHandler}
                   placeholder="Enter country"
-                ></input>
+                />
+                {countryHasError && (
+                  <p className={classes.error}>Please enter country</p>
+                )}
               </div>
             </form>
           </div>

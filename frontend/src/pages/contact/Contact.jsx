@@ -3,6 +3,7 @@ import classes from "./contact.module.css";
 import { PageTransition } from "../../helpers/animations";
 import { MdLocalPhone, MdEmail, MdPlace } from "react-icons/md";
 import { SencondaryButton } from "../../components/secondaryButton/SencondaryButton";
+import { UseInput } from "../../hook/UseInput";
 
 export const Contact = () => {
   return (
