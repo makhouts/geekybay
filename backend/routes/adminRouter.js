@@ -1,6 +1,6 @@
 import express from "express";
 import pool from "../helper/dbConnection.js";
-import { isAdmin } from "../middleware/auth.js";
+import {isAdmin, isAuth} from "../middleware/auth.js";
 import {validate} from "express-validation";
 import { orderValidation, productValidation } from "../middleware/validation.js";
 
@@ -236,7 +236,7 @@ router.get("/buyer-orders/:buyerId", (req, res) => {
 
 
 //add new order 
-router.post("/oders", validate(orderValidation, {}, {}) ,(req, res) => {
+router.post("/orders", validate(orderValidation, {}, {}) ,(req, res) => {
   pool.getConnection((err, connection) => {
       const data = req.body;
       if (err) throw err;
@@ -285,6 +285,23 @@ router.put("/orders/cancel/:id", (req, res) => {
           }
       });
   });
+});
+
+//ORDERDETAILS
+
+//Get order details by orderId
+router.get("/orderdetails/:id", (req, res) => {
+    pool.getConnection((err, connection) => {
+        if (err) throw err;
+        connection.query("SELECT * FROM orderdetails WHERE orderID = ? AND ( sellerID = ? OR buyerID = ?)", [req.params.orderID, req.user.userID, req.user.userID], (err, rows) => {
+            connection.release();
+            if (!err) {
+                res.status(200).send(rows);
+            } else {
+                res.status(400).send('Bad request for orderdetails by buyer ID.')
+            }
+        });
+    });
 });
 
 

@@ -38,11 +38,13 @@ export class Email {
     }
 
     //once seller confirms the sale
-    static orderConfirmationMail = async (emailAddress) => {
+    static orderConfirmationMail = async (emailAddress, buyerFirstName, buyerLastName, sellerUserName, productName, quantity) => {
         // Generate test SMTP service account from ethereal.email
         // Only needed if you don't have a real mail account for testing
         let testAccount = await nodemailer.createTestAccount();
-        let message =  "Placeholder for order confirmation mail.";
+        let message =  `Hello, ${buyerFirstName} ${buyerLastName}. <br>
+                Your order of ${productName}: quantity: ${quantity} has been confirmed by ${sellerUserName}.<br>
+                If you have ordered products from different sellers, look for a separate confirmation email for the relevant products.` ;
 
 
         // create reusable transporter object using the default SMTP transport
@@ -62,7 +64,7 @@ export class Email {
             to: emailAddress, // receiving email parameter from authRouter
             subject: "Order Confirmation", // Subject line
             text: `${message}` , // plain text body
-            //html: "<b></b>", // html body
+            html: `${message}`, // html body
         });
 
         console.log("Message sent: %s", info.messageId);
@@ -75,7 +77,7 @@ export class Email {
         // Generate test SMTP service account from ethereal.email
         // Only needed if you don't have a real mail account for testing
         let testAccount = await nodemailer.createTestAccount();
-        let message =  `Hello, ${username}, you have signed up at GeekyBay. \n
+        let message =  `Hello, ${usernameFirstName}, you have signed up at GeekyBay. \n
                         Upload and sell your products today!`;
 
 
