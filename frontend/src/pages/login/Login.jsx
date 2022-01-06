@@ -32,6 +32,7 @@ export const Login = (props) => {
         navigate("/");
       })
       .catch((err) => console.log(err));
+    console.log(enteredUsername, enteredPassword);
   };
 
   const {

@@ -1,14 +1,31 @@
 .addProduct {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 20px;
+}
+.addProduct form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.formGroup input {
+  width: 100%;
+}
+
+.formGroup.invalid input {
+  border-color: red;
+  background-color: rgb(223, 182, 182);
+}
+.error {
+  color: red;
 }
 
 .checkboxes {
-    margin: 30px 0px;
+  margin: 30px 0px;
 }
 
 .checkboxes input {
-    margin: 10px;
+  margin: 10px;
 }
