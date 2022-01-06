@@ -109,23 +109,21 @@ CREATE TABLE `orders` (
   `orderID` int(11) NOT NULL auto_increment,
   `orderDate` date NOT NULL,
   `orderStatus` varchar(15) NOT NULL,
-  `sellerID` int(11) NOT NULL,
   `buyerID` int(11) NOT NULL,
   PRIMARY KEY (`orderID`),
-  KEY `sellers` (`sellerID`), KEY `buyers` (`buyerID`),
-  CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`sellerID`) REFERENCES `users` (`userID`),
+	KEY `buyers` (`buyerID`),
   CONSTRAINT `orders_ibfk_2` FOREIGN KEY (`buyerID`) REFERENCES `users` (`userID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 /*Data for the table `orders` */
 
-insert  into `orders`(`orderDate`,`orderStatus`,`sellerID`, `buyerID`) values
+insert  into `orders`(`orderDate`,`orderStatus`, `buyerID`) values
 
-('11/11/11', 'ordered', '1', '2'),
-('21/12/21', 'paid', '2', '3'),
-('31/03/13', 'shipped', '3', '4'),
-('14/04/14', 'lost', '4', '5'),
-('22/01/04', 'pending', '6', '2')
+('11/11/11', 'ordered' , '2'),
+('21/12/21', 'paid', '3'),
+('31/03/13', 'shipped',  '4'),
+('14/04/14', 'lost', '5'),
+('22/01/04', 'pending', '2')
 ;
 /*Table structure for table `productlines` */
 #

@@ -5,6 +5,7 @@ import { SencondaryButton } from "../../components/secondaryButton/SencondaryBut
 import { useParams } from "react-router";
 import axios from "axios";
 import Spinner from "../../components/spinner/Spinner";
+import url from "../../helpers/endpoint";
 
 export const DetailProduct = (props) => {
   const [product, setProduct] = useState();
@@ -15,7 +16,7 @@ export const DetailProduct = (props) => {
   useEffect(async () => {
     try {
       const getProduct = await axios.get(
-        `https://geekybay.herokuapp.com/products/product/${id}`
+        `${url}/products/product/${id}`
       );
       setProduct(getProduct.data);
       setShowSpinner(false);

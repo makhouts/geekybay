@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import classes from "./multiStepForm.module.css";
 import { TiDelete } from "react-icons/ti";
 import { motion } from "framer-motion";
@@ -7,8 +7,26 @@ import { GuestForm } from "./GuestForm";
 import { FaCcPaypal, FaCcVisa } from "react-icons/fa";
 import StripeCheckout from "react-stripe-checkout";
 import { useNavigate } from "react-router-dom";
-import axios from "axios"; 
-import url from '../../helpers/endpoint';
+import { SencondaryButton } from "../secondaryButton/SencondaryButton";
+import url from "../../helpers/endpoint";
+import axios from "axios";
+import { AuthContext } from "../../App";
+
+const getCurrentDate = () => {
+  const date = new Date();
+  let year = date.getFullYear();
+  let month = date.getMonth() + 1;
+  let dt = date.getDate();
+
+  if (dt < 10) {
+    dt = "0" + dt;
+  }
+  if (month < 10) {
+    month = "0" + month;
+  }
+
+  return year + "-" + month + "-" + dt;
+};
 
 export const MultiStepForm = (props) => {
   const navigate = useNavigate();
@@ -43,16 +61,46 @@ export const MultiStepForm = (props) => {
     }
   }, [])
   
+  ///////
+
+  const { authenticated } = useContext(AuthContext);
   const makePayment = async (token) => {
+    let userId = null;
+    if (authenticated) {
+      const res = await axios.get(`${url}/users/user-info`, { withCredentials: true });
+      userId = res.data[0].userID;
+    } else {
+      const buyer = {
+        userLastName: inputs.lName,
+        userFirstName: inputs.fName,
+        emailAddress: inputs.email,
+        addressLine1: inputs.street,
+        city: inputs.city,
+        postalCode: inputs.postcode,
+        country: inputs.country,
+      };
+      const res = await axios.post(`${url}/users`, buyer);
+      userId = res.data.insertId;
+    }
+
+    // add order
+    const order = {
+      orderDate: getCurrentDate(),
+      buyerID: userId,
+    };
+    const response = await axios.post(`${url}/orders`, order);
+    console.log(props.cart)
+
     const body = {
-      token:token,
+      token: token,
       products: props.cart,
     };
     const headers = {
       "Content-Type": "application/json",
     };
+
     try {
-      const response = await fetch("http://localhost:3001/pay/payment", {
+      const response = await fetch(`${url}/pay/payment`, {
         method: "POST",
         // credentials: 'include', TODO: do this
         headers: headers,
@@ -60,7 +108,6 @@ export const MultiStepForm = (props) => {
       });
       const { status } = response;
       if (status === 200) {
-        // TODO: add order details here
         navigate("/"); // TODO: add ty for purchase or something
       }
     } catch (error) {
@@ -189,28 +236,16 @@ export const MultiStepForm = (props) => {
           </p>
         </div>
         {step !== 0 ? (
-          <button
-            onClick={previousRender}
-            disabled={props.cart.length == 0 ? true : false}
-            className={classes.checkoutBtn}
-          >
+          <button onClick={previousRender} disabled={props.cart.length == 0 ? true : false} className={classes.checkoutBtn}>
             Previous
           </button>
         ) : null}
         {step !== 3 ? (
-          <button
-            onClick={nextRender}
-            disabled={props.cart.length == 0 ? true : false}
-            className={classes.checkoutBtn}
-          >
+          <button onClick={nextRender} disabled={props.cart.length == 0 ? true : false} className={classes.checkoutBtn}>
             Next
           </button>
         ) : (
-          <StripeCheckout
-            stripeKey={process.env.REACT_APP_PAYMENT_KEY}
-            token={makePayment}
-            name="Payment Information"
-          >
+          <StripeCheckout stripeKey={process.env.REACT_APP_PAYMENT_KEY} token={makePayment} name="Payment Information">
             <button className={classes.checkoutBtn}>Pay now</button>
           </StripeCheckout>
         )}
