@@ -141,9 +141,9 @@ export const AddProduct = () => {
       </form>
       <div className={classes.checkboxes}>
         <label htmlFor="">Visible</label>
-        <input type="checkbox" name="visible" checked />
+        <input type="checkbox" name="visible" defaultChecked />
         <label htmlFor="">Free shipping?</label>
-        <input type="checkbox" name="shipping" checked />
+        <input type="checkbox" name="shipping" defaultChecked />
       </div>
       <label htmlFor="">Image</label>
       <input type="file" multiple />

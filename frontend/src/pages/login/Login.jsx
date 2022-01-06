@@ -10,6 +10,7 @@ import { AuthContext } from "../../App";
 
 export const Login = (props) => {
   const { setAuthenticated } = useContext(AuthContext);
+  const [showError, setShowError] = useState(false);
   const navigate = useNavigate();
 
   const postLogin = () => {
@@ -25,14 +26,16 @@ export const Login = (props) => {
         }
       )
       .then((response) => {
-        console.log(response);
         if (response.status === 200) {
           setAuthenticated(true);
+          setShowError(false);
         }
         navigate(props.to == undefined ? "/" : props.to);
       })
-      .catch((err) => console.log(err));
-    console.log(enteredUsername, enteredPassword);
+      .catch((err) => {
+        console.log(err);
+        setShowError(true);
+      } );
   };
 
   const {
@@ -88,6 +91,11 @@ export const Login = (props) => {
                   usernameInputHasError === true ? classes.invalid : ""
                 }`}
               >
+                {showError && (
+                  <p className={classes.error}>
+                    Username or Password wrong.
+                  </p>
+                )}
                 <label htmlFor="username">User Name</label>
                 <input
                   type="text"
