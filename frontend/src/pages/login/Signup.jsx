@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { UseInput } from "../../hook/UseInput";
 import { GuestForm } from "../../components/multiStepForm/GuestForm";
 import axios from "axios";
+import url from "../../helpers/endpoint";
 
 export const Signup = () => {
   const navigate = useNavigate();
