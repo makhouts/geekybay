@@ -21,7 +21,7 @@ It is also our first introduction to working in an Agile environment, using Scru
 
 ## Requirements:
 
-###Must Haves: 
+### Must Haves: 
  - [ ] Minimal viable product: functional webshop where sellers can post products and buyers can place orders and buy.
  - [ ] Responsive website.
  - [ ] Secure website - to be seen.
@@ -46,13 +46,13 @@ Hosting: Heroku
 
 
 The project was divided into three sprints with a duration varying between 2 and 5 days.
-###Sprint 1:
+### Sprint 1:
  - Front-end: Layout of home page, footer, navbar, redirect page, login page, product fields.
  - Back-end: CRUD routes, database, authentication middleware
-###Sprint 2:
+### Sprint 2:
  - Front-end: contact page, cart
  - Back-end: additions to database (order details table), protecting routes as necessary, mock emails (using ethereal) 
-###Sprint 3:
+### Sprint 3:
  - Front-end: user dashboard, products page
  - Back-end: payment, rate limit api requests, uploading (product) images
 
