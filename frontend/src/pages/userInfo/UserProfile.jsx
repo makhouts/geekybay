@@ -183,6 +183,7 @@ export const UserProfile = () => {
     }
   };
 
+
   return (
     <PageTransition>
       <div className="container">
@@ -201,7 +202,7 @@ export const UserProfile = () => {
                 <input
                   type="text"
                   id="username"
-                  value={enteredUsername}
+                  value={() => test()}
                   onChange={usernameChangeHandler}
                   onBlur={usernameBlurHandler}
                   placeholder="Enter new username"

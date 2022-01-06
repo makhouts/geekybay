@@ -12,7 +12,7 @@ export const Signup = () => {
 
   const postRegister = () => {
     axios
-      .post("https://geekybay.herokuapp.com/auth/register", {
+      .post(`${url}/auth/register`, {
         userName: enteredUsername,
         emailAddress: enteredEmail,
         password: enteredPassword,

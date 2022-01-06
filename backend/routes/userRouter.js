@@ -43,21 +43,28 @@ router.get("/seller-info/:id", (req, res) => {
 });
 
 
+
 //Create buyer
 router.post("/", validate(buyerValidation, {}, {}), (req, res) => {
-  pool.getConnection(async (err, connection) => {
-    if (err) throw err;
-    const data = req.body;
-    data.type = "buyer";
-    connection.query("INSERT INTO users SET ?", data, (err, rows) => {
-      connection.release();
-      if (!err) {
-        res.status(200).send(rows);
-      } else {
-        res.status(400).send({message: 'Bad request'})
-      }
+  if(!req.user){
+    pool.getConnection(async (err, connection) => {
+      if (err) throw err;
+      const data = req.body;
+      data.type = "buyer";
+      // TODO: change number later in DB/// if there is one i dont want to change it to 1111111
+      data.phone = 11111111111111
+      connection.query("INSERT INTO users SET ?", data, (err, rows) => {
+        connection.release();
+        if (!err) {
+          res.status(200).send(rows);
+        } else {
+          res.status(400).send({message: 'Bad request'})
+        }
+      });
     });
-  });
+  }else{
+    res.status(400).send({message: 'Bad request!'})
+  }
 });
 
 //todo: add validation once reset-password is separated from this route
