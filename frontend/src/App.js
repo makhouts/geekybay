@@ -126,6 +126,7 @@ function App() {
                     }
                     showOnlyFreeShipping={showOnlyFreeShipping}
                     showSpinner={showSpinner}
+                    authenticated={authenticated}
                   />
                 }
               />
@@ -135,12 +136,14 @@ function App() {
               element={<DetailProduct addToCart={addToCart} />}
             />
             <Route path="/contact" element={<Contact />} />
-            <Route path="/userProfile" element={<UserProfile />} />
+            {authenticated ? (
+              <Route path="/userProfile" element={<UserProfile />} />
+            ) : null}
             <Route path="/login" element={<Login />} />
             <Route
               path="/checkout"
               element={
-                <Checkout cart={cart} deleteItemFromCart={deleteItemFromCart} />
+                <Checkout cart={cart} deleteItemFromCart={deleteItemFromCart} authenticated={authenticated}/>
               }
             />
             <Route path="/signUp" element={<Signup />} />

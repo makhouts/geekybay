@@ -15,6 +15,8 @@ export const Login = (props) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
+  const [showError, setShowError] = useState(false);
+
   const postLogin = () => {
     axios
       .post(
@@ -30,10 +32,13 @@ export const Login = (props) => {
       .then((response) => {
         console.log(response);
         if(response.status === 200){
-          setAuthenticated(true)
+          setAuthenticated(true);
         }
-        navigate("/");
-      }).catch(err => console.log(err));
+        navigate(props.to == undefined ? '/' : props.to);
+      }).catch(err => {
+        setShowError(true);
+        console.log(err)
+      });
   };
 
 
@@ -86,6 +91,11 @@ export const Login = (props) => {
           <div className={classes.form}>
             <form onSubmit={formSubmissionHandler}>
               <div className={`${classes.formGroup}`}>
+                {props.showError ? (
+                  <p className={classes.error}>
+                    Wrong username or password.
+                  </p>
+                ) : null}
                 <label htmlFor="username">Username</label>
                 <input
                   type="username"
@@ -95,7 +105,11 @@ export const Login = (props) => {
                   placeholder="Username"
                 />
               </div>
-              <div className={`${classes.formGroup} ${passwordInputHasError === true ? classes.invalid : ""}`}>
+              <div
+                className={`${classes.formGroup} ${
+                  passwordInputHasError === true ? classes.invalid : ""
+                }`}
+              >
                 <label htmlFor="password">Password</label>
                 <input
                   type="password"
@@ -105,12 +119,20 @@ export const Login = (props) => {
                   onBlur={passwordBlurHandler}
                   placeholder="Password"
                 />
-                {passwordInputHasError && <p className={classes.error}>Please enter a minmum 7 digits password</p>}
+                {passwordInputHasError && (
+                  <p className={classes.error}>
+                    Please enter a minmum 7 digits password
+                  </p>
+                )}
               </div>
             </form>
           </div>
           <div className={classes.buttonContainer}>
-            <SencondaryButton className={classes.btn} type="submit" onClick={postLogin}>
+            <SencondaryButton
+              className={classes.btn}
+              type="submit"
+              onClick={postLogin}
+            >
               Login
             </SencondaryButton>
           </div>
