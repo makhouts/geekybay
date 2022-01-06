@@ -9,17 +9,14 @@ import pool from "../helper/dbConnection.js";
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const router = express.Router();
 
-router.post("/payment", (req, res) => {
-  const { product, token } = req.body;
-  //   console.log("product", product.products);
-  //   console.log("token", token);
+router.post("/payment", async(req, res) => {
+  const { products, token } = await req.body;
   const prods = [];
   let amount = 0;
-
-  product.products.forEach((p) => {
-    prods.push({ id: p.id, qty: p.qty });
+  products.forEach((p) => {
+    prods.push({ id: p.productID, qty: p.qty });
   });
-
+  console.log("PROPDS",prods)
   let query = "SELECT * FROM products WHERE productID IN (";
   prods.forEach((p) => {
     query += `${p.id},`;
@@ -28,10 +25,11 @@ router.post("/payment", (req, res) => {
 
   pool.getConnection((err, connection) => {
     if (err) throw err;
+    console.log(query)
 
     connection.query(query, (err, products) => {
       connection.release();
-      if (!err) {
+      if (!err) { // here is error=true
         products.forEach((p, i) => {
           amount += p.price * prods[i].qty;
         });
@@ -53,7 +51,7 @@ router.post("/payment", (req, res) => {
           currency: 'eur',
           customer: customer.id,
           receipt_email: token.email,
-          description: product.name // TODO: add info from req.user maybe
+          description: "product.name" // TODO: add info from req.user maybe
       }, { idempotencyKey });
     })
     .then((result) => res.status(200).json(result))

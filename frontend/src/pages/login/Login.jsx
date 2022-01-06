@@ -1,12 +1,15 @@
-import React, { useState } from "react";
+import React, { useState,useContext } from "react";
 import classes from "./login.module.css";
 import { PageTransition } from "../../helpers/animations";
 import { Link, useNavigate } from "react-router-dom";
 import { SencondaryButton } from "../../components/secondaryButton/SencondaryButton";
 import { UseInput } from "../../hook/UseInput";
 import axios from "axios";
+import url from '../../helpers/endpoint'
+import { AuthContext } from "../../App";
 
 export const Login = (props) => {
+  const {setAuthenticated} =  useContext(AuthContext)
   const navigate = useNavigate();
 
   const [username, setUsername] = useState("");
@@ -15,7 +18,7 @@ export const Login = (props) => {
   const postLogin = () => {
     axios
       .post(
-        "https://geekybay.herokuapp.com/auth/login",
+        `${url}/auth/login`,
         {
           username: username,
           password: password,
@@ -26,14 +29,13 @@ export const Login = (props) => {
       )
       .then((response) => {
         console.log(response);
+        if(response.status === 200){
+          setAuthenticated(true)
+        }
         navigate("/");
-      });
+      }).catch(err => console.log(err));
   };
 
-
-
-
-  
 
   const {
     value: enteredEmail,
@@ -51,7 +53,9 @@ export const Login = (props) => {
     valueChangeHandler: passwordChangeHandler,
     inputBlurHandler: passwordBlurHandler,
     reset: resetPasswordInput,
-  } = UseInput((value) => value.trim().length > 6);
+  } = UseInput((value) => {
+    console.log(value)
+    return value.trim().length > 6});
 
   let formIsValid = false;
   if (enteredEmailIsValid && enteredPasswordIsValid) {
@@ -68,6 +72,7 @@ export const Login = (props) => {
     resetPasswordInput();
   };
 
+
   return (
     <PageTransition>
       <div>
@@ -80,17 +85,15 @@ export const Login = (props) => {
           </div>
           <div className={classes.form}>
             <form onSubmit={formSubmissionHandler}>
-              <div className={`${classes.formGroup} ${emailInputHasError === true ? classes.invalid : ""}`}>
-                <label htmlFor="email">User Name</label>
+              <div className={`${classes.formGroup}`}>
+                <label htmlFor="username">Username</label>
                 <input
-                  type="email"
-                  id="email"
+                  type="username"
+                  id="username"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  onBlur={emailBlurHandler}
                   placeholder="Username"
                 />
-                {emailInputHasError && <p className={classes.error}>Please enter a valid email</p>}
               </div>
               <div className={`${classes.formGroup} ${passwordInputHasError === true ? classes.invalid : ""}`}>
                 <label htmlFor="password">Password</label>
