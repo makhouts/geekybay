@@ -9,16 +9,17 @@ import axios from "axios";
 export const Login = (props) => {
   const navigate = useNavigate();
 
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  // const [username, setUsername] = useState("");
+
+  // const [password, setPassword] = useState("");
 
   const postLogin = () => {
     axios
       .post(
         "https://geekybay.herokuapp.com/auth/login",
         {
-          username: username,
-          password: password,
+          username: enteredUsername,
+          password: enteredPassword,
         },
         {
           withCredentials: true,
@@ -30,19 +31,14 @@ export const Login = (props) => {
       });
   };
 
-
-
-
-  
-
   const {
-    value: enteredEmail,
-    isValid: enteredEmailIsValid,
-    hasError: emailInputHasError,
-    valueChangeHandler: emailChangeHandler,
-    inputBlurHandler: emailBlurHandler,
-    reset: resetEmailInput,
-  } = UseInput((value) => value.includes("@"));
+    value: enteredUsername,
+    isValid: enteredUsernameIsValid,
+    hasError: usernameInputHasError,
+    valueChangeHandler: usernameChangeHandler,
+    inputBlurHandler: usernameBlurHandler,
+    reset: resetUsernameInput,
+  } = UseInput((value) => value.trim() !== "");
 
   const {
     value: enteredPassword,
@@ -54,17 +50,17 @@ export const Login = (props) => {
   } = UseInput((value) => value.trim().length > 6);
 
   let formIsValid = false;
-  if (enteredEmailIsValid && enteredPasswordIsValid) {
+  if (enteredUsernameIsValid && enteredPasswordIsValid) {
     formIsValid = true;
   }
 
   const formSubmissionHandler = (event) => {
     event.preventDefault();
-
+    postLogin();
     if (!formIsValid) {
       return;
     }
-    resetEmailInput();
+    resetUsernameInput();
     resetPasswordInput();
   };
 
@@ -80,34 +76,52 @@ export const Login = (props) => {
           </div>
           <div className={classes.form}>
             <form onSubmit={formSubmissionHandler}>
-              <div className={`${classes.formGroup} ${emailInputHasError === true ? classes.invalid : ""}`}>
-                <label htmlFor="email">User Name</label>
+              <div
+                className={`${classes.formGroup} ${
+                  usernameInputHasError === true ? classes.invalid : ""
+                }`}
+              >
+                <label htmlFor="username">User Name</label>
                 <input
-                  type="email"
-                  id="email"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  onBlur={emailBlurHandler}
+                  type="text"
+                  id="username"
+                  value={enteredUsername}
+                  onChange={usernameChangeHandler}
+                  onBlur={usernameBlurHandler}
                   placeholder="Username"
                 />
-                {emailInputHasError && <p className={classes.error}>Please enter a valid email</p>}
+                {usernameInputHasError && (
+                  <p className={classes.error}>Please enter your username</p>
+                )}
               </div>
-              <div className={`${classes.formGroup} ${passwordInputHasError === true ? classes.invalid : ""}`}>
+              <div
+                className={`${classes.formGroup} ${
+                  passwordInputHasError === true ? classes.invalid : ""
+                }`}
+              >
                 <label htmlFor="password">Password</label>
                 <input
                   type="password"
                   id="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  value={enteredPassword}
+                  onChange={passwordChangeHandler}
                   onBlur={passwordBlurHandler}
                   placeholder="Password"
                 />
-                {passwordInputHasError && <p className={classes.error}>Please enter a minmum 7 digits password</p>}
+                {passwordInputHasError && (
+                  <p className={classes.error}>
+                    Please enter a minmum 7 digits password
+                  </p>
+                )}
               </div>
             </form>
           </div>
           <div className={classes.buttonContainer}>
-            <SencondaryButton className={classes.btn} type="submit" onClick={postLogin}>
+            <SencondaryButton
+              className={classes.btn}
+              type="submit"
+              onClick={postLogin}
+            >
               Login
             </SencondaryButton>
           </div>
