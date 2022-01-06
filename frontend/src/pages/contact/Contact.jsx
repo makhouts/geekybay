@@ -1,10 +1,59 @@
-import React from "react";
+import React, { useState } from "react";
 import classes from "./contact.module.css";
 import { PageTransition } from "../../helpers/animations";
 import { MdLocalPhone, MdEmail, MdPlace } from "react-icons/md";
 import { SencondaryButton } from "../../components/secondaryButton/SencondaryButton";
+import { UseInput } from "../../hook/UseInput";
 
 export const Contact = () => {
+  const sendHandler = () => {
+    //Send message button function can be here
+    console.log("clicked");
+  };
+
+  const {
+    value: enteredName,
+    isValid: nameIsValid,
+    hasError: nameHasError,
+    valueChangeHandler: nameChangeHandler,
+    inputBlurHandler: nameBlurHandler,
+    reset: restName,
+  } = UseInput((value) => value.trim() !== "");
+
+  const {
+    value: enteredEmail,
+    isValid: emailIsValid,
+    hasError: emailHasError,
+    valueChangeHandler: emailChangeHandler,
+    inputBlurHandler: emailBlurHandler,
+    reset: restEmail,
+  } = UseInput((value) => value.includes("@"));
+
+  const {
+    value: enteredMessage,
+    isValid: messageIsValid,
+    hasError: messageHasError,
+    valueChangeHandler: messageChangeHandler,
+    inputBlurHandler: messageBlurHandler,
+    reset: restMessage,
+  } = UseInput((value) => value.trim() !== "");
+
+  let formIsValid = false;
+  if (nameIsValid && emailIsValid && messageIsValid) {
+    formIsValid = true;
+  }
+
+  const formSubmissionHandler = (event) => {
+    event.preventDefault();
+    sendHandler();
+    if (!formIsValid) {
+      return;
+    }
+    restName();
+    restEmail();
+    restMessage();
+  };
+
   return (
     <PageTransition>
       <div className="container">
@@ -34,33 +83,69 @@ export const Contact = () => {
             </div>
           </div>
           <div className={classes.rightContainer}>
-            <div className={classes.contactForm}>
-              <div className={classes.formGroup}>
-                <label className={classes.label}>Your Name</label>
-                <input
-                  className={classes.formInput}
-                  type="text"
-                  placeholder="Name"
-                ></input>
-              </div>
-              <div className={classes.formGroup}>
-                <label className={classes.label}>Your Email</label>
-                <input
-                  className={classes.formInput}
-                  type="email"
-                  placeholder="Email"
-                ></input>
-              </div>
-              <div className={classes.formGroup}>
-                <label className={classes.label}>Your Message</label>
-                <textarea
-                  className={classes.textarea}
-                  type="text"
-                  placeholder="Leave your message here."
-                ></textarea>
-              </div>
+            <div className={classes.form}>
+              <form onSubmit={formSubmissionHandler}>
+                <div
+                  className={`${classes.formGroup} ${
+                    nameHasError === true ? classes.invalid : ""
+                  }`}
+                >
+                  <label htmlFor="name">Your Name</label>
+                  <input
+                    type="text"
+                    id="name"
+                    value={enteredName}
+                    onChange={nameChangeHandler}
+                    onBlur={nameBlurHandler}
+                    placeholder="Name"
+                  />
+                  {nameHasError && (
+                    <p className={classes.error}>Please enter your name</p>
+                  )}
+                </div>
+                <div
+                  className={`${classes.formGroup} ${
+                    emailHasError === true ? classes.invalid : ""
+                  }`}
+                >
+                  <label htmlFor="email">Your Email</label>
+                  <input
+                    type="email"
+                    id="email"
+                    value={enteredEmail}
+                    onChange={emailChangeHandler}
+                    onBlur={emailBlurHandler}
+                    placeholder="Email"
+                  />
+                  {emailHasError && (
+                    <p className={classes.error}>Please enter your email</p>
+                  )}
+                </div>
+                <div
+                  className={`${classes.formGroup} ${
+                    messageHasError === true ? classes.invalid : ""
+                  }`}
+                >
+                  <label htmlFor="message">Your Message</label>
+                  <textarea
+                    type="text"
+                    id="message"
+                    value={enteredMessage}
+                    onChange={messageChangeHandler}
+                    onBlur={messageBlurHandler}
+                    placeholder="Leave your message here."
+                  />
+                  {messageHasError && (
+                    <p className={classes.error}>No messages found</p>
+                  )}
+                </div>
+              </form>
             </div>
-            <SencondaryButton className={classes.btn} type="submit">
+            <SencondaryButton
+              className={classes.btn}
+              type="submit"
+              onClick={sendHandler}
+            >
               Send Message
             </SencondaryButton>
           </div>
