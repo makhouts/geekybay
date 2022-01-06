@@ -23,7 +23,6 @@ function App() {
       console.log(error);
     }
   }, []);
-  console.log(products)
 
   useEffect(() => {
     const data = localStorage.getItem('cart');
