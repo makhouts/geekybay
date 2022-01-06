@@ -12,7 +12,6 @@ import { isAuth } from '../middleware/auth.js';
 
 const router = express.Router();
 
-
 //Get orders by sellerId
 router.get("/seller",isAuth, (req, res) => {
     pool.getConnection((err, connection) => {

@@ -1,19 +1,17 @@
-import React, { useState,useContext } from "react";
+import React, { useState, useContext } from "react";
 import classes from "./login.module.css";
 import { PageTransition } from "../../helpers/animations";
 import { Link, useNavigate } from "react-router-dom";
 import { SencondaryButton } from "../../components/secondaryButton/SencondaryButton";
 import { UseInput } from "../../hook/UseInput";
 import axios from "axios";
-import url from '../../helpers/endpoint'
+import url from "../../helpers/endpoint";
 import { AuthContext } from "../../App";
 
 export const Login = (props) => {
-  const {setAuthenticated} =  useContext(AuthContext)
+  const { setAuthenticated } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
 
   const [showError, setShowError] = useState(false);
 
@@ -22,8 +20,8 @@ export const Login = (props) => {
       .post(
         `${url}/auth/login`,
         {
-          username: username,
-          password: password,
+          username: enteredUsername,
+          password: enteredPassword,
         },
         {
           withCredentials: true,
@@ -31,6 +29,7 @@ export const Login = (props) => {
       )
       .then((response) => {
         console.log(response);
+
         if(response.status === 200){
           setAuthenticated(true);
         }
@@ -39,17 +38,22 @@ export const Login = (props) => {
         setShowError(true);
         console.log(err)
       });
+        if (response.status === 200) {
+          setAuthenticated(true);
+        }
+        navigate("/");
+      })
+      .catch((err) => console.log(err));
   };
 
-
   const {
-    value: enteredEmail,
-    isValid: enteredEmailIsValid,
-    hasError: emailInputHasError,
-    valueChangeHandler: emailChangeHandler,
-    inputBlurHandler: emailBlurHandler,
-    reset: resetEmailInput,
-  } = UseInput((value) => value.includes("@"));
+    value: enteredUsername,
+    isValid: enteredUsernameIsValid,
+    hasError: usernameInputHasError,
+    valueChangeHandler: usernameChangeHandler,
+    inputBlurHandler: usernameBlurHandler,
+    reset: resetUsernameInput,
+  } = UseInput((value) => value.trim() !== "");
 
   const {
     value: enteredPassword,
@@ -59,24 +63,24 @@ export const Login = (props) => {
     inputBlurHandler: passwordBlurHandler,
     reset: resetPasswordInput,
   } = UseInput((value) => {
-    console.log(value)
-    return value.trim().length > 6});
+    console.log(value);
+    return value.trim().length > 6;
+  });
 
   let formIsValid = false;
-  if (enteredEmailIsValid && enteredPasswordIsValid) {
+  if (enteredUsernameIsValid && enteredPasswordIsValid) {
     formIsValid = true;
   }
 
   const formSubmissionHandler = (event) => {
     event.preventDefault();
-
+    postLogin();
     if (!formIsValid) {
       return;
     }
-    resetEmailInput();
+    resetUsernameInput();
     resetPasswordInput();
   };
-
 
   return (
     <PageTransition>
@@ -97,13 +101,24 @@ export const Login = (props) => {
                   </p>
                 ) : null}
                 <label htmlFor="username">Username</label>
+
+              <div
+                className={`${classes.formGroup} ${
+                  usernameInputHasError === true ? classes.invalid : ""
+                }`}
+              >
+                <label htmlFor="username">User Name</label>
                 <input
-                  type="username"
+                  type="text"
                   id="username"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
+                  value={enteredUsername}
+                  onChange={usernameChangeHandler}
+                  onBlur={usernameBlurHandler}
                   placeholder="Username"
                 />
+                {usernameInputHasError && (
+                  <p className={classes.error}>Please enter your username</p>
+                )}
               </div>
               <div
                 className={`${classes.formGroup} ${
@@ -114,8 +129,8 @@ export const Login = (props) => {
                 <input
                   type="password"
                   id="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  value={enteredPassword}
+                  onChange={passwordChangeHandler}
                   onBlur={passwordBlurHandler}
                   placeholder="Password"
                 />
