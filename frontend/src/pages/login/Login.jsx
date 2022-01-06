@@ -29,7 +29,7 @@ export const Login = (props) => {
         if (response.status === 200) {
           setAuthenticated(true);
         }
-        navigate("/");
+        navigate(props.to == undefined ? "/" : props.to);
       })
       .catch((err) => console.log(err));
     console.log(enteredUsername, enteredPassword);
