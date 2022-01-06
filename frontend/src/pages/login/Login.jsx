@@ -12,9 +12,6 @@ export const Login = (props) => {
   const { setAuthenticated } = useContext(AuthContext);
   const navigate = useNavigate();
 
-
-  const [showError, setShowError] = useState(false);
-
   const postLogin = () => {
     axios
       .post(
@@ -29,21 +26,13 @@ export const Login = (props) => {
       )
       .then((response) => {
         console.log(response);
-
-        if(response.status === 200){
-          setAuthenticated(true);
-        }
-        navigate(props.to == undefined ? '/' : props.to);
-      }).catch(err => {
-        setShowError(true);
-        console.log(err)
-      });
         if (response.status === 200) {
           setAuthenticated(true);
         }
-        navigate("/");
+        navigate(props.to == undefined ? "/" : props.to);
       })
       .catch((err) => console.log(err));
+    console.log(enteredUsername, enteredPassword);
   };
 
   const {
@@ -94,14 +83,6 @@ export const Login = (props) => {
           </div>
           <div className={classes.form}>
             <form onSubmit={formSubmissionHandler}>
-              <div className={`${classes.formGroup}`}>
-                {props.showError ? (
-                  <p className={classes.error}>
-                    Wrong username or password.
-                  </p>
-                ) : null}
-                <label htmlFor="username">Username</label>
-
               <div
                 className={`${classes.formGroup} ${
                   usernameInputHasError === true ? classes.invalid : ""
