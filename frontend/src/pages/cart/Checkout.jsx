@@ -17,15 +17,14 @@ export const Checkout = (props) => {
     <PageTransition>
       <div className="container">
         <h1>Shopping Cart</h1>
-        <MultiStepForm cart={props.cart} deleteItemFromCart={props.deleteItemFromCart} login={() => setShowModal(true)} />
+        <MultiStepForm cart={props.cart} deleteItemFromCart={props.deleteItemFromCart} authenticated={props.authenticated} login={() => setShowModal(true)} />
         <div className={classes.delivery}>
           <h1>Estimated delivery time</h1>
           <p>Fast delivery: {getDeliveryTime()}</p>
         </div>
       </div>
-
       <Modal modalClosed={() => setShowModal(!showModal)} show={showModal}>
-        <Login />
+        <Login to={'/checkout'} />
       </Modal>
     </PageTransition>
   );

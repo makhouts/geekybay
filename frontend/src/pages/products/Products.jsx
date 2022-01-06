@@ -24,10 +24,14 @@ export const Products = (props) => {
   return (
     <PageTransition>
       <div className="container">
-        <p onClick={toggleModal}>+ Add product</p>
-        <Modal show={showModal} modalClosed={toggleModal}>
-          <AddProduct />
-        </Modal>
+        {props.authenticated ? (
+          <div>
+            <p onClick={toggleModal}>+ Add product</p>
+            <Modal show={showModal} modalClosed={toggleModal}>
+              <AddProduct />
+            </Modal>
+          </div>
+        ) : null}
         <div className={classes.productsContainer}>
           <div className={classes.filter}>
             <div className="shipping">

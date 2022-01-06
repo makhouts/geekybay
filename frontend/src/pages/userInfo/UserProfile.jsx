@@ -5,6 +5,7 @@ import { SencondaryButton } from "../../components/secondaryButton/SencondaryBut
 import { UseInput } from "../../hook/UseInput";
 
 export const UserProfile = () => {
+  const [update, setUpdate] = useState(false);
   const isNotEmpty = (value) => value.trim() !== "";
   const isEmail = (value) => value.includes("@");
   const isPassword = (value) => value.trim().length > 6;

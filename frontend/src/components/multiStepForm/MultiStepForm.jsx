@@ -7,6 +7,7 @@ import { GuestForm } from "./GuestForm";
 import { FaCcPaypal, FaCcVisa } from "react-icons/fa";
 import StripeCheckout from "react-stripe-checkout";
 import { useNavigate } from "react-router-dom";
+import { SencondaryButton } from "../secondaryButton/SencondaryButton";
 
 export const MultiStepForm = (props) => {
   const navigate = useNavigate();
@@ -69,12 +70,8 @@ export const MultiStepForm = (props) => {
   );
 
   const renderLogin = () => {
-    if (loggedIn) {
-      return (
-        <motion.div animate={{ opacity: 1 }} initial={{ opacity: 0 }} className={classes.cartSummary}>
-          LOGGED IN - PAYMENT...
-        </motion.div>
-      );
+    if (props.authenticated) {
+      setStep(3);
     } else {
       return (
         <motion.div animate={{ opacity: 1 }} initial={{ opacity: 0 }} className={classes.cartSummary}>
@@ -117,10 +114,6 @@ export const MultiStepForm = (props) => {
             <FaCcPaypal color="blue" size="50" />
             <FaCcVisa color="blue" size="50" />
           </div>
-
-          <StripeCheckout stripeKey={process.env.REACT_APP_PAYMENT_KEY} token={makePayment} name="Payment Information">
-            <button>Pay now</button>
-          </StripeCheckout>
         </div>
       </motion.div>
     );
@@ -137,7 +130,7 @@ export const MultiStepForm = (props) => {
 
   const previousRender = () => {
     if (step === 0) return;
-    if (loggedIn) {
+    if (props.authenticated) {
       setStep(0);
     } else {
       setStep(step - 1);
@@ -176,13 +169,31 @@ export const MultiStepForm = (props) => {
           </p>
         </div>
         {step !== 0 ? (
-          <button onClick={previousRender} disabled={props.cart.length == 0 ? true : false} className={classes.checkoutBtn}>
+          <button
+            onClick={previousRender}
+            disabled={props.cart.length == 0 ? true : false}
+            className={classes.checkoutBtn}
+          >
             Previous
           </button>
         ) : null}
-        <button onClick={nextRender} disabled={props.cart.length == 0 ? true : false} className={classes.checkoutBtn}>
-          Next
-        </button>
+        {step !== 3 ? (
+          <button
+            onClick={nextRender}
+            disabled={props.cart.length == 0 ? true : false}
+            className={classes.checkoutBtn}
+          >
+            Next
+          </button>
+        ) : (
+          <StripeCheckout
+            stripeKey={process.env.REACT_APP_PAYMENT_KEY}
+            token={makePayment}
+            name="Payment Information"
+          >
+            <button className={classes.checkoutBtn}>Pay now</button>
+          </StripeCheckout>
+        )}
       </div>
     </div>
   );
