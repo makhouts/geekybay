@@ -113,7 +113,17 @@ export const UserProfile = () => {
   }
 
   let addressFormIsValid = false;
-
+  if (
+    firstNameIsValid &&
+    lastNameIsValid &&
+    phoneNumberIsValid &&
+    streetIsValid &&
+    cityIsValid &&
+    postIsValid &&
+    countryIsValid
+  ) {
+    addressFormIsValid = true;
+  }
 
   const userSubmitHandler = (event) => {
     event.preventDefault();
@@ -121,19 +131,41 @@ export const UserProfile = () => {
     if (!userFormIsValid) {
       return;
     }
-    resetEmailInput();
-    resetPasswordInput();
-    resetConfirmInput();
   };
 
+  const addressSubmitHandler = (event) => {
+    event.preventDefault();
+    addressUpdateHandler();
+    if (!addressFormIsValid) {
+      return;
+    }
+  };
   const userUpdatedHandler = () => {
     setUpdate(true);
+    console.log(enteredEmail, enteredPassword, enteredConfirm);
   };
+
+  const addressUpdateHandler = () => {
+    setUpdate(true);
+    // console.log(enteredFirstName, enteredLastName);
+  };
+
   const userCancelHandler = () => {
     setUpdate(false);
     resetEmailInput();
     resetPasswordInput();
     resetConfirmInput();
+  };
+
+  const addressCancelHandler = () => {
+    setUpdate(false);
+    resetfirstNameInput();
+    resetLastNameInput();
+    resetphoneNumberInput();
+    resetstreetInput();
+    resetcityInput();
+    resetpostInput();
+    resetcountryInput();
   };
 
   return (
@@ -142,8 +174,8 @@ export const UserProfile = () => {
         <div className={classes.topContainer}>
           <div className={classes.heading}>User Profile</div>
         </div>
-        <div className={classes.passContainer}>
-          <div className={classes.passForm}>
+        <div className={classes.formContainer}>
+          <div className={classes.form}>
             <form onSubmit={userSubmitHandler}>
               <div
                 className={`${classes.formGroup} ${
@@ -223,76 +255,130 @@ export const UserProfile = () => {
             </SencondaryButton>
           </div>
         </div>
-        <div className={classes.addressContainer}>
-          <div className={classes.addressForm}>
-            <form>
+        <div className={classes.formContainer}>
+          <div className={classes.form}>
+            <form onSubmit={addressSubmitHandler}>
               <div
-                // className={`${classes.formGroup} ${
-                //   // firstNameInputHasError === true ? classes.invalid : ""
-                // }`}
+                className={`${classes.formGroup} ${
+                  firstNameHasError === true ? classes.invalid : ""
+                }`}
               >
-                <label htmlFor="name">First Name</label>
+                <label htmlFor="firstname">First Name</label>
                 <input
-                  className={classes.formInput}
                   type="text"
+                  id="firstname"
+                  value={enteredFirstName}
+                  onChange={firstNameChangeHandler}
+                  onBlur={firstNameBlurHandler}
                   placeholder="Enter firstname"
-                ></input>
+                />
               </div>
-              <div className={classes.formGrop}>
-                <label className={classes.label}>Last Name</label>
+              <div
+                className={`${classes.formGroup} ${
+                  lastNameHasError === true ? classes.invalid : ""
+                }`}
+              >
+                <label htmlFor="lastname">Last Name</label>
                 <input
-                  className={classes.formInput}
                   type="text"
+                  id="lastname"
+                  value={enteredLastName}
+                  onChange={lastNameChangeHandler}
+                  onBlur={lastNameBlurHandler}
                   placeholder="Enter lastname"
-                ></input>
+                />
               </div>
-              <div className={classes.formGrop}>
-                <label className={classes.label}>Phone Number</label>
+              <div
+                className={`${classes.formGroup} ${
+                  phoneNumberHasError === true ? classes.invalid : ""
+                }`}
+              >
+                <label htmlFor="phone">Phone Number</label>
                 <input
-                  className={classes.formInput}
                   type="text"
+                  id="phone"
+                  value={enteredPhoneNumber}
+                  onChange={phoneNumberChangeHandler}
+                  onBlur={phoneNumberBlurHandler}
                   placeholder="Enter phone number"
-                ></input>
+                />
               </div>
-              <div className={classes.formGrop}>
-                <label className={classes.label}>Street</label>
+              <div
+                className={`${classes.formGroup} ${
+                  streetHasError === true ? classes.invalid : ""
+                }`}
+              >
+                <label htmlFor="street">Street</label>
                 <input
-                  className={classes.formInput}
                   type="text"
+                  id="street"
+                  value={enteredStreet}
+                  onChange={streetChangeHandler}
+                  onBlur={streetBlurHandler}
                   placeholder="Enter street"
-                ></input>
+                />
               </div>
-              <div className={classes.formGrop}>
-                <label className={classes.label}>City</label>
+              <div
+                className={`${classes.formGroup} ${
+                  cityHasError === true ? classes.invalid : ""
+                }`}
+              >
+                <label htmlFor="city">City</label>
                 <input
-                  className={classes.formInput}
                   type="text"
+                  id="city"
+                  value={enteredCity}
+                  onChange={cityChangeHandler}
+                  onBlur={cityBlurHandler}
                   placeholder="Enter city"
-                ></input>
+                />
               </div>
-              <div className={classes.formGrop}>
-                <label className={classes.label}>Postal Code</label>
+              <div
+                className={`${classes.formGroup} ${
+                  postHasError === true ? classes.invalid : ""
+                }`}
+              >
+                <label htmlFor="postcode">Postal Code</label>
                 <input
-                  className={classes.formInput}
                   type="text"
+                  id="postcode"
+                  value={enteredPost}
+                  onChange={postChangeHandler}
+                  onBlur={postBlurHandler}
                   placeholder="Enter postal code"
-                ></input>
+                />
               </div>
-              <div className={classes.formGrop}>
-                <label className={classes.label}>Country</label>
+              <div
+                className={`${classes.formGroup} ${
+                  countryHasError === true ? classes.invalid : ""
+                }`}
+              >
+                <label htmlFor="country">Country</label>
                 <input
-                  className={classes.formInput}
                   type="text"
+                  id="country"
+                  value={enteredCountry}
+                  onChange={countryChangeHandler}
+                  onBlur={countryBlurHandler}
                   placeholder="Enter country"
                 ></input>
               </div>
             </form>
           </div>
           <div className={classes.btnContainer}>
-            <SencondaryButton className={classes.btnS} type="submit">
+            <SencondaryButton
+              className={classes.btnS}
+              type="submit"
+              disabled={!addressFormIsValid}
+              onClick={addressUpdateHandler}
+            >
               Update
             </SencondaryButton>
-            <SencondaryButton className={classes.btnC} type="submit">
+            <SencondaryButton
+              className={classes.btnC}
+              type="button"
+              onClick={addressCancelHandler}
+            >
               Cancel
             </SencondaryButton>
           </div>

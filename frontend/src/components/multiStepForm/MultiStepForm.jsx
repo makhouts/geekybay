@@ -21,15 +21,11 @@ export const MultiStepForm = (props) => {
     postcode: "",
   });
   ///////
-  const [product, setProduct] = useState({
-    name: "test",
-    products: props.cart,
-  });
-
+  
   const makePayment = async (token) => {
     const body = {
-      token,
-      product,
+      token:token,
+      products: props.cart,
     };
     const headers = {
       "Content-Type": "application/json",

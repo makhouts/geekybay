@@ -5,6 +5,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { UseInput } from "../../hook/UseInput";
 import { GuestForm } from "../../components/multiStepForm/GuestForm";
 import axios from "axios";
+import url from '../../helpers/endpoint'
+
 
 export const Signup = () => {
   const [username, setUsername] = useState('');
@@ -15,7 +17,7 @@ export const Signup = () => {
   const navigate = useNavigate();
 
   const postRegister = () => {
-    axios.post('https://geekybay.herokuapp.com/auth/register', {
+    axios.post(`${url}/auth/register`, {
       userName: username,
       emailAddress: email,
       password: password,
