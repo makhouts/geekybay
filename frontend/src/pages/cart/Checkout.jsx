@@ -6,7 +6,7 @@ import { PageTransition } from "../../helpers/animations";
 import classes from "./checkout.module.css";
 
 export const Checkout = (props) => {
-  const [showModal, setShowModal] = useState(false);    
+  const [showModal, setShowModal] = useState(false);  
   const getDeliveryTime = () => {
     const firstDay = new Date();
     const nextWeek = new Date(firstDay.getTime() + 7 * 24 * 60 * 60 * 1000);
@@ -25,7 +25,9 @@ export const Checkout = (props) => {
       </div>
       <Modal modalClosed={() => setShowModal(!showModal)} show={showModal}>
         <Login to={'/checkout'} />
+        {/* {props.authenticated ? setShowModal(false) : null} */}
       </Modal>
+
     </PageTransition>
   );
 };

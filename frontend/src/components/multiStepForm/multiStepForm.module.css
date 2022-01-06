@@ -41,11 +41,12 @@
     font-family: var(--font3);
     font-weight: bold;
     background-color: var(--blue);
-    border-radius: 0px;
     text-transform: uppercase;
     padding: 10px;
     transition: 0.2s;
     margin: 5px 0;
+    color: white;
+    border: none;
 }
 
 .checkoutBtn:hover {
