@@ -1,12 +1,40 @@
 import React, { useState } from "react";
 import classes from "./login.module.css";
 import { PageTransition } from "../../helpers/animations";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { SencondaryButton } from "../../components/secondaryButton/SencondaryButton";
 import { UseInput } from "../../hook/UseInput";
+import axios from "axios";
 
 export const Login = (props) => {
-  const [login, setLogin] = useState(false);
+  const navigate = useNavigate();
+
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  const postLogin = () => {
+    axios
+      .post(
+        "https://geekybay.herokuapp.com/auth/login",
+        {
+          username: username,
+          password: password,
+        },
+        {
+          withCredentials: true,
+        }
+      )
+      .then((response) => {
+        console.log(response);
+        navigate("/");
+      });
+  };
+
+
+
+
+  
+
   const {
     value: enteredEmail,
     isValid: enteredEmailIsValid,
@@ -32,18 +60,12 @@ export const Login = (props) => {
 
   const formSubmissionHandler = (event) => {
     event.preventDefault();
-    buttonHandler();
 
     if (!formIsValid) {
       return;
     }
     resetEmailInput();
     resetPasswordInput();
-  };
-
-  const buttonHandler = () => {
-    setLogin(true);
-    console.log(enteredEmail, enteredPassword);
   };
 
   return (
@@ -58,58 +80,39 @@ export const Login = (props) => {
           </div>
           <div className={classes.form}>
             <form onSubmit={formSubmissionHandler}>
-              <div
-                className={`${classes.formGroup} ${
-                  emailInputHasError === true ? classes.invalid : ""
-                }`}
-              >
+              <div className={`${classes.formGroup} ${emailInputHasError === true ? classes.invalid : ""}`}>
                 <label htmlFor="email">User Name</label>
                 <input
                   type="email"
                   id="email"
-                  value={enteredEmail}
-                  onChange={emailChangeHandler}
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
                   onBlur={emailBlurHandler}
-                  placeholder="Email"
+                  placeholder="Username"
                 />
-                {emailInputHasError && (
-                  <p className={classes.error}>Please enter a valid email</p>
-                )}
+                {emailInputHasError && <p className={classes.error}>Please enter a valid email</p>}
               </div>
-              <div
-                className={`${classes.formGroup} ${
-                  passwordInputHasError === true ? classes.invalid : ""
-                }`}
-              >
+              <div className={`${classes.formGroup} ${passwordInputHasError === true ? classes.invalid : ""}`}>
                 <label htmlFor="password">Password</label>
                 <input
                   type="password"
                   id="password"
-                  value={enteredPassword}
-                  onChange={passwordChangeHandler}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   onBlur={passwordBlurHandler}
                   placeholder="Password"
                 />
-                {passwordInputHasError && (
-                  <p className={classes.error}>
-                    Please enter a minmum 7 digits password
-                  </p>
-                )}
+                {passwordInputHasError && <p className={classes.error}>Please enter a minmum 7 digits password</p>}
               </div>
             </form>
           </div>
           <div className={classes.buttonContainer}>
-            <SencondaryButton
-              class={classes.btn}
-              type="submit"
-              disabled={!formIsValid}
-              onClick={buttonHandler}
-            >
+            <SencondaryButton className={classes.btn} type="submit" onClick={postLogin}>
               Login
             </SencondaryButton>
           </div>
           <div className={classes.linkContainer}>
-            <p class={classes.linkText}>Don't have an account?</p>
+            <p className={classes.linkText}>Don't have an account?</p>
             <Link className={classes.link} to="/signUp">
               SignUp
             </Link>

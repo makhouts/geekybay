@@ -6,7 +6,9 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon backend/server.js",
-    "start": "node backend/server.js"
+    "start": "node backend/server.js",
+    "build": "cd frontend && npm install && npm run build",
+    "heroku-postbuild": "cd frontend && npm install && npm run build"
   },
   "keywords": [],
   "author": "",
@@ -25,6 +27,8 @@
     "nodemailer": "^6.7.2",
     "passport": "^0.5.2",
     "passport-local": "^1.0.0",
+    "sharp": "^0.29.3",
+    "stripe": "^8.195.0",
     "uuid": "^8.3.2"
   },
   "devDependencies": {

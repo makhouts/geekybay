@@ -7,7 +7,8 @@ import axios from "axios";
 import Spinner from "../../components/spinner/Spinner";
 
 export const DetailProduct = (props) => {
-  const [product, setProduct] = useState([{}]);
+  const [product, setProduct] = useState();
+  const [qty, setQty] = useState(1);
   const { id } = useParams();
   const [showSpinner, setShowSpinner] = useState(true);
 
@@ -23,39 +24,43 @@ export const DetailProduct = (props) => {
     }
   }, []);
 
-
-return (
-  <PageTransition>
-    {showSpinner && <Spinner />}
-    <div className="container">
-      <div className={classes.productContainer}>
-        <div className={classes.imageContainer}>
-          <img
-            className={classes.img}
-            src={require("../../assets/iphone.png")}
-          />
-        </div>
-        <div className={classes.infoContainer}>
-          {console.log(product)}
-          <h1 className={classes.title}>{product[0].productName}</h1>
-          <p className={classes.description}>{product[0].productDescription}</p>
-          <div className={classes.pContainer}>
-            <span className={classes.price}>
-              € {product[0].price}
-            </span>
-            <span className={classes.satus}>Stock: {product[0].inStock}</span>
+if(showSpinner) {
+  return <Spinner />
+} else {
+  return (
+    <PageTransition>
+      {showSpinner && <Spinner />}
+      <div className="container">
+        <div className={classes.productContainer}>
+          <div className={classes.imageContainer}>
+            <img
+              className={classes.img}
+              src={require("../../assets/iphone.png")}
+            />
           </div>
-          <div className={classes.buyContainer}>
-            <div className={classes.quantityContainer}>
-              <button className={classes.removeBtn}>-</button>
-              <span className={classes.buyAmount}>1</span>
-              <button className={classes.addBtn}>+</button>
+          <div className={classes.infoContainer}>
+            <h1 className={classes.title}>{product[0].productName}</h1>
+            <p className={classes.description}>
+              {product[0].productDescription}
+            </p>
+            <div className={classes.pContainer}>
+              <span className={classes.price}>€ {product[0].price}</span>
+              <span className={classes.satus}>Stock: {product[0].inStock}</span>
             </div>
-            <SencondaryButton>Add to Cart</SencondaryButton>
+            <div className={classes.buyContainer}>
+              <div className={classes.quantityContainer}>
+                <SencondaryButton onClick={() => setQty(qty -1)} className={classes.removeBtn}>-</SencondaryButton>
+                <span className={classes.buyAmount}>{qty}</span>
+                <SencondaryButton onClick={() => setQty(qty +1)} className={classes.addBtn}>+</SencondaryButton>
+              </div>
+              <SencondaryButton onClick={() => props.addToCart(product, qty)}>
+                Add to Cart
+              </SencondaryButton>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </PageTransition>
-);
+    </PageTransition>
+  );
+};
 };

@@ -2,6 +2,7 @@ if (process.env.NODE_ENV !== "production") {
   const dotenv = await import("dotenv");
   dotenv.config();
 }
+
 import express from "express";
 import {ValidationError} from "express-validation";
 import passport from "passport";
@@ -11,11 +12,18 @@ import bodyParser from "body-parser";
 import userRouter from "./routes/userRouter.js";
 import productRouter from "./routes/productRouter.js";
 import orderRouter from "./routes/orderRouter.js";
+import orderDetailRouter from "./routes/orderDetailRouter.js";
 import adminRouter from "./routes/adminRouter.js";
 import authRouter from "./routes/authRouter.js";
+import paymentRouter from "./routes/paymentRouter.js";
 import pool from "./helper/dbConnection.js";
 import { local } from "./strategies/local.js";
 import {mainLimiter} from './middleware/rateLimiter.js'
+import { fileURLToPath } from "url";
+import path,{ dirname } from "path";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 import cors from 'cors';
 
@@ -32,7 +40,8 @@ app.use(
     store: store,
     cookie: {
       maxAge: 1000 * 60 * 60 * 1, // 1 hour
-      secure: (process.env.NODE_ENV === "production") ? true : false
+      // secure: (process.env.NODE_ENV === "production"),
+      // sameSite: 'none'
     },
   })
 );
@@ -44,9 +53,11 @@ app.use(
 // }
 
 // Apply the rate limiting middleware to all requests
+app.use(express.static(path.resolve(__dirname, "../frontend/build")));
+
 app.use(mainLimiter)
 app.all("/*", function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+  res.header("Access-Control-Allow-Origin", req.headers.origin);
   res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
   res.header('Access-Control-Allow-Credentials', true);
   res.header("Access-Control-Allow-Headers", "Content-Type, Authorization, Content-Length,Accept, X-Requested-With");
@@ -67,14 +78,19 @@ app.use(function(err, req, res, next) {
 
 
 app.use(passport.initialize());
-app.use(passport.session()); // 
+app.use(passport.session()); //
 
-//todo: visible to who?
 app.use("/users", userRouter);
 app.use("/products", productRouter);
-//todo: this should not be publicly visible information - only admin?
 app.use("/orders", orderRouter);
+app.use("/orderdetails", orderDetailRouter);
 app.use("/auth", authRouter);
 app.use("/admin", adminRouter);
+app.use("/pay", paymentRouter);
+
+// All other GET requests not handled before will return our React app
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "../frontend/build", "index.html"));
+});
 
 app.listen(process.env.PORT);

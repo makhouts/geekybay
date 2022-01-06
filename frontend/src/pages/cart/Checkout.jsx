@@ -6,7 +6,7 @@ import { PageTransition } from "../../helpers/animations";
 import classes from "./checkout.module.css";
 
 export const Checkout = (props) => {
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState(false);    
   const getDeliveryTime = () => {
     const firstDay = new Date();
     const nextWeek = new Date(firstDay.getTime() + 7 * 24 * 60 * 60 * 1000);
@@ -17,11 +17,7 @@ export const Checkout = (props) => {
     <PageTransition>
       <div className="container">
         <h1>Shopping Cart</h1>
-        <MultiStepForm
-          cart={props.cart}
-          deleteItemFromCart={props.deleteItemFromCart}
-          login={() => setShowModal(true)}
-        />
+        <MultiStepForm cart={props.cart} deleteItemFromCart={props.deleteItemFromCart} login={() => setShowModal(true)} />
         <div className={classes.delivery}>
           <h1>Estimated delivery time</h1>
           <p>Fast delivery: {getDeliveryTime()}</p>

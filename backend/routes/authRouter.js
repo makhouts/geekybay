@@ -33,6 +33,15 @@ router.post("/register", createAccountLimiter,isNotAuth,  validate(sellerValidat
     const data = req.body;
     data.password = await bcrypt.hash(data.password, 10);
     data.type = "seller";
+    data.userLastName = ""
+    data.userFirstName= ""
+    data.phone = 123123212
+    data.addressLine1 = "asd"
+    data.addressLine2 = "asd"
+    data.city = "ASD"
+    data.postalCode = 4444
+    data.country = "ASD"
+
 
     connection.query("INSERT INTO users SET ?", data, (err, rows) => {
       connection.release();
