@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import classes from "./multiStepForm.module.css";
 import { TiDelete } from "react-icons/ti";
 import { motion } from "framer-motion";
@@ -7,7 +7,8 @@ import { GuestForm } from "./GuestForm";
 import { FaCcPaypal, FaCcVisa } from "react-icons/fa";
 import StripeCheckout from "react-stripe-checkout";
 import { useNavigate } from "react-router-dom";
-import { SencondaryButton } from "../secondaryButton/SencondaryButton";
+import axios from "axios"; 
+import url from '../../helpers/endpoint';
 
 export const MultiStepForm = (props) => {
   const navigate = useNavigate();
@@ -21,7 +22,26 @@ export const MultiStepForm = (props) => {
     city: "",
     postcode: "",
   });
-  ///////
+  
+  useEffect(() => {
+    if(props.authenticated) {
+      axios
+        .get(`${url}/users/user-info`, { withCredentials: true })
+        .then((data) => {
+          const dataArray = data.data[0];
+          setInputs({
+            fName: dataArray.userFirstName,
+            lName: dataArray.userLastName,
+            email: dataArray.emailAddress,
+            country: dataArray.country,
+            street: dataArray.addressLine1,
+            city: dataArray.city,
+            postcode: dataArray.postalCode,
+          });
+        })
+        .catch((err) => console.log(err));
+    }
+  }, [])
   
   const makePayment = async (token) => {
     const body = {

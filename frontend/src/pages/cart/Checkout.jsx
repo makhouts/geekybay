@@ -22,6 +22,9 @@ export const Checkout = (props) => {
           <h1>Estimated delivery time</h1>
           <p>Fast delivery: {getDeliveryTime()}</p>
         </div>
+        <div className={classes.delivery}>
+          <h4>Thank you for shopping at GeekyBay, see you soon!</h4>
+        </div>
       </div>
       <Modal modalClosed={() => setShowModal(!showModal)} show={showModal}>
         <Login to={'/checkout'} />

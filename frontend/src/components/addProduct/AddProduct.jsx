@@ -5,7 +5,7 @@ import { UseInput } from "../../hook/UseInput";
 
 export const AddProduct = () => {
   const addHandler = () => {
-    //request function for add product here
+    
   };
 
   const isNotEmpty = (value) => value.trim() !== "";

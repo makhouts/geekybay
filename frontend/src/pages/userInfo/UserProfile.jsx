@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import classes from "./userProfile.module.css";
 import { PageTransition } from "../../helpers/animations";
 import { SencondaryButton } from "../../components/secondaryButton/SencondaryButton";
 import { UseInput } from "../../hook/UseInput";
+import url from "../../helpers/endpoint";
+
+import axios from "axios";
 
 export const UserProfile = () => {
   const [update, setUpdate] = useState(false);
@@ -11,18 +14,44 @@ export const UserProfile = () => {
   const isPassword = (value) => value.trim().length > 6;
   // const isPhoneNumber = (value) => value.length > 10;
 
-  const userUpdatedHandler = () => {
-    //request function here for update user
-    //   axios.post("", {
-    //     userName: enteredUsername,
-    //     emailAddress: enteredEmail,
-    //     password: enteredPassword,
-    //   }).then;
-    //   console.log("enteredEmail");
-  };
+  const [userInputs, setInputs] = useState({
+    userName: '',
+    userFirstName: '',
+    userLastName: '',
+    phone: '',
+    addressLine1: '',
+    city: '',
+    postalCode: '',
+    country: '',
+  });
+
+
+  useEffect(() => {
+    axios.get(`${url}/users/user-info`, { withCredentials: true })
+    .then(data => {
+      const dataArray = data.data[0];
+      setInputs({
+        userName: dataArray.userName,
+        userFirstName: dataArray.userFirstName,
+        userLastName: dataArray.userLastName,
+        phone: dataArray.phone,
+        addressLine1: dataArray.addressLine1,
+        city: dataArray.city,
+        postalCode: dataArray.postalCode,
+        country: dataArray.country,
+      });
+    })
+    .catch(err => console.log(err))
+  }, []);
+
+  const changeValue = (e) => {
+    setInputs({...userInputs, [e.target.name]: e.target.value})
+  }
 
   const addressUpdateHandler = () => {
-    //requset function here for update address
+    axios.put(`${url}/users`, userInputs, { withCredentials: true })
+    .then((() => window.location.reload()))
+    .catch(err => console.log(err));
   };
 
   const userCancelHandler = () => {
@@ -169,7 +198,6 @@ export const UserProfile = () => {
 
   const userSubmitHandler = (event) => {
     event.preventDefault();
-    userUpdatedHandler();
     if (!userFormIsValid) {
       return;
     }
@@ -189,10 +217,11 @@ export const UserProfile = () => {
         <div className={classes.topContainer}>
           <div className={classes.heading}>User Profile</div>
         </div>
+
         <div className={classes.formContainer}>
           <div className={classes.form}>
-            <form onSubmit={userSubmitHandler}>
-              <div
+            <form onSubmit={addressSubmitHandler}>
+            <div
                 className={`${classes.formGroup} ${
                   usernameHasError === true ? classes.invalid : ""
                 }`}
@@ -201,8 +230,9 @@ export const UserProfile = () => {
                 <input
                   type="text"
                   id="username"
-                  value={enteredUsername}
-                  onChange={usernameChangeHandler}
+                  name='userName'
+                  value={userInputs.userName}
+                  onChange={changeValue}
                   onBlur={usernameBlurHandler}
                   placeholder="Enter new username"
                 />
@@ -213,86 +243,6 @@ export const UserProfile = () => {
 
               <div
                 className={`${classes.formGroup} ${
-                  emailInputHasError === true ? classes.invalid : ""
-                }`}
-              >
-                <label htmlFor="email">Email</label>
-                <input
-                  type="email"
-                  id="email"
-                  value={enteredEmail}
-                  onChange={emailChangeHandler}
-                  onBlur={emailBlurHandler}
-                  placeholder="Enter new email"
-                />
-                {emailInputHasError && (
-                  <p className={classes.error}>Please enter a valid email</p>
-                )}
-              </div>
-              <div
-                className={`${classes.formGroup} ${
-                  passwordInputHasError === true ? classes.invalid : ""
-                }`}
-              >
-                <label htmlFor="password">Password</label>
-                <input
-                  type="password"
-                  id="password"
-                  value={enteredPassword}
-                  onChange={passwordChangeHandler}
-                  onBlur={passwordBlurHandler}
-                  placeholder="Enter minimum 7 digits password"
-                />
-                {passwordInputHasError && (
-                  <p className={classes.error}>
-                    Please enter a minmum 7 digits password
-                  </p>
-                )}
-              </div>
-              <div
-                className={`${classes.formGroup} ${
-                  confirmInputHasError === true ? classes.invalid : ""
-                }`}
-              >
-                <label htmlFor="password">Confirm Password</label>
-                <input
-                  type="password"
-                  id="passwordConfim"
-                  value={enteredConfirm}
-                  onChange={confirmChangeHandler}
-                  onBlur={confirmBlurHandler}
-                  placeholder="Confirm your password"
-                />
-                {passwordInputHasError && (
-                  <p className={classes.error}>
-                    Please enter a minmum 7 digits password
-                  </p>
-                )}
-              </div>
-            </form>
-          </div>
-          <div className={classes.btnContainer}>
-            <SencondaryButton
-              className={classes.btn}
-              type="submit"
-              onClick={userUpdatedHandler}
-            >
-              Update
-            </SencondaryButton>
-            <SencondaryButton
-              className={classes.btn}
-              type="button"
-              onClick={userCancelHandler}
-            >
-              Cancel
-            </SencondaryButton>
-          </div>
-        </div>
-        <div className={classes.formContainer}>
-          <div className={classes.form}>
-            <form onSubmit={addressSubmitHandler}>
-              <div
-                className={`${classes.formGroup} ${
                   firstNameHasError === true ? classes.invalid : ""
                 }`}
               >
@@ -300,8 +250,9 @@ export const UserProfile = () => {
                 <input
                   type="text"
                   id="firstname"
-                  value={enteredFirstName}
-                  onChange={firstNameChangeHandler}
+                  name='userFirstName'
+                  value={userInputs.userFirstName}
+                  onChange={changeValue}
                   onBlur={firstNameBlurHandler}
                   placeholder="Enter firstname"
                 />
@@ -318,8 +269,9 @@ export const UserProfile = () => {
                 <input
                   type="text"
                   id="lastname"
-                  value={enteredLastName}
-                  onChange={lastNameChangeHandler}
+                  value={userInputs.userLastName}
+                  name='userLastName'
+                  onChange={changeValue}
                   onBlur={lastNameBlurHandler}
                   placeholder="Enter lastname"
                 />
@@ -336,8 +288,9 @@ export const UserProfile = () => {
                 <input
                   type="text"
                   id="phone"
-                  value={enteredPhoneNumber}
-                  onChange={phoneNumberChangeHandler}
+                  value={userInputs.phone}
+                  name='phone'
+                  onChange={changeValue}
                   onBlur={phoneNumberBlurHandler}
                   placeholder="Enter phone number"
                 />
@@ -356,8 +309,9 @@ export const UserProfile = () => {
                 <input
                   type="text"
                   id="street"
-                  value={enteredStreet}
-                  onChange={streetChangeHandler}
+                  name='addressLine1'
+                  value={userInputs.addressLine1}
+                  onChange={changeValue}
                   onBlur={streetBlurHandler}
                   placeholder="Enter street"
                 />
@@ -374,8 +328,9 @@ export const UserProfile = () => {
                 <input
                   type="text"
                   id="city"
-                  value={enteredCity}
-                  onChange={cityChangeHandler}
+                  name='city'
+                  value={userInputs.city}
+                  onChange={changeValue}
                   onBlur={cityBlurHandler}
                   placeholder="Enter city"
                 />
@@ -391,9 +346,10 @@ export const UserProfile = () => {
                 <label htmlFor="postcode">Postal Code</label>
                 <input
                   type="text"
+                  name='postalCode'
                   id="postcode"
-                  value={enteredPost}
-                  onChange={postChangeHandler}
+                  value={userInputs.postalCode}
+                  onChange={changeValue}
                   onBlur={postBlurHandler}
                   placeholder="Enter postal code"
                 />
@@ -410,8 +366,9 @@ export const UserProfile = () => {
                 <input
                   type="text"
                   id="country"
-                  value={enteredCountry}
-                  onChange={countryChangeHandler}
+                  name='country'
+                  value={userInputs.country}
+                  onChange={changeValue}
                   onBlur={countryBlurHandler}
                   placeholder="Enter country"
                 />
@@ -428,13 +385,6 @@ export const UserProfile = () => {
               onClick={addressUpdateHandler}
             >
               Update
-            </SencondaryButton>
-            <SencondaryButton
-              className={classes.btnC}
-              type="button"
-              onClick={addressCancelHandler}
-            >
-              Cancel
             </SencondaryButton>
           </div>
         </div>
