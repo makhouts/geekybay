@@ -22,7 +22,7 @@ It is also our first introduction to working in an Agile environment, using Scru
 ## Requirements:
 
 ### Must Haves: 
- - [ ] Minimal viable product: functional webshop where sellers can post products and buyers can place orders and buy.
+ - [x] Minimal viable product: functional webshop where sellers can post products and buyers can place orders and buy.
  - [ ] Responsive website.
  - [ ] Secure website - to be seen.
 
@@ -38,21 +38,24 @@ Hosting: Heroku
 
 ## Deployment:
 
-For local deployment use the sample geekyBay.sql database.
-Rename .env.sample to .env and insert your local database parameters and keys.
+For local deployment use the sample geekyBay.sql database provided in the project's root folder.\
+Rename .env.sample to .env and insert your local database parameters and keys.\
+The package-lock.json file provides the necessary modules.\
+Execute the following commands in the terminal: 
+ - root folder: `npm install`
+ - frontend folder: `npm start`
+ - backend folder: `npm run dev`
 
 ## Strategy 
 
-The project was divided into three sprints with a duration varying between 2 and 5 days.
+The project was divided into three sprints with a duration varying between 2 and 5 days. 
 ### Sprint 1:
- - Front-end: Layout of home page, footer, navbar, redirect page, login page, product fields.
+ - Front-end: Home page layout, footer, navbar, redirect page, login page, product fields.
  - Back-end: CRUD routes, database, authentication middleware
 ### Sprint 2:
  - Front-end: contact page, cart
  - Back-end: additions to database (order details table), protecting routes as necessary, mock emails (using ethereal) 
 ### Sprint 3:
  - Front-end: user dashboard, products page
- - Back-end: payment, rate limit api requests, uploading (product) images
+ - Back-end: payment, rate limit api requests, uploading (product) images, emails
  
-
-
