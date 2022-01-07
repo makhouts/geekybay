@@ -55,9 +55,10 @@ router.post("/", validate(orderValidation, {}, {}), (req, res) => {
           connection.release();
           if (!err) {
             res.status(200).send(rows);
+            console.log(rows[0]);
             //send mail to buyer
-            let msg = 'thanks for your order'
-            Email.orderMail(rows[0].emailAddress,msg).catch(console.error);
+            let info = `${rows[0].userFirstName} ${rows[0].userLastName}, \n your order has been registered. \n The seller(s) will confirm your order within 3 business days. \n Thank you for choosing GeekyBay!`;
+            Email.orderMail(rows[0].emailAddress, info).catch(console.error);
           } else {
             console.log(err);
             res.status(400).send("Bad request for seller & buyer data");

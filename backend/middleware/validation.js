@@ -50,7 +50,9 @@ export const buyerValidation = {
     userFirstName: Joi.string()
       .regex(/[a-zA-Z\s]{2,20}/)
       .required(),
-    emailAddress: Joi.string().email().required(),
+    emailAddress: Joi.string()
+        .email()
+        .required(),
     phone: Joi.string().regex(/[\d\s\/\+]{9,15}/),
     // .required(),
     addressLine1: Joi.string()
