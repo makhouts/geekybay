@@ -133,7 +133,7 @@ function App() {
             </Route>
             <Route
               path="/productDetail/:id"
-              element={<DetailProduct addToCart={addToCart} />}
+              element={<DetailProduct addToCart={addToCart}/>}
             />
             <Route path="/contact" element={<Contact />} />
             {authenticated ? (
