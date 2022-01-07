@@ -1,7 +1,6 @@
 import React from 'react';
 import classes from './products.module.css';
 
-let text = 'Amazing camera with beatiful bezels...'; 
 
 export const Product = (props) => {
     return (

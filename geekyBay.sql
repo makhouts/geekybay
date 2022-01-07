@@ -180,11 +180,18 @@ CREATE TABLE `products` (
 
 insert  into `products`(`productName`, `sellerID`, `productDescription`, `price`,`inStock`,`visible`, `freeShipping`) values
 
-( 'guitar1', '1', 'stringy1', '1000', 5, true, true),
-( 'guitar2', '2', 'stringy2', '2000', 6, true,  false),
-( 'guitar3', '3', 'stringy3', '3000', 0, false, true),
-( 'guitar4', '4', 'stringy3', '4000', 10, false,  false)
-;
+( 'iPhone', '1', 'Fancy brand new iPhone', '600', 5, true, true),
+( 'guitar', '2', 'stringy pale guitar', '800', 6, true,  false),
+( 'guitar2', '3', 'completely different guitar', '300', 3, false, true),
+( 'guitar3', '4', 'mid-brown guitar with lovely sound', '400', 10, false,  false),
+( 'TV', '1', 'Flat screen TV.', '600', 5, true, true),
+( 'Folding phone', '3', 'Smartphone with folding screen', '599.99', 5, true, true),
+( 'Smartphone', '2', 'Secondhand phone in good condition', '200', 5, true, true),
+( 'Pink phone', '2', 'Fancy brand new iPhone', '600', 5, true, true),
+( 'Accessible phone ', '1', 'Phone with large buttons', '89.99', 2, true, true),
+( 'Tent', '3', 'Collapsible camping tent, blue', '99.99', 6, true, true),
+( 'Harp', '1', 'Secondhand harp in good condition', '800', 5, true, true);
+
 
 DROP TABLE IF EXISTS `productImages`;
 
