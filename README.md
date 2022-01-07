@@ -48,7 +48,7 @@ Execute the following commands in the terminal:
 
 ## Strategy 
 
-The project was divided into three sprints with a duration varying between 2 and 5 days.
+The project was divided into three sprints with a duration varying between 2 and 5 days. 
 ### Sprint 1:
  - Front-end: Home page layout, footer, navbar, redirect page, login page, product fields.
  - Back-end: CRUD routes, database, authentication middleware
@@ -57,5 +57,5 @@ The project was divided into three sprints with a duration varying between 2 and
  - Back-end: additions to database (order details table), protecting routes as necessary, mock emails (using ethereal) 
 ### Sprint 3:
  - Front-end: user dashboard, products page
- - Back-end: payment, rate limit api requests, uploading (product) images
+ - Back-end: payment, rate limit api requests, uploading (product) images, emails
  
