@@ -19,6 +19,7 @@
 frontend/.env
 /backend/uploads
 backend/.env
+uploads/
 .env
 .env.local
 .env.development.local
