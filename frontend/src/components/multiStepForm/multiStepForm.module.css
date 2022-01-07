@@ -25,6 +25,8 @@
 
 .item img{
     width: 100px;
+    height: 120px;
+    padding: 5px;
 }
 
 .total {

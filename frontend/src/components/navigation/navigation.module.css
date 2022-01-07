@@ -76,6 +76,7 @@
 
 .cartSummary img {
     width: 70px;
+    height: 80px;
 }
 
 .cartIconHover:hover ~ .cartSummary {

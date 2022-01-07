@@ -36,7 +36,7 @@ if(showSpinner) {
           <div className={classes.imageContainer}>
             <img
               className={classes.img}
-              src={require("../../assets/iphone.png")}
+              src={require(`../../../../uploads/${product[0].productImg}`)}
             />
           </div>
           <div className={classes.infoContainer}>
