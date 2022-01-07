@@ -2,30 +2,33 @@ import nodemailer from "nodemailer";
 
 export class Email {
 
+    static hostname = 'smtp.live.com';
+    static siteEmail = 'geekybay@outlook.com';
+    static sender = '"GeekyBay" <geekybay@outlook.com>';
+
     // async..await is not allowed in global scope, must use a wrapper
     // once buyer places the order: should go to buyer?
     //userData array contains buyer's first and last name
      static orderMail = async (emailAddress,userData) => {
-        // Generate test SMTP service account from ethereal.email
-        // Only needed if you don't have a real mail account for testing
+        // Generate test SMTP service account from ethereal.emai, only needed if you don't have a real mail account for testing
         // let testAccount = await nodemailer.createTestAccount();
         let message =  `Hello ${userData[0]} ${userData[1]}, \n your order has been registered. \n The seller(s) will confirm your order within 3 business days. \n Thank you for choosing GeekyBay!`;;
 
 
         // create reusable transporter object using the default SMTP transport
         let transporter = nodemailer.createTransport({
-            host: "smtp.live.com",
+            host: Email.hostname,
             port: 587,
             secure: false, // true for 465, false for other ports
             auth: {
-                user: "geekybay@outlook.com", // email user
+                user: Email.siteEmail, // email user
                 pass: process.env.EMAILPASSWORD // email password
             },
         });
 
         // send mail with defined transport object
         let info = await transporter.sendMail({
-            from: '"GeekyBay" <geekybay@outlook.com>', // sender address
+            from: Email.sender, // sender address
             to: emailAddress, // receiving email parameter from authRouter
             subject: "Notice of sale - please confirm", // Subject line
             text: `${message}` , // plain text body
@@ -45,18 +48,18 @@ export class Email {
 
         // create reusable transporter object using the default SMTP transport
         let transporter = nodemailer.createTransport({
-            host: "smtp.live.com",
+            host: Email.hostname,
             port: 587,
             secure: false, // true for 465, false for other ports
             auth: {
-                user: "geekybay@outlook.com", // email user
+                user: Email.siteEmail, // email user
                 pass: process.env.EMAILPASSWORD // email password
             },
         });
 
         // send mail with defined transport object
         let info = await transporter.sendMail({
-            from: '"GeekyBay" <geekybay@outlook.com>', // sender address
+            from: Email.sender, // sender address
             to: emailAddress, // receiving email parameter from authRouter
             subject: "Order Confirmation", // Subject line
             text: `${message}` , // plain text body
@@ -69,24 +72,23 @@ export class Email {
         // Generate test SMTP service account from ethereal.email
         // Only needed if you don't have a real mail account for testing
         //let testAccount = await nodemailer.createTestAccount();
-        let message =  `Hello, ${username}, you have signed up at GeekyBay. \n
-                        Upload and sell your products today!`;
+        let message =  `Hello, ${username}, you have signed up at GeekyBay. \nUpload and sell your products at <a href="https://geekybay.herokuapp.com/">GeekyBay</a> today!`;
 
 
         // create reusable transporter object using the default SMTP transport
         let transporter = nodemailer.createTransport({
-            host: "smtp.live.com",
+            host: Email.hostname,
             port: 587,
             secure: false, // true for 465, false for other ports
             auth: {
-                user: "geekybay@outlook.com", // email user
+                user: Email.siteEmail, // email user
                 pass: process.env.EMAILPASSWORD // email password
             },
         });
 
         // send mail with defined transport object
         let info = await transporter.sendMail({
-            from: '"GeekyBay" <geekybay@outlook.com>', // sender address
+            from: Email.sender, // sender address
             to: emailAddress, // receiving email parameter from authRouter
             subject: "Welcome to GeekyBay", // Subject line
             text: `${message}` , // plain text body
@@ -109,18 +111,18 @@ export class Email {
 
         // create reusable transporter object using the default SMTP transport
         let transporter = nodemailer.createTransport({
-            host: "smtp.live.com",
+            host: Email.hostname,
             port: 587,
             secure: false, // true for 465, false for other ports
             auth: {
-                user: "geekybay@outlook.com", // email user
+                user: Email.siteEmail, // email user
                 pass: process.env.EMAILPASSWORD // email password
             },
         });
 
         // send mail with defined transport object
         let info = await transporter.sendMail({
-            from: '"GeekyBay" <geekybay@outlook.com>', // sender address
+            from: Email.sender, // sender address
             to: emailAddress, // receiving email parameter from authRouter
             subject: "Update successful", // Subject line
             text: `${message}` , // plain text body
@@ -138,18 +140,18 @@ export class Email {
 
         // create reusable transporter object using the default SMTP transport
         let transporter = nodemailer.createTransport({
-            host: "smtp.live.com",
+            host: Email.hostname,
             port: 587,
             secure: false, // true for 465, false for other ports
             auth: {
-                user: "geekybay@outlook.com", // email user
+                user: Email.siteEmail, // email user
                 pass: process.env.EMAILPASSWORD // email password
             },
         });
 
         // send mail with defined transport object
         let info = await transporter.sendMail({
-            from: '"GeekyBay" <geekybay@outlook.com>', // sender address
+            from: Email.sender, // sender address
             to: emailAddress, // receiving email parameter from authRouter
             subject: "Reset your GeekyBay password", // Subject line
             text: `${message}` , // plain text body
