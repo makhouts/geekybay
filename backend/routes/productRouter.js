@@ -89,7 +89,7 @@ router.get("/product/:productId", (req, res) => {
 });
 
 //WORKING with hardcoded user and probably also after auth.  atm Get product by id -> for the product details page for sellers Sellerid needs to go through auth?
-router.get("/seller-product/:productId", /*isAuth,*/ (req, res) => {
+router.get("/seller-product/:productId", isAuth, (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) throw err;
         connection.query(
