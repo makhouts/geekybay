@@ -56,7 +56,7 @@ export const Products = (props) => {
                 product={product}
                 to={`/productDetail/${product.productID}`}
               >
-                <Product product={product} showDescription={true} />
+                <Product imgPath='../../../../' product={product} showDescription={true} />
               </Link>
             ))}
           </div>

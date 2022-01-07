@@ -6,7 +6,7 @@ let text = 'Amazing camera with beatiful bezels...';
 export const Product = (props) => {
     return (
       <div className={classes.product}>
-        <img src={require("../../assets/iphone.png")} alt="iphone" />
+        <img src={require(`../../../../uploads/${props.product.productImg}`)} alt="" />
         <p>{props.product.productName}</p>
         {props.showDescription && (
           <p>{props.product.productDescription.substring(0, 20)}...</p>

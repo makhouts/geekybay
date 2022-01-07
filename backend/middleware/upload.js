@@ -22,8 +22,9 @@ const uploadFiles = upload.array("productImg", 5); // limit to 5 images
 const uploadImages = (req, res, next) => {
     uploadFiles(req, res, err => {
         if (err instanceof multer.MulterError) { // A Multer error occurred when uploading.
+            console.log(err);
             if (err.code === "LIMIT_UNEXPECTED_FILE") { // Too many images exceeding the allowed limit
-                return res.send("too many images, reduce image amount")
+                return res.send(err)
             }
         } else if (err) {
             // handle other errors
@@ -32,6 +33,8 @@ const uploadImages = (req, res, next) => {
         next();
     });
 };
+
+//dc
 
 //resize images, using sharp
 const resizeImages = async (req, res, next) => {

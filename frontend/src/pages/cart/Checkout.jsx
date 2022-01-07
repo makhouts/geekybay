@@ -28,9 +28,7 @@ export const Checkout = (props) => {
       </div>
       <Modal modalClosed={() => setShowModal(!showModal)} show={showModal}>
         <Login to={'/checkout'} />
-        {props.authenticated ? console.log(showModal) : null}
       </Modal>
-
     </PageTransition>
   );
 };

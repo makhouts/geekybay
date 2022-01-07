@@ -54,7 +54,7 @@ export const Home = (props) => {
                 {props.products.slice(5, 10).map((product, i) => (
                   <div key={i} className={classes.tDeal}>
                     <Link to={`productDetail/${product.productID}`}>
-                      <Product product={product} />
+                      <Product imgPath='../../../../' product={product} />
                     </Link>
                   </div>
                 ))}
