@@ -1,6 +1,6 @@
 # Title: GeekyBay
 
-[![](frontend/src/assets/screenshot.PNG)](https://geekybay.herokuapp.com/)
+[![geekybay](frontend/src/assets/screenshot.PNG)](https://geekybay.herokuapp.com/)
 
 - Repository: `geekybay`
 - Type of Challenge: `Team`
@@ -38,12 +38,10 @@ Hosting: Heroku
 
 ## Deployment:
 
-
-## Personal Learning objectives  
-
+For local deployment use the sample geekyBay.sql database.
+Rename .env.sample to .env and insert your local database parameters and keys.
 
 ## Strategy 
-
 
 The project was divided into three sprints with a duration varying between 2 and 5 days.
 ### Sprint 1:
@@ -55,21 +53,6 @@ The project was divided into three sprints with a duration varying between 2 and
 ### Sprint 3:
  - Front-end: user dashboard, products page
  - Back-end: payment, rate limit api requests, uploading (product) images
+ 
 
-## Log/Self-reflection
-
-simple logging of steps and tracking progress to show work.  
-
-#### Day 1: Monday 20/12/21 
-
-9:00 - 9:30 : read and initial commit of readme & basic introductory reading of project plan and new concepts  
-
-#### Day 2: Monday 21/12/21 
-
-9:00 - 9:30 : read and initial commit of readme & basic introductory reading of project plan and new concepts  
-
-
-### $newly learned project concepts
-
-Explanation in my own words of these concepts.  
 
