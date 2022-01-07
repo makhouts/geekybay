@@ -55,7 +55,6 @@ export const Login = (props) => {
     inputBlurHandler: passwordBlurHandler,
     reset: resetPasswordInput,
   } = UseInput((value) => {
-    console.log(value);
     return value.trim().length > 6;
   });
 
@@ -152,55 +151,3 @@ export const Login = (props) => {
   );
 };
 
-// const [enterEmail, setEnterEmail] = useState("");
-// const [emailIsValid, setEmailIsValid] = useState();
-// const [enterPassword, setEnterPassword] = useState("");
-// const [passwordIsValid, setPasswordIsValid] = useState();
-// const [formIsValid, setFormIsValid] = useState(false);
-
-// useEffect(() => {
-//   const identifier = setTimeout(() => {
-//     console.log("checking invalidation");
-//     setFormIsValid(
-//       enterEmail.includes("@") && enterPassword.trim().length > 6
-//     );
-//   }, 500);
-//   return () => {
-//     console.log("effect cleanup");
-//     clearTimeout(identifier);
-//   };
-// }, [enterEmail, enterPassword]);
-
-// const emailChangeHandler = (event) => {
-//   setEnterEmail(event.target.value);
-// };
-
-// const passwordChangeHandler = (event) => {
-//   setEnterPassword(event.target.value);
-// };
-
-// const validateEmailHandler = () => {
-//   setEmailIsValid(enterEmail.includes("@"));
-// };
-
-// const validatePasswordHandler = () => {
-//   setPasswordIsValid(enterPassword.trim().length > 6);
-// };
-
-// const submitHandler = (event) => {
-//   event.preventDefault();
-//   loginHandler(enterEmail, enterPassword);
-// };
-
-// //After click Login button
-// const [isLogin, setIsLogin] = useState(false);
-// useEffect(() => {
-//   const storeLocal = localStorage.getItem("isLogin");
-//   if (storeLocal === "1") {
-//     setIsLogin(true);
-//   }
-// }, []);
-// const loginHandler = () => {
-//   localStorage.setItem("isLogin", "1");
-//   setIsLogin(true);
-// };
