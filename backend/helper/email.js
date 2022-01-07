@@ -3,12 +3,13 @@ import nodemailer from "nodemailer";
 export class Email {
 
     // async..await is not allowed in global scope, must use a wrapper
-    // once buyer places the order: should go to both seller and buyer?
-     static orderMail = async (emailAddress,msg) => {
+    // once buyer places the order: should go to buyer?
+    //userData array contains buyer's first and last name
+     static orderMail = async (emailAddress,userData) => {
         // Generate test SMTP service account from ethereal.email
         // Only needed if you don't have a real mail account for testing
         // let testAccount = await nodemailer.createTestAccount();
-        let message =  msg;
+        let message =  `Hello ${userData[0]} ${userData[1]}, \n your order has been registered. \n The seller(s) will confirm your order within 3 business days. \n Thank you for choosing GeekyBay!`;;
 
 
         // create reusable transporter object using the default SMTP transport
@@ -30,11 +31,6 @@ export class Email {
             text: `${message}` , // plain text body
             //html: "<b></b>", // html body
         });
-
-        console.log("Message sent: %s", info.messageId);
-        // Preview only available when sending through an Ethereal account
-        console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
-        // Preview URL: https://ethereal.email/message/...
     }
 
     //once seller confirms the sale
