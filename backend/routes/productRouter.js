@@ -142,13 +142,13 @@ let upload = multer({storage: storage});
 //todo: sanitise and double-check
 //todo create class/function, errorhandling in the class/function.
 //using the path root/products/multiple-upload we're trying to upload both textual form data as well as multiple images that should be linked to the data.
-router.post("/multiple-upload", /*isAuth,*/
+router.post("/multiple-upload", isAuth,
     //We've created several middleware functions each responsible for an element for processing the images to a standard size.
     // uploadController is how we import these functions to reference them.
     uploadController.uploadImages, // uploading the images to an array and checking for amount of images.
     uploadController.resizeImages, // resizes the images to a specific size.
     uploadController.getResult, // displays in the console which images were uploaded
-    /*validate(productValidation, {}, {}),*/  async (req, res) => {
+    validate(productValidation, {}, {}),  async (req, res) => {
         pool.getConnection((err, connection) => {
             if (err) throw err;
             //defining the body as the data that is uploaded.
@@ -191,7 +191,7 @@ router.post("/multiple-upload", /*isAuth,*/
 
 
 // TESTING: for uploading just one product without image?
-router.post("/", /*isAuth,*/ upload.single('avatar'), /*validate(productValidation, {}, {}),*/ (req, res) => {
+router.post("/", isAuth, upload.single('avatar'), validate(productValidation, {}, {}), (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) throw err;
         const params = req.body;
