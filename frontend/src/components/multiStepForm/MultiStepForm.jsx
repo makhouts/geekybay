@@ -123,11 +123,11 @@ export const MultiStepForm = (props) => {
       {props.cart.length !== 0 ? (
         props.cart.map((item) => (
           <motion.div animate={{ opacity: 1 }} initial={{ opacity: 0 }} className={classes.item} key={item.id}>
-            <img src={require("../../assets/iphone.png")} alt="product" />
+            <img src={require(`../../../../uploads/${item.productImg}`)} alt="product" />
             <p>{item.productName}</p>
             <p>{item.qty}</p>
-            <p>{item.price}</p>
-            <TiDelete className={classes.deleteIcon} onClick={props.deleteItemFromCart.bind(this, item.id)} />
+            <p>€ {item.price}</p>
+            <TiDelete className={classes.deleteIcon} onClick={props.deleteItemFromCart.bind(this, item.productID)} />
           </motion.div>
         ))
       ) : (
@@ -228,7 +228,7 @@ export const MultiStepForm = (props) => {
         <div className={classes.horizontalLine} />
         <div className={classes.totalPrice}>
           <h4>Subtotal</h4>
-          <p>
+          <p>€ 
             {props.cart.reduce((acc, item) => {
               const total = item.qty * item.price + acc;
               return Math.round((total + Number.EPSILON) * 100) / 100;

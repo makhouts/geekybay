@@ -18,7 +18,7 @@ export const Navigation = (props) => {
 
   const cartSummary = props.cart.map((item) => (
     <div className={classes.item} key={item.productID}>
-      <img src={require("../../assets/iphone.png")} alt="" />
+      <img src={require(`../../../../uploads/${item.productImg}`)} alt="" />
       <div className={classes.productInfo}>
         <h4>{item.productName}</h4>
         <p>€ {item.price}</p>

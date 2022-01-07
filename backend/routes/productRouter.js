@@ -158,8 +158,9 @@ router.post("/multiple-upload", /*isAuth,*/
                 /*uploadData.productImg = path.join(__dirname, "../uploads/" + req.file.filename)*/
                 uploadData.productImg = req.file.filename
             }
-            connection.query("INSERT INTO products SET productName = ?, sellerID = ?, productDescription=? , price= ?, inStock =? , visible = ?, freeShipping =?" //error is here
-                , [uploadData.productName, uploadData.sellerID, uploadData.productDescription, uploadData.price, uploadData.inStock, uploadData.visible, uploadData.freeShipping],
+
+            let q = connection.query("INSERT INTO products SET productName = ?, sellerID = ?, productDescription=? , price= ?, inStock =? , visible = ?, freeShipping =?, productImg=?" //error is here
+                , [uploadData.productName, req.user.userID, uploadData.productDescription, uploadData.price, uploadData.inStock, uploadData.visible, uploadData.freeShipping, uploadData.productImg],
                 (err, rows) => {
                     //more queries, release later.
                     connection.release();
@@ -184,6 +185,7 @@ router.post("/multiple-upload", /*isAuth,*/
                     }
                 }
             );
+            console.log(q.sql)
         });
     });
 
