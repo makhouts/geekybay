@@ -23,7 +23,6 @@ function App() {
   const [showSpinner, setShowSpinner] = useState(true);
 
   useEffect(async () => {
-    console.log(url)
     try {
       const res = await axios.get(`${url}/auth/isLoggedIn`, { withCredentials: true });
       if (res.status === 200 && res.data.loggedIn) {

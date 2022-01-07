@@ -6,6 +6,7 @@ import { AddProduct } from "../../components/addProduct/AddProduct";
 import { Product } from "./Product";
 import { Link, useParams } from 'react-router-dom';
 import Spinner from "../../components/spinner/Spinner";
+import { PrimaryButton } from "../../components/primaryButton/PrimaryButton";
 
 
 export const Products = (props) => {
@@ -26,7 +27,7 @@ export const Products = (props) => {
       <div className="container">
         {props.authenticated ? (
           <div>
-            <p onClick={toggleModal}>+ Add product</p>
+            <PrimaryButton clicked={toggleModal} btnStyle='red'>Add product</PrimaryButton>
             <Modal show={showModal} modalClosed={toggleModal}>
               <AddProduct />
             </Modal>
