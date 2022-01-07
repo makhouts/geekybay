@@ -51,7 +51,7 @@ export const Home = (props) => {
             <section>
               <h1>Bestsellers - Limited stock!</h1>
               <div className={classes.todaysDealRow}>
-                {props.products.slice(0, 5).map((product, i) => (
+                {props.products.slice(5, 10).map((product, i) => (
                   <div key={i} className={classes.tDeal}>
                     <Link to={`productDetail/${product.productID}`}>
                       <Product product={product} />

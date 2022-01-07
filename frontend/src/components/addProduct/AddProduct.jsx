@@ -5,7 +5,7 @@ import { UseInput } from "../../hook/UseInput";
 
 export const AddProduct = () => {
   const addHandler = () => {
-    //request function for add product here
+    
   };
 
   const isNotEmpty = (value) => value.trim() !== "";
@@ -47,12 +47,7 @@ export const AddProduct = () => {
   } = UseInput(isNotEmpty);
 
   let formIsValid = false;
-  if (
-    productNameIsValid &&
-    descriptionIsValid &&
-    priceIsValid &&
-    stockIsValid
-  ) {
+  if (productNameIsValid && descriptionIsValid && priceIsValid && stockIsValid) {
     formIsValid = true;
   }
 
@@ -72,11 +67,7 @@ export const AddProduct = () => {
     <div className={classes.addProduct}>
       <h1>Add product</h1>
       <form onSubmit={formSubmissionHandler}>
-        <div
-          className={`${classes.formGroup} ${
-            productNameHasError === true ? classes.invalid : ""
-          }`}
-        >
+        <div className={`${classes.formGroup} ${productNameHasError === true ? classes.invalid : ""}`}>
           <input
             type="text"
             name="productName"
@@ -85,15 +76,9 @@ export const AddProduct = () => {
             onBlur={productNameBlurHandler}
             placeholder="Product Name"
           />
-          {productNameHasError && (
-            <p className={classes.error}>Please enter product name</p>
-          )}
+          {productNameHasError && <p className={classes.error}>Please enter product name</p>}
         </div>
-        <div
-          className={`${classes.formGroup} ${
-            descriptionHasError === true ? classes.invalid : ""
-          }`}
-        >
+        <div className={`${classes.formGroup} ${descriptionHasError === true ? classes.invalid : ""}`}>
           <input
             type="text"
             name="productDescription"
@@ -102,15 +87,9 @@ export const AddProduct = () => {
             onBlur={descriptionBlurHandler}
             placeholder="Product Description"
           />
-          {descriptionHasError && (
-            <p className={classes.error}>Please describe your product</p>
-          )}
+          {descriptionHasError && <p className={classes.error}>Please describe your product</p>}
         </div>
-        <div
-          className={`${classes.formGroup} ${
-            priceHasError === true ? classes.invalid : ""
-          }`}
-        >
+        <div className={`${classes.formGroup} ${priceHasError === true ? classes.invalid : ""}`}>
           <input
             type="text"
             name="price"
@@ -121,11 +100,7 @@ export const AddProduct = () => {
           />
           {priceHasError && <p className={classes.error}>Pleae enter price</p>}
         </div>
-        <div
-          className={`${classes.formGroup} ${
-            stockHasError === true ? classes.invalid : ""
-          }`}
-        >
+        <div className={`${classes.formGroup} ${stockHasError === true ? classes.invalid : ""}`}>
           <input
             type="text"
             name="inStock"
@@ -134,19 +109,17 @@ export const AddProduct = () => {
             onBlur={stockBlurHandler}
             value={enteredStock}
           />
-          {stockHasError && (
-            <p className={classes.error}>Please enter quantities in stock</p>
-          )}
+          {stockHasError && <p className={classes.error}>Please enter quantities in stock</p>}
         </div>
+        <div className={classes.checkboxes}>
+          <label htmlFor="">Visible</label>
+          <input type="checkbox" name="visible" defaultChecked />
+          <label htmlFor="">Free shipping?</label>
+          <input type="checkbox" name="shipping" defaultChecked />
+        </div>
+        <label htmlFor="">Image</label>
+        <input type="file" multiple />
       </form>
-      <div className={classes.checkboxes}>
-        <label htmlFor="">Visible</label>
-        <input type="checkbox" name="visible" defaultChecked />
-        <label htmlFor="">Free shipping?</label>
-        <input type="checkbox" name="shipping" defaultChecked />
-      </div>
-      <label htmlFor="">Image</label>
-      <input type="file" multiple />
       <PrimaryButton onClick={addHandler}>Add product</PrimaryButton>
     </div>
   );

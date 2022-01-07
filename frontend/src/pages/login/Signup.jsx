@@ -12,7 +12,7 @@ export const Signup = () => {
 
   const postRegister = () => {
     axios
-      .post("https://geekybay.herokuapp.com/auth/register", {
+      .post(`${url}/auth/register`, {
         userName: enteredUsername,
         emailAddress: enteredEmail,
         password: enteredPassword,
@@ -180,7 +180,7 @@ export const Signup = () => {
         </div>
         <div className={classes.linkContainer}>
           <p className={classes.linkText}>Already have an account?</p>
-          <Link className={classes.link} to="/userProfile">
+          <Link className={classes.link} to="/login">
             Login
           </Link>
         </div>

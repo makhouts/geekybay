@@ -4,11 +4,11 @@ export class Email {
 
     // async..await is not allowed in global scope, must use a wrapper
     // once buyer places the order: should go to both seller and buyer?
-     static orderMail = async (emailAddress) => {
+     static orderMail = async (emailAddress,msg) => {
         // Generate test SMTP service account from ethereal.email
         // Only needed if you don't have a real mail account for testing
         let testAccount = await nodemailer.createTestAccount();
-        let message =  "Placeholder for order mail to seller.";
+        let message =  msg;
 
 
         // create reusable transporter object using the default SMTP transport

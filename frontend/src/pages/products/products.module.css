@@ -7,7 +7,7 @@
 .filter {
     padding: 10px;
     background-color: white;
-    max-height: 200px;
+    max-height: 100px;
 }
 
 .filter > div {
