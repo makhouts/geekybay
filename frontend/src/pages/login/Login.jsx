@@ -28,6 +28,7 @@ export const Login = (props) => {
       .then((response) => {
         if (response.status === 200) {
           setAuthenticated(true);
+          
           setShowError(false);
         }
         navigate(props.to == undefined ? "/" : props.to);

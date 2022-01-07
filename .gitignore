@@ -17,7 +17,6 @@
 .idea
 .DS_Store
 frontend/.env
-/uploads
 /backend/uploads
 backend/.env
 .env
