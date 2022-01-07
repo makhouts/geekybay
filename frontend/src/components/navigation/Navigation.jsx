@@ -10,10 +10,10 @@ import { SencondaryButton } from "../secondaryButton/SencondaryButton";
 import { AuthContext } from "../../App";
 import axios from 'axios'
 import url from '../../helpers/endpoint'
+import { PrimaryButton } from "../primaryButton/PrimaryButton";
 
 export const Navigation = (props) => {
-  // const { authenticated,setAuthenticated } = useContext(AuthContext);
-  const { authenticated,setAuthenticated } = useContext(AuthContext);
+
   let cartCount = props.cart.length;
 
   const cartSummary = props.cart.map((item) => (
@@ -95,13 +95,14 @@ export const Navigation = (props) => {
             >
               {" "}
               {props.authenticated && (
-                <NavLink to='/userProfile'>
+                <NavLink to="/userProfile">
                   <HiOutlineUserCircle className={classes.accountIcon} />
                 </NavLink>
               )}
             </motion.li>
           </ul>
         </div>
+
         <div className={classes.cart}>
           <div className={classes.cartIconHover}>
             <BsCart3 className={classes.cartIcon} />
@@ -109,7 +110,12 @@ export const Navigation = (props) => {
               {props.cart.length}
             </label>
           </div>
-          <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 1 }} className={classes.cartSummary}>
+
+          <motion.div
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 1 }}
+            className={classes.cartSummary}
+          >
             {cartCount === 0 ? <p>No items in cart.</p> : cartSummary}
             <div className={classes.totalCartPrice}>
               <p>Total</p>
@@ -122,12 +128,20 @@ export const Navigation = (props) => {
               </p>
             </div>
             <Link to="checkout">
-              <SencondaryButton disabled={props.cart.length == 0 ? true : false} className={classes.checkoutBtn}>
+              <SencondaryButton
+                disabled={props.cart.length == 0 ? true : false}
+                className={classes.checkoutBtn}
+              >
                 Checkout
               </SencondaryButton>
             </Link>
           </motion.div>
         </div>
+        {!props.authenticated ?
+        <Link to="login">
+          <PrimaryButton btnStyle="red">Sell now</PrimaryButton>
+        </Link>
+        : null }
       </nav>
     </div>
   );

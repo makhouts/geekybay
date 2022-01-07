@@ -5,7 +5,7 @@ import { UseInput } from "../../hook/UseInput";
 import axios from "axios";
 import url from "../../helpers/endpoint";
 
-export const AddProduct = () => {
+export const AddProduct = (props) => {
   const formData = new FormData()
   const test = (e) => {
     const file = e.target.files[0];
@@ -21,9 +21,14 @@ export const AddProduct = () => {
     formData.append('visible', '1');
     formData.append('freeShipping', '1');
     
-    axios.post(`${url}/products/multiple-upload`, formData, {withCredentials: true}) 
-    .then(data => console.log(data))
-    .catch(err => console.log(err));
+    axios
+      .post(`${url}/products/multiple-upload`, formData, {
+        withCredentials: true,
+      })
+      .then((data) => window.location.reload())
+      .catch((err) => console.log(err));
+
+    // window.location.reload();
 
     // fetch(`${url}/products/multiple-upload`, {
     //   method: "POST",
