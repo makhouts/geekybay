@@ -8,12 +8,11 @@ import { TiDeleteOutline } from "react-icons/ti";
 import { HiOutlineUserCircle } from "react-icons/hi";
 import { SencondaryButton } from "../secondaryButton/SencondaryButton";
 import { AuthContext } from "../../App";
-import axios from 'axios'
-import url from '../../helpers/endpoint'
+import axios from "axios";
+import url from "../../helpers/endpoint";
 import { PrimaryButton } from "../primaryButton/PrimaryButton";
 
 export const Navigation = (props) => {
-
   let cartCount = props.cart.length;
 
   const cartSummary = props.cart.map((item) => (
@@ -29,14 +28,14 @@ export const Navigation = (props) => {
     </div>
   ));
 
-  const logout = async() =>{
+  const logout = async () => {
     try {
-      await axios.delete(`${url}/auth/logout`, {withCredentials:true});
+      await axios.delete(`${url}/auth/logout`, { withCredentials: true });
       props.setAuthenticated(false);
     } catch (error) {
-      console.log(error);
+      throw error;
     }
-  }
+  };
 
   return (
     <div className={classes.container}>
@@ -106,16 +105,10 @@ export const Navigation = (props) => {
         <div className={classes.cart}>
           <div className={classes.cartIconHover}>
             <BsCart3 className={classes.cartIcon} />
-            <label className={classes.cartTotalItems}>
-              {props.cart.length}
-            </label>
+            <label className={classes.cartTotalItems}>{props.cart.length}</label>
           </div>
 
-          <motion.div
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 1 }}
-            className={classes.cartSummary}
-          >
+          <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 1 }} className={classes.cartSummary}>
             {cartCount === 0 ? <p>No items in cart.</p> : cartSummary}
             <div className={classes.totalCartPrice}>
               <p>Total</p>
@@ -128,20 +121,17 @@ export const Navigation = (props) => {
               </p>
             </div>
             <Link to="checkout">
-              <SencondaryButton
-                disabled={props.cart.length == 0 ? true : false}
-                className={classes.checkoutBtn}
-              >
+              <SencondaryButton disabled={props.cart.length == 0 ? true : false} className={classes.checkoutBtn}>
                 Checkout
               </SencondaryButton>
             </Link>
           </motion.div>
         </div>
-        {!props.authenticated ?
-        <Link to="login">
-          <PrimaryButton btnStyle="red">Sell now</PrimaryButton>
-        </Link>
-        : null }
+        {!props.authenticated ? (
+          <Link to="login">
+            <PrimaryButton btnStyle="red">Sell now</PrimaryButton>
+          </Link>
+        ) : null}
       </nav>
     </div>
   );

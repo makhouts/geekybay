@@ -8,7 +8,6 @@ import { UseInput } from "../../hook/UseInput";
 export const Contact = () => {
   const sendHandler = () => {
     //Send message button function can be here
-    console.log("clicked");
   };
 
   const {

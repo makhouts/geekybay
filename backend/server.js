@@ -4,7 +4,7 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 import express from "express";
-import {ValidationError} from "express-validation";
+import { ValidationError } from "express-validation";
 import passport from "passport";
 import mySqlSession from "express-mysql-session";
 import session from "express-session";
@@ -18,14 +18,12 @@ import authRouter from "./routes/authRouter.js";
 import paymentRouter from "./routes/paymentRouter.js";
 import pool from "./helper/dbConnection.js";
 import { local } from "./strategies/local.js";
-import {mainLimiter} from './middleware/rateLimiter.js'
+import { mainLimiter } from "./middleware/rateLimiter.js";
 import { fileURLToPath } from "url";
-import path,{ dirname } from "path";
+import path, { dirname } from "path";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-
-import cors from 'cors';
 
 const mySQLStore = mySqlSession(session);
 const store = new mySQLStore({}, pool);
@@ -39,27 +37,19 @@ app.use(
     resave: false,
     store: store,
     cookie: {
-      maxAge: 1000 * 60 * 60 * 1, // 1 hour
-      // secure: (process.env.NODE_ENV === "production"),
-      // sameSite: 'none'
+      maxAge: 1000 * 60 * 60 * 24, // 1 day
     },
   })
 );
 
-//TODO: change this for prod NOTE: idk if this does anything
-// const corsOptions = {
-//   origin: 'http://localhost:3000',
-//   optionsSuccessStatus: 200 // For legacy browser support
-// }
-
 // Apply the rate limiting middleware to all requests
 app.use(express.static(path.resolve(__dirname, "../frontend/build")));
 
-app.use(mainLimiter)
+app.use(mainLimiter);
 app.all("/*", function (req, res, next) {
   res.header("Access-Control-Allow-Origin", req.headers.origin);
   res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
-  res.header('Access-Control-Allow-Credentials', true);
+  res.header("Access-Control-Allow-Credentials", true);
   res.header("Access-Control-Allow-Headers", "Content-Type, Authorization, Content-Length,Accept, X-Requested-With");
   next();
 });
@@ -68,13 +58,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 //validation
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   if (err instanceof ValidationError) {
-    return res.status(err.statusCode).json(err)
+    return res.status(err.statusCode).json(err);
   }
-  return res.status(500).json(err)
+  return res.status(500).json(err);
 });
-
 
 app.use(passport.initialize());
 app.use(passport.session()); //

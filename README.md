@@ -32,7 +32,7 @@ It is also our first introduction to working in an Agile environment, using Scru
 ## Stack:
 
 Front-end: React\
-Back-end: Node.js, express\
+Back-end: Node.js, Express\
 Database: MySQL\
 Hosting: Heroku
 
@@ -43,8 +43,9 @@ Rename .env.sample to .env and insert your local database parameters and keys.\
 The package-lock.json file provides the necessary modules.\
 Execute the following commands in the terminal: 
  - root folder: `npm install`
+ - frontend folder: `npm install`
  - frontend folder: `npm start`
- - backend folder: `npm run dev`
+ - root folder: `npm run dev`
 
 ## Strategy 
 

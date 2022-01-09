@@ -27,11 +27,11 @@ function App() {
       const res = await axios.get(`${url}/auth/isLoggedIn`, { withCredentials: true });
       if (res.status === 200 && res.data.loggedIn) {
         setAuthenticated(true);
-      } else if(res.status === 200 && !res.data.loggedIn){
+      } else if (res.status === 200 && !res.data.loggedIn) {
         setAuthenticated(false);
       }
     } catch (error) {
-      console.log(error);
+      throw error;
     }
   }, []);
 
@@ -41,7 +41,7 @@ function App() {
       setProducts(getProducts.data);
       setShowSpinner(false);
     } catch (error) {
-      console.log(error);
+      throw error;
     }
   }, []);
 
@@ -95,12 +95,7 @@ function App() {
   return (
     <div className="App">
       <AuthContext.Provider value={{ authenticated, setAuthenticated }}>
-        <Navigation
-          authenticated={authenticated}
-          setAuthenticated={setAuthenticated}
-          cart={cart}
-          deleteItemFromCart={deleteItemFromCart}
-        />
+        <Navigation authenticated={authenticated} setAuthenticated={setAuthenticated} cart={cart} deleteItemFromCart={deleteItemFromCart} />
         <AnimatePresence exitBeforeEnter>
           <Routes location={location} key={location.pathname}>
             <Route path="/products">
@@ -108,9 +103,7 @@ function App() {
                 path=":search"
                 element={
                   <Products
-                    products={
-                      filteredProducts.length ? filteredProducts : products
-                    }
+                    products={filteredProducts.length ? filteredProducts : products}
                     searchProduct={searchProduct}
                     showOnlyFreeShipping={showOnlyFreeShipping}
                     showSpinner={showSpinner}
@@ -121,9 +114,7 @@ function App() {
                 path=""
                 element={
                   <Products
-                    products={
-                      filteredProducts.length ? filteredProducts : products
-                    }
+                    products={filteredProducts.length ? filteredProducts : products}
                     showOnlyFreeShipping={showOnlyFreeShipping}
                     showSpinner={showSpinner}
                     authenticated={authenticated}
@@ -131,20 +122,13 @@ function App() {
                 }
               />
             </Route>
-            <Route
-              path="/productDetail/:id"
-              element={<DetailProduct addToCart={addToCart}/>}
-            />
+            <Route path="/productDetail/:id" element={<DetailProduct addToCart={addToCart} />} />
             <Route path="/contact" element={<Contact />} />
-            {authenticated ? (
-              <Route path="/userProfile" element={<UserProfile />} />
-            ) : null}
+            {authenticated ? <Route path="/userProfile" element={<UserProfile />} /> : null}
             <Route path="/login" element={<Login />} />
             <Route
               path="/checkout"
-              element={
-                <Checkout cart={cart} deleteItemFromCart={deleteItemFromCart} authenticated={authenticated}/>
-              }
+              element={<Checkout cart={cart} deleteItemFromCart={deleteItemFromCart} authenticated={authenticated} />}
             />
             <Route path="/signUp" element={<Signup />} />
             <Route path="/" element={<Home products={products} />} />

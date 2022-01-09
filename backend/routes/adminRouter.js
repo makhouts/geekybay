@@ -268,7 +268,7 @@ router.put("/orders/:id",validate(orderValidation, {}, {}), (req, res) => {
 });
 
 
-//cancel order: TODO: get back to later
+//cancel order: TODO: add authentication -> who should be able to cancel an order?
 router.put("/orders/cancel/:id", (req, res) => {
   pool.getConnection((err, connection) => {
       const orderStatus = "canceled";

@@ -15,43 +15,44 @@ export const UserProfile = () => {
   // const isPhoneNumber = (value) => value.length > 10;
 
   const [userInputs, setInputs] = useState({
-    userName: '',
-    userFirstName: '',
-    userLastName: '',
-    phone: '',
-    addressLine1: '',
-    city: '',
-    postalCode: '',
-    country: '',
+    userName: "",
+    userFirstName: "",
+    userLastName: "",
+    phone: "",
+    addressLine1: "",
+    city: "",
+    postalCode: "",
+    country: "",
   });
 
-
   useEffect(() => {
-    axios.get(`${url}/users/user-info`, { withCredentials: true })
-    .then(data => {
-      const dataArray = data.data[0];
-      setInputs({
-        userName: dataArray.userName,
-        userFirstName: dataArray.userFirstName,
-        userLastName: dataArray.userLastName,
-        phone: dataArray.phone,
-        addressLine1: dataArray.addressLine1,
-        city: dataArray.city,
-        postalCode: dataArray.postalCode,
-        country: dataArray.country,
-      });
-    })
-    .catch(err => console.log(err))
+    axios
+      .get(`${url}/users/user-info`, { withCredentials: true })
+      .then((data) => {
+        const dataArray = data.data[0];
+        setInputs({
+          userName: dataArray.userName,
+          userFirstName: dataArray.userFirstName,
+          userLastName: dataArray.userLastName,
+          phone: dataArray.phone,
+          addressLine1: dataArray.addressLine1,
+          city: dataArray.city,
+          postalCode: dataArray.postalCode,
+          country: dataArray.country,
+        });
+      })
+      .catch((err) => err);
   }, []);
 
   const changeValue = (e) => {
-    setInputs({...userInputs, [e.target.name]: e.target.value})
-  }
+    setInputs({ ...userInputs, [e.target.name]: e.target.value });
+  };
 
   const addressUpdateHandler = () => {
-    axios.put(`${url}/users`, userInputs, { withCredentials: true })
-    .then((() => window.location.reload()))
-    .catch(err => console.log(err));
+    axios
+      .put(`${url}/users`, userInputs, { withCredentials: true })
+      .then(() => window.location.reload())
+      .catch((err) => err);
   };
 
   const userCancelHandler = () => {
@@ -184,15 +185,7 @@ export const UserProfile = () => {
   }
 
   let addressFormIsValid = false;
-  if (
-    firstNameIsValid &&
-    lastNameIsValid &&
-    phoneNumberIsValid &&
-    streetIsValid &&
-    cityIsValid &&
-    postIsValid &&
-    countryIsValid
-  ) {
+  if (firstNameIsValid && lastNameIsValid && phoneNumberIsValid && streetIsValid && cityIsValid && postIsValid && countryIsValid) {
     addressFormIsValid = true;
   }
 
@@ -211,7 +204,6 @@ export const UserProfile = () => {
     }
   };
 
-
   return (
     <PageTransition>
       <div className="container">
@@ -222,169 +214,115 @@ export const UserProfile = () => {
         <div className={classes.formContainer}>
           <div className={classes.form}>
             <form onSubmit={addressSubmitHandler}>
-            <div
-                className={`${classes.formGroup} ${
-                  usernameHasError === true ? classes.invalid : ""
-                }`}
-              >
+              <div className={`${classes.formGroup} ${usernameHasError === true ? classes.invalid : ""}`}>
                 <label htmlFor="username">User Name</label>
                 <input
                   type="text"
                   id="username"
-                  name='userName'
+                  name="userName"
                   value={userInputs.userName}
                   onChange={changeValue}
                   onBlur={usernameBlurHandler}
                   placeholder="Enter new username"
                 />
-                {usernameHasError && (
-                  <p className={classes.error}>Please enter your username</p>
-                )}
+                {usernameHasError && <p className={classes.error}>Please enter your username</p>}
               </div>
 
-              <div
-                className={`${classes.formGroup} ${
-                  firstNameHasError === true ? classes.invalid : ""
-                }`}
-              >
+              <div className={`${classes.formGroup} ${firstNameHasError === true ? classes.invalid : ""}`}>
                 <label htmlFor="firstname">First Name</label>
                 <input
                   type="text"
                   id="firstname"
-                  name='userFirstName'
+                  name="userFirstName"
                   value={userInputs.userFirstName}
                   onChange={changeValue}
                   onBlur={firstNameBlurHandler}
                   placeholder="Enter firstname"
                 />
-                {firstNameHasError && (
-                  <p className={classes.error}>Please enter your firstname</p>
-                )}
+                {firstNameHasError && <p className={classes.error}>Please enter your firstname</p>}
               </div>
-              <div
-                className={`${classes.formGroup} ${
-                  lastNameHasError === true ? classes.invalid : ""
-                }`}
-              >
+              <div className={`${classes.formGroup} ${lastNameHasError === true ? classes.invalid : ""}`}>
                 <label htmlFor="lastname">Last Name</label>
                 <input
                   type="text"
                   id="lastname"
                   value={userInputs.userLastName}
-                  name='userLastName'
+                  name="userLastName"
                   onChange={changeValue}
                   onBlur={lastNameBlurHandler}
                   placeholder="Enter lastname"
                 />
-                {lastNameHasError && (
-                  <p className={classes.error}>Please enter your lastname</p>
-                )}
+                {lastNameHasError && <p className={classes.error}>Please enter your lastname</p>}
               </div>
-              <div
-                className={`${classes.formGroup} ${
-                  phoneNumberHasError === true ? classes.invalid : ""
-                }`}
-              >
+              <div className={`${classes.formGroup} ${phoneNumberHasError === true ? classes.invalid : ""}`}>
                 <label htmlFor="phone">Phone Number</label>
                 <input
                   type="text"
                   id="phone"
                   value={userInputs.phone}
-                  name='phone'
+                  name="phone"
                   onChange={changeValue}
                   onBlur={phoneNumberBlurHandler}
                   placeholder="Enter phone number"
                 />
-                {phoneNumberHasError && (
-                  <p className={classes.error}>
-                    Please enter your phone number
-                  </p>
-                )}
+                {phoneNumberHasError && <p className={classes.error}>Please enter your phone number</p>}
               </div>
-              <div
-                className={`${classes.formGroup} ${
-                  streetHasError === true ? classes.invalid : ""
-                }`}
-              >
+              <div className={`${classes.formGroup} ${streetHasError === true ? classes.invalid : ""}`}>
                 <label htmlFor="street">Street</label>
                 <input
                   type="text"
                   id="street"
-                  name='addressLine1'
+                  name="addressLine1"
                   value={userInputs.addressLine1}
                   onChange={changeValue}
                   onBlur={streetBlurHandler}
                   placeholder="Enter street"
                 />
-                {streetHasError && (
-                  <p className={classes.error}>Please enter street</p>
-                )}
+                {streetHasError && <p className={classes.error}>Please enter street</p>}
               </div>
-              <div
-                className={`${classes.formGroup} ${
-                  cityHasError === true ? classes.invalid : ""
-                }`}
-              >
+              <div className={`${classes.formGroup} ${cityHasError === true ? classes.invalid : ""}`}>
                 <label htmlFor="city">City</label>
                 <input
                   type="text"
                   id="city"
-                  name='city'
+                  name="city"
                   value={userInputs.city}
                   onChange={changeValue}
                   onBlur={cityBlurHandler}
                   placeholder="Enter city"
                 />
-                {cityHasError && (
-                  <p className={classes.error}>Please enter city</p>
-                )}
+                {cityHasError && <p className={classes.error}>Please enter city</p>}
               </div>
-              <div
-                className={`${classes.formGroup} ${
-                  postHasError === true ? classes.invalid : ""
-                }`}
-              >
+              <div className={`${classes.formGroup} ${postHasError === true ? classes.invalid : ""}`}>
                 <label htmlFor="postcode">Postal Code</label>
                 <input
                   type="text"
-                  name='postalCode'
+                  name="postalCode"
                   id="postcode"
                   value={userInputs.postalCode}
                   onChange={changeValue}
                   onBlur={postBlurHandler}
                   placeholder="Enter postal code"
                 />
-                {postHasError && (
-                  <p className={classes.error}>Please enter postal code</p>
-                )}
+                {postHasError && <p className={classes.error}>Please enter postal code</p>}
               </div>
-              <div
-                className={`${classes.formGroup} ${
-                  countryHasError === true ? classes.invalid : ""
-                }`}
-              >
+              <div className={`${classes.formGroup} ${countryHasError === true ? classes.invalid : ""}`}>
                 <label htmlFor="country">Country</label>
                 <input
                   type="text"
                   id="country"
-                  name='country'
+                  name="country"
                   value={userInputs.country}
                   onChange={changeValue}
                   onBlur={countryBlurHandler}
                   placeholder="Enter country"
                 />
-                {countryHasError && (
-                  <p className={classes.error}>Please enter country</p>
-                )}
+                {countryHasError && <p className={classes.error}>Please enter country</p>}
               </div>
             </form>
           </div>
           <div className={classes.btnContainer}>
-            <SencondaryButton
-              className={classes.btnS}
-              type="submit"
-              onClick={addressUpdateHandler}
-            >
+            <SencondaryButton className={classes.btnS} type="submit" onClick={addressUpdateHandler}>
               Update
             </SencondaryButton>
           </div>

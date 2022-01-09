@@ -7,9 +7,8 @@ import { isNotAuth, isAuth } from "../middleware/auth.js";
 import { v1 as uuidv1 } from "uuid";
 import { validate } from "express-validation";
 import { sellerValidation } from "../middleware/validation.js";
-import { Email } from '../helper/email.js';
-import { createAccountLimiter,changePasswordLimiter } from "../middleware/rateLimiter.js";
-
+import { Email } from "../helper/email.js";
+import { createAccountLimiter, changePasswordLimiter } from "../middleware/rateLimiter.js";
 
 const router = express.Router();
 
@@ -17,45 +16,43 @@ router.get("/login", isNotAuth, (req, res) => {
   res.status(200).send({ message: "User is not authenticated." });
 });
 
-router.get("/register",isNotAuth, (req, res) => {
+router.get("/register", isNotAuth, (req, res) => {
   res.status(200).send({ message: "User is not authenticated." });
 });
 
-router.get('/isLoggedIn', (req,res) => {
+router.get("/isLoggedIn", (req, res) => {
   if (req.isAuthenticated()) {
-    return res.status(200).send({loggedIn: true});
+    return res.status(200).send({ loggedIn: true });
   }
-  return res.status(200).send({loggedIn: false});
-})
+  return res.status(200).send({ loggedIn: false });
+});
 
 router.post("/login", isNotAuth, passport.authenticate("local"), (req, res) => {
-  console.log(req.user)
-  res.status(200).send({userId: req.user.userID, username: req.user.userName})
+  res.status(200).send({ userId: req.user.userID, username: req.user.userName });
 });
 
 // Register/create a seller
-router.post("/register", createAccountLimiter,isNotAuth,  validate(sellerValidation, {}, {}), (req, res) => {
+router.post("/register", createAccountLimiter, isNotAuth, validate(sellerValidation, {}, {}), (req, res) => {
   pool.getConnection(async (err, connection) => {
     if (err) throw err;
 
     const data = req.body;
     data.password = await bcrypt.hash(data.password, 10);
+    // TODO: delete these dummy values -> have to change db configuration to allow NULL for these fields
     data.type = "seller";
-    data.userLastName = ""
-    data.userFirstName= ""
-    data.phone = 123123212
-    data.addressLine1 = "asd"
-    data.addressLine2 = "asd"
-    data.city = "ASD"
-    data.postalCode = 4444
-    data.country = "ASD"
-
+    data.userLastName = "test";
+    data.userFirstName = "test";
+    data.phone = 123123212;
+    data.addressLine1 = "test";
+    data.addressLine2 = "test";
+    data.city = "test";
+    data.postalCode = 4444;
+    data.country = "test";
 
     connection.query("INSERT INTO users SET ?", data, (err, rows) => {
       connection.release();
       if (!err) {
         res.status(200).send(rows);
-        console.log(rows.insertId)
         //send email if registration successful
         Email.registrationMail(data.emailAddress, data.userName).catch(console.error);
       } else {
@@ -68,10 +65,10 @@ router.post("/register", createAccountLimiter,isNotAuth,  validate(sellerValidat
 router.delete("/logout", isAuth, (req, res) => {
   req.session.destroy(); // NOTE: i do want to do this i think?  deletes session from db after logout/ without this session gets updated
   req.logOut();
-  res.status(200).send({message: "Successfully logged out"})
+  res.status(200).send({ message: "Successfully logged out" });
 });
 
-router.post("/forgot", changePasswordLimiter,isNotAuth, (req, res) => {
+router.post("/forgot", changePasswordLimiter, isNotAuth, (req, res) => {
   pool.getConnection(async (err, connection) => {
     if (err) throw err;
     connection.query("SELECT * FROM users WHERE userName = ?", [req.body.username], (err, user) => {
@@ -81,11 +78,8 @@ router.post("/forgot", changePasswordLimiter,isNotAuth, (req, res) => {
         const thisUser = user[0];
         if (thisUser) {
           const id = uuidv1();
-          console.log(id);
           createResetRequest(id, thisUser.userName, thisUser.emailAddress);
-          // sendResetLink(thisUser.email, id); NOTE: once we have mailing
-          Email.sendResetMail(thisUser.email, `http://localhost:3000/reset/${id}`)
-          console.log(`http://localhost:3000/reset/${id}`);
+          Email.sendResetMail(thisUser.email, `http://localhost:3000/reset/${id}`);
         }
         res.status(200).json();
       } else {
@@ -96,7 +90,7 @@ router.post("/forgot", changePasswordLimiter,isNotAuth, (req, res) => {
 });
 
 // NOTE: nice to have -> expiry date on reset links (add column in db Date.now())
-router.patch("/reset",changePasswordLimiter, async (req, res) => {
+router.patch("/reset", changePasswordLimiter, async (req, res) => {
   pool.getConnection(async (err, connection) => {
     if (err) throw err;
     connection.query("SELECT * FROM requests WHERE requestId = ?", [req.body.id], async (err, request) => {
@@ -109,10 +103,10 @@ router.patch("/reset",changePasswordLimiter, async (req, res) => {
             if (!err) {
               connection.query("DELETE FROM requests WHERE requestId = ?;", [req.body.id], (err, user) => {
                 connection.release();
-                if(!err){
+                if (!err) {
                   res.status(204).send();
-                }else{
-                  res.status(400).send({message:"error"})
+                } else {
+                  res.status(400).send({ message: "error" });
                 }
               });
             } else {
@@ -123,7 +117,7 @@ router.patch("/reset",changePasswordLimiter, async (req, res) => {
           res.status(404).json();
         }
       } else {
-        console.log(err);
+        throw err;
       }
     });
   });

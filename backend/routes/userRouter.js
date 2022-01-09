@@ -2,17 +2,16 @@ import express from "express";
 import pool from "../helper/dbConnection.js";
 import bcrypt from "bcrypt";
 import { isAuth } from "../middleware/auth.js";
-import {validate} from "express-validation";
-import {buyerValidation} from "../middleware/validation.js";
+import { validate } from "express-validation";
+import { buyerValidation } from "../middleware/validation.js";
 import { Email } from "../helper/email.js";
 import { changePasswordLimiter } from "../middleware/rateLimiter.js";
 
 const router = express.Router();
 
-
 //Get user by id
 //TODO: dont send back password and type and userid in response
-router.get("/user-info",isAuth, (req, res) => {
+router.get("/user-info", isAuth, (req, res) => {
   pool.getConnection((err, connection) => {
     if (err) throw err;
     connection.query("SELECT * FROM users WHERE userid = ?", [req.user.userID], (err, rows) => {
@@ -30,40 +29,41 @@ router.get("/user-info",isAuth, (req, res) => {
 router.get("/seller-info/:id", (req, res) => {
   pool.getConnection((err, connection) => {
     if (err) throw err;
-    let query= connection.query("SELECT username, emailAddress, city, country FROM users WHERE userid = ? AND type='seller'", [req.params.id], (err, rows) => {
-      connection.release();
-      if (!err) {
-        res.status(200).send(rows);
-      } else {
-        console.log(err)
-        res.status(400).send("Bad request");
+    let query = connection.query(
+      "SELECT username, emailAddress, city, country FROM users WHERE userid = ? AND type='seller'",
+      [req.params.id],
+      (err, rows) => {
+        connection.release();
+        if (!err) {
+          res.status(200).send(rows);
+        } else {
+          res.status(400).send("Bad request");
+        }
       }
-    });
+    );
   });
 });
 
-
-
 //Create buyer
 router.post("/", validate(buyerValidation, {}, {}), (req, res) => {
-  if(!req.user){
+  if (!req.user) {
     pool.getConnection(async (err, connection) => {
       if (err) throw err;
       const data = req.body;
       data.type = "buyer";
       // TODO: change number later in DB/// if there is one i dont want to change it to 1111111
-      data.phone = 11111111111111
+      data.phone = 11111111111111;
       connection.query("INSERT INTO users SET ?", data, (err, rows) => {
         connection.release();
         if (!err) {
           res.status(200).send(rows);
         } else {
-          res.status(400).send({message: 'Bad request'})
+          res.status(400).send({ message: "Bad request" });
         }
       });
     });
-  }else{
-    res.status(400).send({message: 'Bad request!'})
+  } else {
+    res.status(400).send({ message: "Bad request!" });
   }
 });
 
@@ -71,7 +71,7 @@ router.post("/", validate(buyerValidation, {}, {}), (req, res) => {
 
 //Update user
 router.put("/", isAuth, async (req, res) => {
-  const action = 'update';
+  const action = "update";
   const data = req.body;
   // data.password = await bcrypt.hash(data.password, 10); // what if not password?
 
@@ -85,26 +85,26 @@ router.put("/", isAuth, async (req, res) => {
         //send email if update successful
         Email.updateMail(data.emailAddress).catch(console.error);
       } else {
-        res.status(400).send({message: "Could not update user"})
+        res.status(400).send({ message: "Could not update user" });
       }
     });
   });
 });
 
 // Update password
-router.put("/update-password",changePasswordLimiter, isAuth, (req, res) => {
+router.put("/update-password", changePasswordLimiter, isAuth, (req, res) => {
   pool.getConnection((err, connection) => {
     if (err) throw err;
-    connection.query("Select * FROM users WHERE userID = ?", [req.user.userID], async(err, rows) => {
+    connection.query("Select * FROM users WHERE userID = ?", [req.user.userID], async (err, rows) => {
       if (!err) {
         if (await bcrypt.compare(req.body.oldPassword, req.user.password)) {
-          const hashedPassword = await bcrypt.hash(req.body.newPassword,10);
+          const hashedPassword = await bcrypt.hash(req.body.newPassword, 10);
           connection.query("UPDATE users SET password = ? WHERE userID = ?;", [hashedPassword, req.user.userID], (err, rows) => {
             connection.release();
-            if(!err){
-              res.status(200).send({message: "pw updated successfully"})
-            }else{
-              res.status(400).send({message: "could not update user pw"})
+            if (!err) {
+              res.status(200).send({ message: "pw updated successfully" });
+            } else {
+              res.status(400).send({ message: "could not update user pw" });
             }
           });
         } else {

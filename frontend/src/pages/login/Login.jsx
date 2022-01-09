@@ -34,7 +34,6 @@ export const Login = (props) => {
         navigate(props.to == undefined ? "/" : props.to);
       })
       .catch((err) => {
-        console.log(err);
         setShowError(true);
       } );
   };

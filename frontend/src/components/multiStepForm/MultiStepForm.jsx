@@ -40,9 +40,9 @@ export const MultiStepForm = (props) => {
     city: "",
     postcode: "",
   });
-  
+
   useEffect(() => {
-    if(props.authenticated) {
+    if (props.authenticated) {
       axios
         .get(`${url}/users/user-info`, { withCredentials: true })
         .then((data) => {
@@ -57,11 +57,10 @@ export const MultiStepForm = (props) => {
             postcode: dataArray.postalCode,
           });
         })
-        .catch((err) => console.log(err));
+        .catch((err) => err);
     }
-  }, [])
-  
-  ///////
+  }, []);
+
 
   const { authenticated } = useContext(AuthContext);
   const makePayment = async (token) => {
@@ -89,7 +88,6 @@ export const MultiStepForm = (props) => {
       buyerID: userId,
     };
     const response = await axios.post(`${url}/orders`, order);
-    console.log(props.cart)
 
     const body = {
       token: token,
@@ -108,13 +106,12 @@ export const MultiStepForm = (props) => {
       });
       const { status } = response;
       if (status === 200) {
-        navigate("/"); // TODO: add ty for purchase or something
+        navigate("/");
       }
     } catch (error) {
-      console.log(error);
+      throw error;
     }
   };
-  ///////
 
   const loggedIn = false;
 
@@ -228,7 +225,8 @@ export const MultiStepForm = (props) => {
         <div className={classes.horizontalLine} />
         <div className={classes.totalPrice}>
           <h4>Subtotal</h4>
-          <p>€ 
+          <p>
+            €
             {props.cart.reduce((acc, item) => {
               const total = item.qty * item.price + acc;
               return Math.round((total + Number.EPSILON) * 100) / 100;

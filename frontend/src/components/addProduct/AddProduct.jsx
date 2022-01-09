@@ -6,44 +6,26 @@ import axios from "axios";
 import url from "../../helpers/endpoint";
 
 export const AddProduct = (props) => {
-  const formData = new FormData()
+  const formData = new FormData();
   const test = (e) => {
     const file = e.target.files[0];
-    formData.append('productImg', file, file.name)
-  }
-
+    formData.append("productImg", file, file.name);
+  };
 
   const addHandler = () => {
     formData.append("productName", enteredProductName);
-    formData.append('productDescription', enteredDescription);
-    formData.append('price', enteredPrice);
-    formData.append('inStock', enteredStock);
-    formData.append('visible', '1');
-    formData.append('freeShipping', '1');
-    
+    formData.append("productDescription", enteredDescription);
+    formData.append("price", enteredPrice);
+    formData.append("inStock", enteredStock);
+    formData.append("visible", "1");
+    formData.append("freeShipping", "1");
+
     axios
       .post(`${url}/products/multiple-upload`, formData, {
         withCredentials: true,
       })
       .then((data) => window.location.reload())
-      .catch((err) => console.log(err));
-
-    // window.location.reload();
-
-    // fetch(`${url}/products/multiple-upload`, {
-    //   method: "POST",
-    //   body: formData,
-    //   headers: {
-    //     Accept: "multipart/form-data",
-    //   },
-    //   credentials: "include",
-    // }).then((res) => res.json())
-    //   .then((res) => {
-    //     console.log(res);
-    //   }).catch((error) => {
-    //     console.error(error);
-    //   });
-    //   };
+      .catch((err) => err);
   };
 
   const isNotEmpty = (value) => value.trim() !== "";
@@ -85,12 +67,7 @@ export const AddProduct = (props) => {
   } = UseInput(isNotEmpty);
 
   let formIsValid = false;
-  if (
-    productNameIsValid &&
-    descriptionIsValid &&
-    priceIsValid &&
-    stockIsValid
-  ) {
+  if (productNameIsValid && descriptionIsValid && priceIsValid && stockIsValid) {
     formIsValid = true;
   }
 
@@ -109,16 +86,8 @@ export const AddProduct = (props) => {
   return (
     <div className={classes.addProduct}>
       <h1>Add product</h1>
-      <form
-        encType="multipart/form-data"
-        id="myForm"
-        onSubmit={formSubmissionHandler}
-      >
-        <div
-          className={`${classes.formGroup} ${
-            productNameHasError === true ? classes.invalid : ""
-          }`}
-        >
+      <form encType="multipart/form-data" id="myForm" onSubmit={formSubmissionHandler}>
+        <div className={`${classes.formGroup} ${productNameHasError === true ? classes.invalid : ""}`}>
           <input
             type="text"
             name="productName"
@@ -127,15 +96,9 @@ export const AddProduct = (props) => {
             onBlur={productNameBlurHandler}
             placeholder="Product Name"
           />
-          {productNameHasError && (
-            <p className={classes.error}>Please enter product name</p>
-          )}
+          {productNameHasError && <p className={classes.error}>Please enter product name</p>}
         </div>
-        <div
-          className={`${classes.formGroup} ${
-            descriptionHasError === true ? classes.invalid : ""
-          }`}
-        >
+        <div className={`${classes.formGroup} ${descriptionHasError === true ? classes.invalid : ""}`}>
           <input
             type="text"
             name="productDescription"
@@ -144,15 +107,9 @@ export const AddProduct = (props) => {
             onBlur={descriptionBlurHandler}
             placeholder="Product Description"
           />
-          {descriptionHasError && (
-            <p className={classes.error}>Please describe your product</p>
-          )}
+          {descriptionHasError && <p className={classes.error}>Please describe your product</p>}
         </div>
-        <div
-          className={`${classes.formGroup} ${
-            priceHasError === true ? classes.invalid : ""
-          }`}
-        >
+        <div className={`${classes.formGroup} ${priceHasError === true ? classes.invalid : ""}`}>
           <input
             type="text"
             name="price"
@@ -163,11 +120,7 @@ export const AddProduct = (props) => {
           />
           {priceHasError && <p className={classes.error}>Pleae enter price</p>}
         </div>
-        <div
-          className={`${classes.formGroup} ${
-            stockHasError === true ? classes.invalid : ""
-          }`}
-        >
+        <div className={`${classes.formGroup} ${stockHasError === true ? classes.invalid : ""}`}>
           <input
             type="text"
             name="inStock"
@@ -176,9 +129,7 @@ export const AddProduct = (props) => {
             onBlur={stockBlurHandler}
             value={enteredStock}
           />
-          {stockHasError && (
-            <p className={classes.error}>Please enter quantities in stock</p>
-          )}
+          {stockHasError && <p className={classes.error}>Please enter quantities in stock</p>}
         </div>
         <div className={classes.checkboxes}>
           <label htmlFor="">Visible</label>
@@ -187,14 +138,9 @@ export const AddProduct = (props) => {
           <input type="checkbox" name="shipping" defaultChecked />
         </div>
         <label htmlFor="">Image</label>
-        <input
-          type="file"
-          name="productImg"
-          accept="image/*"
-          onChange={test}
-        />
+        <input type="file" name="productImg" accept="image/*" onChange={test} />
       </form>
-      
+
       <PrimaryButton clicked={addHandler}>Add product</PrimaryButton>
     </div>
   );

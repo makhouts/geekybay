@@ -2,7 +2,7 @@ import rateLimit from "express-rate-limit";
 
 // Enable if you're behind a reverse proxy (Heroku, Bluemix, AWS ELB, Nginx, etc)
 // see https://expressjs.com/en/guide/behind-proxies.html
-// app.set('trust proxy', 1); TODO: might have to do this
+// app.set('trust proxy', 1);
 
 export const mainLimiter = rateLimit({
   windowMs: 1000 * 60 * 15, // 10 minutes

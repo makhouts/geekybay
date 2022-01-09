@@ -16,7 +16,7 @@ const pool = mysql.createPool({
 // Check if able to connect to DB
 pool.getConnection((err, connection) => {
   if (err) throw err;
-  console.log(`connected as id ${connection.threadId}`);
+  return connection;
 });
 
 export default pool;

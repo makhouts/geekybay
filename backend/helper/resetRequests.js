@@ -6,12 +6,10 @@ export function createResetRequest(id, username, email) {
     connection.query("INSERT INTO requests (requestId, username, email) VALUES (?, ?, ?)", [id, username, email], (err, rows) => {
       connection.release();
       if (!err) {
-        // console.log("");
+        return rows;
       } else {
-        console.log(err);
+        if (err) throw err;
       }
     });
   });
 }
-
-
