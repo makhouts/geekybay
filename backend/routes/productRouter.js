@@ -1,6 +1,7 @@
 import express from "express";
 import pool from "../helper/dbConnection.js";
-//validation
+
+//validation: next time use express-validator, then you can also sanitize as well as validate.
 import {validate} from "express-validation";
 import {orderValidation, productValidation} from "../middleware/validation.js";
 
@@ -9,11 +10,12 @@ import multer from "multer";
 import path from "path";
 import * as uploadController from "./../middleware/upload.js" // here uploadController
 import fs from "fs";
-// import { v4 as uuidv4 } from 'uuid';
 
-//needed for images
+//needed for imagepath
 import {fileURLToPath} from "url";
 import {dirname} from "path";
+
+//import authentication
 import {isAuth} from "../middleware/auth.js";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -21,16 +23,15 @@ const __dirname = dirname(__filename);
 
 const router = express.Router();
 
-// WORKING: Get all products
-//Get all products NOTE:
+//Get all products NOTE /products
+//use the router to get the root route for the products
 router.get("/", (req, res) => {
-    pool.getConnection((err, connection) => {
-        //check here for searches also, ~ if isset req.query.search
+    pool.getConnection((err, connection) => { //connect to the database using the parameters for error and connection.
         if (err) throw err;
-        connection.query("SELECT * from products where visible = 1", (err, rows) => {
-            connection.release();
+        connection.query("SELECT * from products where visible = 1", (err, rows) => { //select all visible products for the buyers.
+            connection.release(); //don't forget to release the connection to the database.
             if (!err) {
-                res.status(200).send(rows);
+                res.status(200).send(rows); //send the selected rows from the database to the page.
             } else {
                 res.status(400).send("Bad request");
             }
@@ -38,8 +39,9 @@ router.get("/", (req, res) => {
     });
 });
 
-// WORKING:  Get products by sellerid
-router.get("/:sellerId", (req, res) => {
+// WORKING:  Get products by sellerid /products/sellerId
+//important to note: /:sellerId is a placeholder and will be affected by input.
+router.get("/:sellerId", (req, res) => { // review the rules for the placeholders in the routes, both the location in the file and the structure of the paths are important
     pool.getConnection((err, connection) => {
         if (err) throw err;
         connection.query("SELECT * FROM products WHERE sellerID = ? AND visible = 1", [req.params.sellerId], (err, rows) => {
@@ -68,7 +70,7 @@ router.get("/seller-products", isAuth, (req, res) => {
     });
 });
 
-// WORKING: Get product by id -> for the product details page TODO:
+// WORKING: Get product by id -> for the product details page
 router.get("/product/:productId", (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) throw err;
@@ -93,13 +95,13 @@ router.get("/seller-product/:productId", isAuth, (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) throw err;
         connection.query(
-            "SELECT * FROM products WHERE productID = ? AND sellerID = ?",
+            "SELECT * FROM products WHERE productID = ? AND sellerID = ?", // very useful, ? placeholder can be filled in the query with the next element of the query and in an array.
             [req.params.productId, req.user.sellerID],
             (err, rows) => {
                 connection.release();
                 if (!err) {
                     res.status(200).send(rows);
-                    res.sendFile(path.join(__dirname, "../uploads/" + rows[0].productImg));
+                    res.sendFile(path.join(__dirname, "../uploads/" + rows[0].productImg)); //
                 } else {
                     res.status(400).send("Bad get product by productId request");
                 }
@@ -109,7 +111,6 @@ router.get("/seller-product/:productId", isAuth, (req, res) => {
 });
 
 // get product image
-// TODO: is this good? anyone can access pictures of all products i think
 router.get("/product/img/:productId", (req, res) => {
     console.log(req.params);
     pool.getConnection((err, connection, rows) => {
@@ -127,9 +128,10 @@ router.get("/product/img/:productId", (req, res) => {
     });
 });
 
+//need some variables to save the uploaded pictures
 let storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, 'uploads/')
+        cb(null, 'uploads/') //folder to upload the pictures in. needs to be made, could alternatively write some code to make a folder if it does not yet exist.
     },
     filename: function (req, file, cb) {
         cb(null, Date.now() + "_" + (file.originalname.split('.')[0]) + path.extname(file.originalname)) //Appending extension
@@ -138,9 +140,7 @@ let storage = multer.diskStorage({
 
 let upload = multer({storage: storage});
 
-//Create product, possible, data for a product and multiple images TODO: currently can upload multiple images.
-//todo: sanitise and double-check
-//todo create class/function, errorhandling in the class/function.
+//Create product, possible, data for a product and multiple images
 //using the path root/products/multiple-upload we're trying to upload both textual form data as well as multiple images that should be linked to the data.
 router.post("/multiple-upload", isAuth,
     //We've created several middleware functions each responsible for an element for processing the images to a standard size.
@@ -158,11 +158,9 @@ router.post("/multiple-upload", isAuth,
                 /*uploadData.productImg = path.join(__dirname, "../uploads/" + req.file.filename)*/
                 uploadData.productImg = req.file.filename
             }
-
-            let q = connection.query("INSERT INTO products SET productName = ?, sellerID = ?, productDescription=? , price= ?, inStock =? , visible = ?, freeShipping =?, productImg=?" //error is here
+            connection.query("INSERT INTO products SET productName = ?, sellerID = ?, productDescription=? , price= ?, inStock =? , visible = ?, freeShipping =?, productImg=?" //error is here
                 , [uploadData.productName, req.user.userID, uploadData.productDescription, uploadData.price, uploadData.inStock, uploadData.visible, uploadData.freeShipping, uploadData.productImg],
                 (err, rows) => {
-                    //more queries, release later.
                     connection.release();
                     if (!err) {
                         if (req.body.productImg !== []) {
@@ -185,7 +183,6 @@ router.post("/multiple-upload", isAuth,
                     }
                 }
             );
-            console.log(q.sql)
         });
     });
 
@@ -203,7 +200,7 @@ router.post("/", isAuth, upload.single('avatar'), validate(productValidation, {}
         connection.query("INSERT INTO products SET ?", params, (err, rows) => {
             connection.release();
             if (!err) {
-                res.status(201).send(rows);
+                res.status(200).send(rows);
             } else {
                 res.status(400).send("Bad product creation request");
             }
@@ -241,7 +238,6 @@ router.delete("/:id", isAuth, (req, res) => {
         });
     });
 });
-
 
 //Multer test for implementation: using router and post. multipart form data.
 
